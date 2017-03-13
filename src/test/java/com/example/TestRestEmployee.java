@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.expression.Calendars;
 
 import com.guru.controller.EmpRestURLConsonants;
 import com.guru.model.Car;
@@ -18,14 +19,17 @@ public class TestRestEmployee {
 	
 	public static void main(String[] args) {
 		System.out.println("start");
-		System.out.println("check health");
 		testDummyEmp();
+		System.out.println("***************");
+		System.out.println("create new employee");
+		testNewEmployee();
 		System.out.println("***************");
 		System.out.println("find by id");
 		testFindEmpById();
 		System.out.println("***************");
 		System.out.println("specific employee");
-		testSpecificEmployee();
+		testEmpsInSpecific();
+		System.out.println("end");
 	}
 	
 	public static void testDummyEmp(){
@@ -34,17 +38,32 @@ public class TestRestEmployee {
 		printEmp(empResp);
 		
 	}
+	private static void testNewEmployee(){
+		RestTemplate restTemplate = new RestTemplate();
+		Employee emp= new Employee(123,"tyra");
+		Set<Car> cars= new HashSet<Car>();
+		Car car1= new Car("BMW");
+		Car car2= new Car("Ford");
+		cars.add(car1);
+		cars.add(car2);
+		emp.setCars(cars);
+//		convert Tyra object to Json than get back json string
+		Employee empReponse= restTemplate.postForObject(SERVER_URI+EmpRestURLConsonants.EMP_NEW,emp,Employee.class);
+		printEmp(empReponse);
+	}
 	
-	public static void testEmps(){
+	public static void testEmpsInSpecific(){
 		RestTemplate restTemplate= new RestTemplate();
 		List<LinkedHashMap> emps=  restTemplate.getForObject(SERVER_URI+EmpRestURLConsonants.EMPS, List.class);
 		List<LinkedHashMap> cars;
-		List<Car> cars1= new ArrayList<>();
+		for (LinkedHashMap map : emps) {
+			System.out.println("id "+map.get("id")+" name "+map.get("name")+" cars "+map.get("cars"));
+		}
 		for (LinkedHashMap map: emps) {
-			cars1=(List<Car>) map.get("cars");
-//			cars=(List<LinkedHashMap>) map.get("cars");
-			for (Car car : cars1) {
-				System.out.println("id "+map.get("id")+" name "+map.get("name")+" cars "+car.getCarName());
+			cars=(List<LinkedHashMap>) map.get("cars");
+			System.out.println("id "+map.get("id")+" name "+map.get("name"));
+			for (LinkedHashMap car : cars) {
+			System.out.println("car name "+ car.get("carName"));
 			}
 		}
 	}
@@ -58,7 +77,6 @@ public class TestRestEmployee {
 	public static void testSpecificEmployee(){
 		RestTemplate restTemplate = new RestTemplate();
 		List<LinkedHashMap> emps= restTemplate.getForObject(SERVER_URI+EmpRestURLConsonants.EMPS, List.class);
-		Set<Car> cars= new HashSet<Car>();
 		for (LinkedHashMap map : emps) {
 			System.out.println("id "+map.get("id")+" name "+map.get("name")+" cars "+map.get("cars"));
 		}
