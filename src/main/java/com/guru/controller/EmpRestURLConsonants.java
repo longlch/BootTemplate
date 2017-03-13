@@ -6,5 +6,4 @@ public class EmpRestURLConsonants {
 	public static final String EMP_NEW="/rest/emp/new";
 	public static final String EMP_DELETE="/rest/emp/del/{id}";
 	public static final String EMP_FIND="/rest/emp/{id}";
-	
 }

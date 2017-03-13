@@ -10,6 +10,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,16 +41,23 @@ public class EmployeeRestController {
 		
 		cars.add(car1);
 		cars.add(car2);
+		
 		empDum.setCars(cars);
 		empData.put(empDum.getId(), empDum);
 		return empDum;
 	}
-	@RequestMapping(value=EmpRestURLConsonants.EMP_NEW,method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(value=EmpRestURLConsonants.EMP_NEW,
+					method=RequestMethod.POST,
+					produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Employee createEmployee(@RequestBody Employee emp){
 		empData.put(emp.getId(),emp);
 		return emp;
 	}
-	@RequestMapping(value="/rest/emps",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(value=EmpRestURLConsonants.EMPS,
+							method=RequestMethod.GET,
+							produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Employee> allEmp(){
 		logger.info("LIST ALL");
 		List<Employee> employees= new ArrayList<Employee>();
@@ -61,4 +69,22 @@ public class EmployeeRestController {
 		}
 		return employees;
 	}
+	
+	@RequestMapping(value=EmpRestURLConsonants.EMP_FIND,
+			method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Employee findEmpById(@PathVariable( "id") int id){
+		Employee emp= empData.get(id);
+		return emp;
+	}
+	
+	@RequestMapping(value=EmpRestURLConsonants.EMP_DELETE,
+			method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Employee delById(@PathVariable( "id") int id){
+		Employee emp= empData.get(id);
+		empData.remove(id);
+		return emp;
+	}
+	
 }
