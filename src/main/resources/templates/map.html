@@ -1,0 +1,67 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Google Map Hello World Example</title>
+<style type="text/css">
+div#map_container {
+	width: 100%;
+	height: 350px;
+}
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?"></script>
+<script type="text/javascript">
+        var map;
+
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(16.055028, 108.217444)
+                , zoom: 12
+                , mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+            $(document).ready(function () {
+                $.getJSON("./Route/route1.js", function (json1) {
+                    $.each(json1, function (key, data) {
+                        var latLng = new google.maps.LatLng(data.lat, data.lng);
+                        // Creating a marker and putting it on the map
+                        console.log(data.lat);
+                        var marker = new google.maps.Marker({
+                            position: latLng
+                            , title: data.name
+                            , raiseOnDrag: false,
+                             draggable: true
+                        , });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: data.name + '<div>' + '<input type="button" value="xe dang den"/>' + '</div>'
+                        });
+                        
+                        marker.setMap(map);
+                         google.maps.event.addListener(marker, 'click', function () {
+                             if (!marker.open) {
+                                 infowindow.open(map, marker);
+                                 marker.open = true;
+                             }
+                             else {
+                                 infowindow.close();
+                                 marker.open = false;
+                             }
+                             google.maps.event.addListener(map, 'click', function () {
+                                 infowindow.close();
+                                 marker.open = false;
+                             });
+                         });
+                        
+                    });
+                });
+            });
+        }
+    </script>
+</head>
+
+<!-- <body onload="loadMap()">
+	<div id="map_container"></div>
+</body> -->
+
+<body>
+	<div id="map_container"></div>
+</body>
+</html>
