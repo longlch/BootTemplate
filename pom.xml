@@ -68,7 +68,7 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		
+
 		<!-- google map api -->
 		<dependency>
 			<groupId>com.google.maps</groupId>
@@ -89,6 +89,13 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.4</version>
 		</dependency>
+
+		<!-- json parse, to conver json file to object -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+		</dependency>
+		
 		
 	</dependencies>
 	<build>

@@ -56,15 +56,13 @@ public class TestRestEmployee {
 		RestTemplate restTemplate= new RestTemplate();
 		List<LinkedHashMap> emps=  restTemplate.getForObject(SERVER_URI+EmpRestURLConsonants.EMPS, List.class);
 		List<LinkedHashMap> cars;
-		for (LinkedHashMap map : emps) {
-			System.out.println("id "+map.get("id")+" name "+map.get("name")+" cars "+map.get("cars"));
-		}
 		for (LinkedHashMap map: emps) {
 			cars=(List<LinkedHashMap>) map.get("cars");
 			System.out.println("id "+map.get("id")+" name "+map.get("name"));
 			for (LinkedHashMap car : cars) {
-			System.out.println("car name "+ car.get("carName"));
+				System.out.println("car name "+ car.get("carName"));
 			}
+			System.out.println("======");
 		}
 	}
 	private static void testGetAllEmployee(){
