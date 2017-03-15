@@ -19,15 +19,15 @@ div#map{
         });
         var busStations = /*[[${busStations}]]*/ ;
         console.log(busStations);
-        var i;
-        var marker;
-        for (i = 0; i < busStations.length; i++) {
+        //var i;
+        //var marker;
+        for (let i = 0; i < busStations.length; i++) {
             var latLng = new google.maps.LatLng(busStations[i].latitude, busStations[i].longitude);
-            marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
                 position: latLng
                 , title: busStations[i].name
             });
-            var infowindow = new google.maps.InfoWindow({
+            let infowindow = new google.maps.InfoWindow({
                 content: busStations[i].name + '<div>' + '<input type="button" value="xe dang den"/>' + '</div>'
             });
             marker.setMap(map);
