@@ -15,7 +15,7 @@ import com.guru.model.BusStation;
 public class TestDirectionWaypoints {
 	public static void main(String[] args) throws Exception {
 //		parse json object(Array) to class Java
-		/*JSONParser parser = new JSONParser();
+		JSONParser parser = new JSONParser();
 		try {
 			Object obj = parser.parse(new FileReader("/home/larry/Desktop/SeniorProject/map/DemoLocation.js"));
 			String jsonString = obj.toString();
@@ -30,14 +30,14 @@ public class TestDirectionWaypoints {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 		
-		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
+		/*GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
 		DirectionsResult result = DirectionsApi.newRequest(context)
 				.origin("108.22085169497,16.084605795666")
 				.destination("108.222735,16.0814")
 				.waypoints("108.158338,16.084032")
-				.await();
+				.await();*/
 //		System.out.println(result.routes[0].legs[0].distance);
 //		System.out.println(result.routes[0].bounds.northeast.lat);
 

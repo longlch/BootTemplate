@@ -21,9 +21,16 @@ public class MapController {
 	public String home(Model model){
 		serviceMap= new MapServiceImpl();
 		List<BusStation> busStations= serviceMap.loadDummyMarker();
-	
 		model.addAttribute("busStations",busStations);
 		return "map";
+	}
+	
+	@RequestMapping(value="/direction",method=RequestMethod.GET)
+	public String directionDummy(Model model){
+		serviceMap= new MapServiceImpl();
+		List<BusStation> busStations= serviceMap.loadDummyMarker();
+		model.addAttribute("busStations",busStations);
+		return "direction";
 	}
 	
 	
