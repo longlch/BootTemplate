@@ -55,8 +55,12 @@ html, body {
 	<div id="map"></div>
 	<div id="right-panel">
 		<input type="submit" id="submit" />
+		<input type="submit" class="route" value="route5" name="route5" />
+		<input type="submit" class="route" value="route7" name="route7"/>
 		<div id="directions-panel"></div>
 	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 		 function initMap() {
@@ -68,12 +72,28 @@ html, body {
                 center: {lat: 16.054856,lng:108.200403}
             });
             directionsDisplay.setMap(map);
-            
-            document.getElementById('submit').addEventListener('click', function() {
-                calculateAndDisplayRoute1(directionsService, directionsDisplay);
+            var url= window.location.href;
+            $(".route").click(function(){
+                var busRoute=$(this).val();
+//                ajax here
+                alert(busRoute);
+				$.ajax({
+					type : "GET",
+					contentType : "application/json",
+					url : "http://localhost:8080/map/direction/ajax",
+					data : {
+						busRoute : busRoute,
+					},
+					dataType : 'json',
+					timeout : 100000,
+					success : function(data) {
+						alert(data);
+                        calculateAndDisplayRoute1(directionsService, directionsDisplay,data);        
+                    }
+				});
             });
          }
-		 function calculateAndDisplayRoute1(directionsService, directionsDisplay) {
+		 function calculateAndDisplayRoute1(directionsService, directionsDisplay,data) {
 	            // load waypoint from server
 	            var checkboxArray = [{
 	                "id": 42
@@ -91,15 +111,26 @@ html, body {
 	                , "lat": 16.084032
 	                , "name": "Trần Đình Tri cđ"
 	            }];
-	            var waypts = [];
-	            waypts.push({
-	                location: new google.maps.LatLng(16.0814,108.222735),
-	                stopover: true
-	            });
+             
+                var waypts = [];
+                var start;
+                var desti;
+                for(let i=0;i<data.length;i++){
+                    if(i==0){
+                        start= new google.maps.LatLng(data[i].LatLng);    
+                    }
+                    waypts.push({
+                        location: new google.maps.LatLng(data[i].LatLng),
+	                   stopover: true
+	               });
+                    if(i==data.length-1){
+                         desti=new google.maps.LatLng(data[i].LatLng);
+                    }
+                }
 	            
 	            directionsService.route({
-	                origin: new google.maps.LatLng(16.084605795666,108.22085169497),
-	                destination:new google.maps.LatLng(16.084032,108.158338),
+	                origin: start,
+	                destination:desti,
 	                waypoints: waypts,
 	                optimizeWaypoints: true,
 	                travelMode: 'DRIVING'

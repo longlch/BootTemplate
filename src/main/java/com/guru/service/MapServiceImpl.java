@@ -12,9 +12,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonArray;
 import com.guru.model.BusStation;
+import com.guru.model.BusStop;
 
 public class MapServiceImpl implements IMapService{
 
@@ -42,5 +44,22 @@ public class MapServiceImpl implements IMapService{
 		
 		return busStations;
 	}
+
+	@Override
+	public String findBusRoute(String route) {
+		JSONParser parser = new JSONParser();
+		Resource resource= new ClassPathResource("static/bus_route/"+route+"_go.js");
+		String jsonString="";
+		try {
+			File file = resource.getFile();
+			Object obj = parser.parse(new FileReader(file.toString()));
+			jsonString = obj.toString();
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
+	
 
 }

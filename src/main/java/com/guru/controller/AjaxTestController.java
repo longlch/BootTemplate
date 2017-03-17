@@ -28,7 +28,6 @@ public class AjaxTestController {
 		logger.info("ajax home");
 		return "ajax_home";
 	}
-
 	@RequestMapping(value = "/person/new", method = RequestMethod.GET)
 	public @ResponseBody String addPerson(@RequestParam(value = "name") String name,
 											@RequestParam(value = "age") String age) {

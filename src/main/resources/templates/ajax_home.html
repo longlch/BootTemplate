@@ -7,12 +7,26 @@ div#map {
 	height: 350px;
 }
 </style>
-<script
+
+</head>
+<body>
+	<div id="ajax_response">
+	</div>
+	<div>
+		<p>User name</p>
+		<input type="text" id="name" name="name1" />
+		<p>Age</p>
+		<input type="text" id="age" name="age1" /> <input type="submit"
+			onclick="addViaAjax()" />
+	</div>
+	<div>
+		<input type="submit" id="btnAll" value="get All"
+			onclick="getAllViaAjax()" />
+	</div>
+	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
-		$(document).ready(function(){
-			
 			var url= window.location.href;
 			function addViaAjax() {
 				var name = $("#name").val();
@@ -52,24 +66,7 @@ div#map {
 			    });
 			} 
 				
-		});
 		/*]]>*/	
 	</script>
-</head>
-<body>
-	<div id="ajax_response">
-	</div>
-	<div>
-		<p>User name</p>
-		<input type="text" id="name" name="name1" />
-		<p>Age</p>
-		<input type="text" id="age" name="age1" /> <input type="submit"
-			onclick="addViaAjax()" />
-	</div>
-	<div>
-		<input type="submit" id="btnAll" value="get All"
-			onclick="getAllViaAjax()" />
-	</div>
-	
 </body>
 </html>
