@@ -31,7 +31,6 @@ public class EmployeeRestController {
 					method=RequestMethod.GET,
 					produces=MediaType.APPLICATION_JSON_VALUE
 					)
-	
 	public @ResponseBody Employee healthCheck(){
 		logger.info("Check web service");
 		Employee empDum= new Employee(9999,"dummy guy");

@@ -1,0 +1,75 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Google Map Hello World Example</title>
+<style type="text/css">
+div#map {
+	width: 100%;
+	height: 350px;
+}
+</style>
+<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+			
+			var url= window.location.href;
+			function addViaAjax() {
+				var name = $("#name").val();
+				var age = $("#age").val();
+				var pathName= window.location.pathname;
+				console.log(url);
+				$.ajax({
+					type : "GET",
+					contentType : "application/json",
+					url : url+"/person/new",
+					data : {
+						name : name,
+						age : age
+					},
+					dataType : 'json',
+					timeout : 100000,
+					success : function(data) {
+						console.log("SUCCESS: ", data);
+						var result = "<h3>new account</h3>" + data.name + "</br>"
+								+ data.age;
+						$("#ajax_response").html(result);
+					}
+				});
+			}
+			function getAllViaAjax(){
+				console.log("haha");
+			     $.ajax({
+			        type : "GET",
+			            contentType : "application/json",
+			            url : url+"/persons",
+			            dataType : 'json',
+			            timeout : 100000,
+			            success : function(data) {
+			                console.log(data[0].name);
+			               	console.log(data.length);
+			            }
+			    });
+			} 
+				
+		});
+		/*]]>*/	
+	</script>
+</head>
+<body>
+	<div id="ajax_response">
+	</div>
+	<div>
+		<p>User name</p>
+		<input type="text" id="name" name="name1" />
+		<p>Age</p>
+		<input type="text" id="age" name="age1" /> <input type="submit"
+			onclick="addViaAjax()" />
+	</div>
+	<div>
+		<input type="submit" id="btnAll" value="get All"
+			onclick="getAllViaAjax()" />
+	</div>
+	
+</body>
+</html>
