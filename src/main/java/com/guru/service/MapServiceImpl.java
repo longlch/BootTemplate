@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonArray;
 import com.guru.model.BusStation;
 import com.guru.model.BusStop;
-
+@Service
 public class MapServiceImpl implements IMapService{
 
 	@Override

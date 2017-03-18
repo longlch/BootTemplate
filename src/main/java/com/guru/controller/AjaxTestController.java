@@ -22,6 +22,7 @@ import com.guru.restcontroller.EmployeeRestController;
 @RequestMapping(value = "ajax")
 public class AjaxTestController {
 	public List<PersonTest> persons = new ArrayList<>();
+	
 	private static final Logger logger = LoggerFactory.getLogger(AjaxTestController.class);
 	@RequestMapping(method = RequestMethod.GET)
 	public String home() {

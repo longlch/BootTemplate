@@ -7,32 +7,26 @@
 	line-height: 30px;
 	padding-left: 10px;
 }
-
 #right-panel select, #right-panel input {
 	font-size: 15px;
 }
-
 #right-panel select {
 	width: 100%;
 }
-
 #right-panel i {
 	font-size: 12px;
 }
-
 html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
 }
-
 #map {
 	height: 100%;
 	float: left;
 	width: 70%;
 	height: 100%;
 }
-
 #right-panel {
 	margin: 20px;
 	border-width: 2px;
@@ -43,7 +37,6 @@ html, body {
 	padding-top: 0;
 	background-color: pink;
 }
-
 #directions-panel {
 	margin-top: 10px;
 	background-color: #FFEE77;
@@ -76,84 +69,72 @@ html, body {
             $(".route").click(function(){
                 var busRoute=$(this).val();
 //                ajax here
-                alert(busRoute);
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
-					url : "http://localhost:8080/map/direction/ajax",
+					url : url+"/ajax",
 					data : {
 						busRoute : busRoute,
 					},
 					dataType : 'json',
 					timeout : 100000,
-					success : function(data) {
-						alert(data);
-                        calculateAndDisplayRoute1(directionsService, directionsDisplay,data);        
+					success : function(jsonResponse) {
+                       calculateAndDisplayRoute1(directionsService, directionsDisplay,jsonResponse);        
                     }
 				});
             });
          }
-		 function calculateAndDisplayRoute1(directionsService, directionsDisplay,data) {
-	            // load waypoint from server
-	            var checkboxArray = [{
-	                "id": 42
-	                , "lng": 108.22085169497
-	                , "lat": 16.084605795666
-	                , "name": "49 đường 3 tháng 2"
-	                },{
-	                "id": 1863
-	                , "lng": 108.222735
-	                , "lat": 16.0814
-	                , "name": "06 Trần Phú"
-	                },{
-	                "id": 1882
-	                , "lng": 108.158338
-	                , "lat": 16.084032
-	                , "name": "Trần Đình Tri cđ"
-	            }];
+    
+    	function parseLat(str){
+    		let temp= [];
+    		temp=str.split(',');
+    		let number=parseFloat(temp[0]);
+    		return number;
+    	}
+    	function parseLng(str){
+    		let temp= [];
+    		temp=str.split(',');
+    		let number=parseFloat(temp[1]);
+    		return number;
+    	}
+		
+		 function calculateAndDisplayRoute1(directionsService, directionsDisplay,jsonResponse) {
+			   // load waypoint from server
+	        var totalDataLength=jsonResponse.length;
+	        var waypts = [];
+            var checkboxArray = jsonResponse;
+            var totalDataLength=jsonResponse.length;
+            
+            var latLng=checkboxArray[0].LatLng;
+            console.log(latLng);
+            latLng=parseLng(latLng);
+            console.log(latLng+1);
+            
              
-                var waypts = [];
-                var start;
-                var desti;
-                for(let i=0;i<data.length;i++){
-                    if(i==0){
-                        start= new google.maps.LatLng(data[i].LatLng);    
-                    }
-                    waypts.push({
-                        location: new google.maps.LatLng(data[i].LatLng),
-	                   stopover: true
-	               });
-                    if(i==data.length-1){
-                         desti=new google.maps.LatLng(data[i].LatLng);
-                    }
-                }
-	            
-	            directionsService.route({
-	                origin: start,
-	                destination:desti,
-	                waypoints: waypts,
-	                optimizeWaypoints: true,
-	                travelMode: 'DRIVING'
-	            }, function(response, status) {
-	                    if (status === 'OK') {
-	                directionsDisplay.setDirections(response);
-	                var route = response.routes[0];
-	                var summaryPanel = document.getElementById('directions-panel');
-	                summaryPanel.innerHTML = '';
-	                // For each route, display summary information.
-	                for (var i = 0; i < route.legs.length; i++) {
-	                  var routeSegment = i + 1;
-	                  summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-	                      '</b><br>';
-	                  summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-	                  summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-	                  summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-	                }
-	          } else {
-	            window.alert('Directions request failed due to ' + status);
-	          }
-	        });
-	        }		 
+        	   for (let i = 0; i < checkboxArray.length; i++) {
+	          	if (i>0 && i<checkboxArray.length-1) {
+					let lat=parseLat(checkboxArray[i].LatLng);
+					let lng=parseLng(checkboxArray[i].LatLng);
+	            	waypts.push({
+	            	location:  new google.maps.LatLng(lat,lng),
+	              	stopover: true
+	            	});
+          		}
+        	}    
+        	  directionsService.route({
+        		 origin: new google.maps.LatLng(parseLat(checkboxArray[0].LatLng),parseLng(checkboxArray[0].LatLng)),
+	             destination:new google.maps.LatLng(parseLat(checkboxArray[totalDataLength-1].LatLng),parseLng(checkboxArray[totalDataLength-1].LatLng)),
+	              waypoints: waypts,
+	              optimizeWaypoints: true,
+	              travelMode: 'DRIVING'
+	           }, function(response, status) {
+                    if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });      
+	    }		 
 	        
      
       /*]]>*/

@@ -16,23 +16,26 @@ div#map {
 		<p>User name</p>
 		<input type="text" id="name" name="name1" />
 		<p>Age</p>
-		<input type="text" id="age" name="age1" /> <input type="submit"
-			onclick="addViaAjax()" />
+		<input type="text" id="age" name="age1" /> 
+		
+		<input type="submit" class="route" value="add "/>
+		<input type="submit" class="route" value="add "/>
 	</div>
+	
 	<div>
 		<input type="submit" id="btnAll" value="get All"
 			onclick="getAllViaAjax()" />
 	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script type="text/javascript" th:inline="javascript">
-	/*<![CDATA[*/
-			var url= window.location.href;
-			function addViaAjax() {
-				var name = $("#name").val();
-				var age = $("#age").val();
-				var pathName= window.location.pathname;
+		<script type="text/javascript">
+		/*<![CDATA[*/
+		var url= window.location.href;
+			$(".route").click(function(){
+				var url= window.location.href;
 				console.log(url);
+				var name=$("#name").val();
+				var age=$("#age").val();
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
@@ -43,30 +46,41 @@ div#map {
 					},
 					dataType : 'json',
 					timeout : 100000,
-					success : function(data) {
-						console.log("SUCCESS: ", data);
-						var result = "<h3>new account</h3>" + data.name + "</br>"
-								+ data.age;
+					success:function(data){
+						console.log("SUCCESS: ", data.name);
+						let result="<h3>name</h3>"+data.name+"<h3> age </h3>"+data.age;
 						$("#ajax_response").html(result);
+						alertHaha();
 					}
 				});
+			});
+			function alertHaha(){
+				for(let i=0;i<4;i++){
+					console.log(i);
+				}
 			}
 			function getAllViaAjax(){
-				console.log("haha");
-			     $.ajax({
-			        type : "GET",
-			            contentType : "application/json",
-			            url : url+"/persons",
-			            dataType : 'json',
-			            timeout : 100000,
-			            success : function(data) {
-			                console.log(data[0].name);
-			               	console.log(data.length);
-			            }
-			    });
-			} 
-				
-		/*]]>*/	
-	</script>
+				$.ajax({
+					type : "GET",
+					contentType : "application/json",
+					url : url+"/persons",
+					dataType : 'json',
+					timeout : 100000,
+					success:function(data){
+						let result="";
+						//cant wirte a loop
+						alert(data);
+						var count = data.length;
+						for(let i=0;i<count;i++){
+							let result1="<h2>name: "+data[i].name+"</h2>"+" "+data[i].age;
+							result=result+result1;
+							$("#ajax_response").html(result);
+						}
+					}
+				});			
+			}
+			/*]]>*/
+		</script>
+		
 </body>
 </html>
