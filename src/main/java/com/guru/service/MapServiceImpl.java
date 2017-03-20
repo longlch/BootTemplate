@@ -46,18 +46,21 @@ public class MapServiceImpl implements IMapService{
 	}
 
 	@Override
-	public String findBusRoute(String route) {
+	public String findBusRoute(String route,String trend) {
 		JSONParser parser = new JSONParser();
-		Resource resource= new ClassPathResource("static/bus_route/"+route+"_go.js");
+		Resource resource= new ClassPathResource("static/bus_route/"+route+"_"+trend+".js");
 		String jsonString="";
 		try {
 			File file = resource.getFile();
 			Object obj = parser.parse(new FileReader(file.toString()));
+			// It will convert array's obj to array's json base string by toString() method
+//			class import org.json.simple.parser.JSONParser;
 			jsonString = obj.toString();
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		JsonArray obj doesn't change after using toString() method
+//		The toString() method returns the string representation of the object.
 		return jsonString;
 	}
 	

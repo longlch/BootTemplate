@@ -45,11 +45,14 @@ public class TestReadFile {
 		try {
 			File file = resource.getFile();
 			Object obj = parser.parse(new FileReader(file.toString()));
-			jsonString = obj.toString();
+			System.out.println("obj la before"+obj);
+			jsonString = obj.toString().toString();
+			System.out.println("obj la after"+obj);
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		JsonArray obj doesn't change after using toString() method
+//		The toString() method returns the string representation of the object.
 		return jsonString;
 	}
 }

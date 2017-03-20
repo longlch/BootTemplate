@@ -47,10 +47,11 @@ div#map {
 					dataType : 'json',
 					timeout : 100000,
 					success:function(data){
-						console.log("SUCCESS: ", data.name);
+						console.log("SUCCESS: ", data);
+						alert(data);
 						let result="<h3>name</h3>"+data.name+"<h3> age </h3>"+data.age;
 						$("#ajax_response").html(result);
-						alertHaha();
+						//alertHaha();
 					}
 				});
 			});
@@ -68,8 +69,8 @@ div#map {
 					timeout : 100000,
 					success:function(data){
 						let result="";
-						//cant wirte a loop
-						alert(data);
+						alert("all member"+data);
+						console.log ("all member"+data);
 						var count = data.length;
 						for(let i=0;i<count;i++){
 							let result1="<h2>name: "+data[i].name+"</h2>"+" "+data[i].age;

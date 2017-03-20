@@ -47,11 +47,12 @@ public class MapController {
 	}
 	
 	@RequestMapping(value="/direction/ajax",method=RequestMethod.GET)
-	public @ResponseBody String directionAjax(@RequestParam(value="busRoute")String route){
+	public @ResponseBody String directionAjax(@RequestParam(value="busRoute")String route,
+												@RequestParam(value="trend") String trend){
 		serviceMap= new MapServiceImpl();
 		logger.info(route);
 		String reponseJson="";
-		reponseJson=serviceMap.findBusRoute(route);
+		reponseJson=serviceMap.findBusRoute(route,trend);
 		return reponseJson;
 	}
 	

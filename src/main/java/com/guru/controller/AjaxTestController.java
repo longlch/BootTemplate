@@ -10,13 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guru.model.PersonTest;
-import com.guru.restcontroller.EmployeeRestController;
 
 @Controller
 @RequestMapping(value = "ajax")
@@ -38,6 +35,7 @@ public class AjaxTestController {
 		ObjectMapper mapper= new ObjectMapper();
 		String ajaxReponse="";
 		try {
+			logger.info("before reponse "+ajaxReponse);
 			ajaxReponse=mapper.writeValueAsString(person);
 			logger.info("response la"+ajaxReponse);
 		} catch (JsonProcessingException e) {
@@ -52,7 +50,10 @@ public class AjaxTestController {
 		String reponse="";
 		ObjectMapper mapper= new ObjectMapper();
 		try {
+			logger.info("before reponse "+reponse);
+//			writeValueAsString should be used for java obj not string obj
 			reponse=mapper.writeValueAsString(persons);
+			logger.info("after "+reponse);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

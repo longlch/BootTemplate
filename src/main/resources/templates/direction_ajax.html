@@ -47,9 +47,11 @@ html, body {
 <body>
 	<div id="map"></div>
 	<div id="right-panel">
-		<input type="submit" id="submit" />
 		<input type="submit" class="route" value="route5" name="route5" />
 		<input type="submit" class="route" value="route7" name="route7"/>
+        <br/>
+		<input type="button" name="go" id="btnGo" value="go"/>
+		<input type="button" name="back" id="btnBack" value="back"/>
 		<div id="directions-panel"></div>
 	</div>
 	<script
@@ -57,33 +59,49 @@ html, body {
 	<script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 		 function initMap() {
-             var directionsService = new google.maps.DirectionsService;
-             var directionsDisplay = new google.maps.DirectionsRenderer;
+             let directionsService = new google.maps.DirectionsService;
+             let directionsDisplay = new google.maps.DirectionsRenderer;
              // init map
              var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
                 center: {lat: 16.054856,lng:108.200403}
             });
             directionsDisplay.setMap(map);
+             
+            var currentRoute;
             var url= window.location.href;
             $(".route").click(function(){
-                var busRoute=$(this).val();
-//                ajax here
-				$.ajax({
-					type : "GET",
-					contentType : "application/json",
-					url : url+"/ajax",
-					data : {
-						busRoute : busRoute,
-					},
-					dataType : 'json',
-					timeout : 100000,
-					success : function(jsonResponse) {
-                       calculateAndDisplayRoute1(directionsService, directionsDisplay,jsonResponse);        
-                    }
-				});
+                let busRoute=$(this).val();
+                currentRoute=$(this).val();
+				callAjax(url,busRoute,"go",directionsService, directionsDisplay);
+            });
+            
+            $("#btnBack").click(function(){
+            	if(typeof(currentRoute) == "undefined"){
+            		console.log("hahahaha");	
+            	}
+            	else{
+                    callAjax(url,currentRoute,"back",directionsService, directionsDisplay);
+                }
             });
          }
+    	
+    	function callAjax(url,busRoute,trend,directionsService, directionsDisplay){
+    		$.ajax({
+				type : "GET",
+				contentType : "application/json",
+				url : url+"/ajax",
+				data : {
+					busRoute : busRoute,
+                    trend:trend
+				},
+				dataType : 'json',
+				timeout : 100000,
+				success : function(jsonResponse) {
+                   calculateAndDisplayRoute1(directionsService, directionsDisplay,jsonResponse);        
+                }
+			});
+    	}
     
     	function parseLat(str){
     		let temp= [];

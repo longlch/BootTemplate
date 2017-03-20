@@ -9,5 +9,5 @@ import com.guru.model.BusStop;
 public interface IMapService {
 	 List<BusStation> loadDummyMarker();
 	 
-	 String findBusRoute(String route);
+	 String findBusRoute(String route,String trend);
 }
