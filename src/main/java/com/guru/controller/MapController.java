@@ -35,7 +35,7 @@ public class MapController {
 		serviceMap= new MapServiceImpl();
 		List<BusStation> busStations= serviceMap.loadDummyMarker();
 		model.addAttribute("busStations",busStations);
-		return "map";
+		return "map_offical";
 	}
 	
 	@RequestMapping(value="/direction",method=RequestMethod.GET)

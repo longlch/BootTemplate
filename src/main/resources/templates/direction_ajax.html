@@ -2,6 +2,7 @@
 
 <head>
     <title>Google Map Hello World Example</title>
+    <script src="../resources/mapOffical.js"></script>
     <style>
         #right-panel {
             font-family: 'Roboto', 'sans-serif';
@@ -68,109 +69,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        function initMap() {
-            let directionsService = new google.maps.DirectionsService;
-            let directionsDisplay = new google.maps.DirectionsRenderer;
-            // init map
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12
-                , center: {
-                    lat: 16.054856
-                    , lng: 108.200403
-                }
-            });
-            directionsDisplay.setMap(map);
-            var currentRoute;
-            var url = window.location.href;
-            $(".route").click(function () {
-                let busRoute = $(this).val();
-                currentRoute = $(this).val();
-                callAjax(url, busRoute, "go", directionsService, directionsDisplay);
-            });
-            $("#btnBack").click(function () {
-                if (typeof (currentRoute) == "undefined") {
-                    console.log("hahahaha");
-                }
-                else {
-                    callAjax(url, currentRoute, "back", directionsService, directionsDisplay);
-                }
-            });
-            $("#btnGo").click(function () {
-                if (typeof (currentRoute) == "undefined") {
-                    console.log("hahahaha");
-                }
-                else {
-                    callAjax(url, currentRoute, "go", directionsService, directionsDisplay);
-                }
-            });
-        }
-
-        function callAjax(url, busRoute, trend, directionsService, directionsDisplay) {
-            $.ajax({
-                type: "GET"
-                , contentType: "application/json"
-                , url: url + "/ajax"
-                , data: {
-                    busRoute: busRoute
-                    , trend: trend
-                }
-                , dataType: 'json'
-                , timeout: 100000
-                , success: function (jsonResponse) {
-                    calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse);
-                }
-            });
-        }
-
-        function parseLat(str) {
-            let temp = [];
-            temp = str.split(',');
-            let number = parseFloat(temp[0]);
-            return number;
-        }
-
-        function parseLng(str) {
-            let temp = [];
-            temp = str.split(',');
-            let number = parseFloat(temp[1]);
-            return number;
-        }
-
-        function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse) {
-            // load waypoint from server
-            var totalDataLength = jsonResponse.length;
-            var waypts = [];
-            var checkboxArray = jsonResponse;
-            var totalDataLength = jsonResponse.length;
-            var latLng = checkboxArray[0].LatLng;
-            console.log(latLng);
-            latLng = parseLng(latLng);
-            console.log(latLng + 1);
-            for (let i = 0; i < checkboxArray.length; i++) {
-                if (i > 0 && i < checkboxArray.length - 1) {
-                    let lat = parseLat(checkboxArray[i].LatLng);
-                    let lng = parseLng(checkboxArray[i].LatLng);
-                    waypts.push({
-                        location: new google.maps.LatLng(lat, lng)
-                        , stopover: true
-                    });
-                }
-            }
-            directionsService.route({
-                origin: new google.maps.LatLng(parseLat(checkboxArray[0].LatLng), parseLng(checkboxArray[0].LatLng))
-                , destination: new google.maps.LatLng(parseLat(checkboxArray[totalDataLength - 1].LatLng), parseLng(checkboxArray[totalDataLength - 1].LatLng))
-                , waypoints: waypts
-                , optimizeWaypoints: true
-                , travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                }
-                else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        }
         /*]]>*/
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c&amp;callback=initMap" async="async" defer="defer"></script>
