@@ -82,21 +82,21 @@
  
  .rowClear {
      display: block;
-     padding-left: 10px;
+     padding:10px 5px;
      border-bottom: 1px solid #ccc;
      margin-bottom: 10px;
-     height: 30px;
+     height: 40px;
  }
  /*customize color*/
  #mySidenav .nav .active a {
      background-color: #C0C0C0;
  }
 #content{
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     padding-bottom:10px;
 }
 .searchBox{
     padding:10px;
-    background-color:#C0C0C0
+    background-color:#C0C0C0;
 }
 

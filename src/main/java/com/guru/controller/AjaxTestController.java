@@ -59,5 +59,15 @@ public class AjaxTestController {
 		}
 		return reponse;
 	}
+	
+	@RequestMapping(value = "/dummyContent", method = RequestMethod.GET)
+	public String dummyContent(){
+		return "result";
+	}
+	
+	@RequestMapping(value = "/get/content", method = RequestMethod.GET)
+	public String pageResult(){
+		return "redirect:http://localhost:8080/ajax/dummyContent";
+	}
 
 }

@@ -11,25 +11,29 @@ div#map {
 
 </head>
 <body>
-	<div id="ajax_response">
-	</div>
+	<div id="ajax_response"></div>
 	<div>
 		<p>User name</p>
 		<input type="text" id="name" name="name1" />
 		<p>Age</p>
-		<input type="text" id="age" name="age1" /> 
-		
-		<input type="submit" class="route" value="add "/>
-		<input type="submit" class="route" value="add "/>
+		<input type="text" id="age" name="age1" /> <input type="submit"
+			class="route" value="add " /> <input type="submit" class="route"
+			value="add " />
 	</div>
-	
+
 	<div>
 		<input type="submit" id="btnAll" value="get All"
 			onclick="getAllViaAjax()" />
 	</div>
+	<div>
+		<p>Get div tag from another page</p>
+		<input type="submit" name="" id="get" value="get"
+			onclick="getElement()" />
+		<div id="content1">sad</div>
+	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		/*<![CDATA[*/
 		var url= window.location.href;
 			$(".route").click(function(){
@@ -40,7 +44,7 @@ div#map {
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
-					url : url+"/person/new",
+					url : url+"person/new",
 					data : {
 						name : name,
 						age : age
@@ -65,7 +69,7 @@ div#map {
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
-					url : url+"/persons",
+					url : url+"persons",
 					dataType : 'json',
 					timeout : 100000,
 					success:function(data){
@@ -81,8 +85,25 @@ div#map {
 					}
 				});			
 			}
+			function getElement(){
+				$.ajax({
+					type : "GET",
+					url : url+"get/content",
+					timeout : 100000,
+					success:function(data){
+						/* var html = jQuery('<section>').html(data);
+				         alert(html.find("div#a").attr("id"));
+				         alert(html.find("div#a").html());
+				         alert(html.find("div#a")); */
+				         alert(data);
+						var html = jQuery('<body>').html(data);
+				         var content=html.find("#b").html();
+				         $("#content1").html(content); 
+					}
+				});
+			}
 			/*]]>*/
 		</script>
-		
+
 </body>
 </html>
