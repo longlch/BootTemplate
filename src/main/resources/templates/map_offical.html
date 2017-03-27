@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<meta charset="UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
     <link rel="stylesheet" href="../resources/mapOffical.css"></link>
@@ -40,43 +41,36 @@
             </li>
         </ul>
         
+        
         <div id="content">
         	<div class="searchBox" style="">
             <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2"></input> </div>
             <div class="containter">
                 <div class="row row-eq-height rowClear">
                     <div class="col-md-2">
-                        <p>ID</p>
+                        <p>route</p>
                     </div>
-                    <div class="col-md-6"><a href="">Cam Le-Hoa Vang</a></div>
-                    <div class="col-md-4">
-                        <p>Route 5</p>
+                    <div class="col-md-2">
+                        <p class="routeId">5</p>
                     </div>
+                    <div class="col-md-8"><a class="route" th:href="@{/map/route/5}" >Nguyen Tat Thanh- Xuan Dieu</a></div>
                 </div>
+                
                 <div class="row row-eq-height rowClear">
                     <div class="col-md-2">
-                        <p>ID</p>
+                        <p>route</p>
                     </div>
-                    <div class="col-md-6"><a href="">Cam Le-Hoa Vang</a></div>
-                    <div class="col-md-4">
-                        <p>Route 5</p>
-                    </div>
-                </div>
-                <div class="row row-eq-height rowClear">
                     <div class="col-md-2">
-                        <p>ID</p>
+                        <p class="routeId">7</p>
                     </div>
-                    <div class="col-md-6"><a href="">Cam Le-Hoa Vang</a></div>
-                    <div class="col-md-4">
-                        <p>Route 5</p>
-                    </div>
+                    <div class="col-md-8"><a class="route" th:href="@{/map/route/7}" >Xuan Dieu- Metro</a></div>
                 </div>
             </div>
         </div>
     </div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="../resources/mapOffical.js"></script>
+    <script src="../resources/jsMap.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c&amp;callback=initMap" async="async" defer="defer"></script>
 </body>
 
