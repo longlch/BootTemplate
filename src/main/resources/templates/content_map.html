@@ -5,45 +5,79 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div id="content">
-            <div class="detailPage" style="">
-                <div class="containter">
-                    <div class="row row-eq-height rowClear">
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-default" aria-label="Left Align"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> </button>
-                        </div>
-                        <div class="col-md-10">
-                            <p>Route 6 : xuan dieu- Hoa Khanh</p>
-                        </div>
-                    </div>
-                    
-                    <div class="row row-eq-height rowClear">
-                        <div class="col-md-12">
-                            <div class="btn-group btn-group-justified" role="group">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default">Go</button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default">Back</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+		<div id="content">
+			<div class="detailPage" style="">
+				<div class="containter">
+					<div class="row row-eq-height rowClear22">
+						<div class="col-md-2">
+							<button type="button" class="btn btn-default btn-back"
+								aria-label="Left Align">
+								<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+							</button>
+						</div>
+						<div class="col-md-10">
+							<p>Route 6 : xuan dieu- Hoa Khanh</p>
+						</div>
+					</div>
+
+					<div class="row row-eq-height rowClear2">
+						<div class="col-md-12">
+							<div class="btn-group btn-group-justified" role="group">
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default">Go</button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default">Back</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="containter">
+				<div class="row row-eq-height rowClear2">
+					<div class="col-md-2"></div>
+					<div class="col-md-10">
+						<a href="">Tran Phu</a>
+					</div>
+				</div>
+				<div class="row row-eq-height rowClear2">
+					<div class="col-md-2"></div>
+					<div class="col-md-10">
+						<a href="">tran cao van</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<div id="busRoute">
+		<div id="content1">
+        	<div class="searchBox" style="">
+            <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2"></input> </div>
             <div class="containter">
-                <div class="row row-eq-height rowClear">
+                <div class="row row-eq-height rowClear2">
                     <div class="col-md-2">
+                        <p>route</p>
                     </div>
-                    <div class="col-md-10"><a href="">Tran Phu</a></div>
+                    <div class="col-md-2">
+                        <p class="routeId">5</p>
+                    </div>
+                    <div class="col-md-8"><a class="route" th:href="@{/map/route/5}" >Nguyen Tat Thanh- Xuan Dieu</a></div>
                 </div>
-                   <div class="row row-eq-height rowClear">
+                
+                <div class="row row-eq-height rowClear2">
                     <div class="col-md-2">
+                        <p>route</p>
                     </div>
-                    <div class="col-md-10"><a href="">tran cao van</a></div>
+                    <div class="col-md-2">
+                        <p class="routeId">7</p>
+                    </div>
+                    <div class="col-md-8"><a class="route" th:href="@{/map/route/7}" >Xuan Dieu- Metro</a></div>
                 </div>
             </div>
         </div>
+	</div>
+	
 </body>
 </html>

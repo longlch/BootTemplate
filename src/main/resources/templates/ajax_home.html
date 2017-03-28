@@ -44,7 +44,7 @@ div#map {
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
-					url : url+"person/new",
+					url : url+"/person/new",
 					data : {
 						name : name,
 						age : age
@@ -69,7 +69,7 @@ div#map {
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
-					url : url+"persons",
+					url : url+"/persons",
 					dataType : 'json',
 					timeout : 100000,
 					success:function(data){
@@ -88,7 +88,7 @@ div#map {
 			function getElement(){
 				$.ajax({
 					type : "GET",
-					url : url+"get/content",
+					url : url+"/get/content",
 					timeout : 100000,
 					success:function(data){
 						/* var html = jQuery('<section>').html(data);

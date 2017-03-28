@@ -49,8 +49,11 @@ public class MapController {
 	}
 	
 	@RequestMapping(value=MapURL.BUS_ROUTES,method=RequestMethod.GET)
-	public String busRouteInDetail(Model model){
-//		logger.info("haha"+id);
+	public String busRouteInDetail(@PathVariable("id")String id,Model model){
+		id="route"+id;
+		String reponseJson="";
+		reponseJson=serviceMap.findBusRoute(id,"go");
+		logger.info(reponseJson);
 		return "content_map";
 	}
 	

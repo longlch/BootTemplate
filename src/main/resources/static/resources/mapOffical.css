@@ -86,12 +86,14 @@
      border-bottom: 1px solid #ccc;
     /* margin-bottom: 10px;*/
      height: 40px;
+     
  }
 
 .rowClear2 {
      display: block;
      padding:10px 5px;
      height: 40px;
+    border-bottom: 1px solid #ccc;
  }
  /*customize color*/
  #mySidenav .nav .active a {
