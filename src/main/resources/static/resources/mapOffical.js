@@ -146,10 +146,10 @@ var markers=[];
             var totalDataLength = jsonResponse.length;
             var waypts = [];
             var totalDataLength = jsonResponse.length;
-            var latLng = jsonResponse[0].LatLng;
+            var latLng = jsonResponse[0].latLng;
             for (let i = 0; i < jsonResponse.length; i++) {
-            	let lat = parseLat(jsonResponse[i].LatLng);
-                let lng = parseLng(jsonResponse[i].LatLng);
+            	let lat = parseLat(jsonResponse[i].latLng);
+                let lng = parseLng(jsonResponse[i].latLng);
             	if(i==0){
             		markers.push(marker = new google.maps.Marker({
     					position: new google.maps.LatLng(lat,lng),
@@ -186,8 +186,8 @@ var markers=[];
 			}  
             // /////////
             directionsService.route({
-                origin: new google.maps.LatLng(parseLat(jsonResponse[0].LatLng), parseLng(jsonResponse[0].LatLng))
-                , destination: new google.maps.LatLng(parseLat(jsonResponse[totalDataLength - 1].LatLng), parseLng(jsonResponse[totalDataLength - 1].LatLng))
+                origin: new google.maps.LatLng(parseLat(jsonResponse[0].latLng), parseLng(jsonResponse[0].latLng))
+                , destination: new google.maps.LatLng(parseLat(jsonResponse[totalDataLength - 1].latLng), parseLng(jsonResponse[totalDataLength - 1].latLng))
                 , waypoints: waypts
                 , optimizeWaypoints: true
                 , travelMode: 'DRIVING'

@@ -14,6 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.guru.model.BusStation;
 import com.guru.model.BusStop;
@@ -63,6 +64,33 @@ public class MapServiceImpl implements IMapService{
 //		The toString() method returns the string representation of the object.
 		return jsonString;
 	}
+
+	@Override
+	public List<BusStop> getBusStops(String route, String trend) {
+		Resource resource= new ClassPathResource("static/bus_route/"+route+"_"+trend+".js");
+		ObjectMapper mapper = new ObjectMapper();
+		List<BusStop> busStops=null;
+		try {
+			File file= resource.getFile();
+			busStops=mapper.readValue(new File(file.toString()), mapper.getTypeFactory().constructCollectionType(List.class, BusStop.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return busStops;
+	}
+
+	@Override
+	public String getRouteName(String id) {
+		switch (id) {
+		case "5":return "Tuyến số 5: Nguyễn Tất Thành- Xuân Diệu ";
+		case "7":return "Tuyến số 7: Xuân Diệu- Metro";
+		case "8":return "Tuyến số 8: Thọ Quang- Phạm Hùng ";
+		case "11":return "Tuyến số 11: Xuân Diệu- Lotte Mart ";
+		case "12":return "Tuyến số 12: Thọ Quang- Trường Sa";
+		}
+		return null;
+	}
+	
 	
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.guru.model.BusStation;
+import com.guru.model.BusStop;
 import com.guru.service.IMapService;
 import com.guru.service.MapServiceImpl;;
 
@@ -27,15 +28,15 @@ public class MapController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String home(Model model){
-		List<BusStation> busStations= serviceMap.loadDummyMarker();
-		model.addAttribute("busStations",busStations);
+//		List<BusStation> busStations= serviceMap.loadDummyMarker();
+//		model.addAttribute("busStations",busStations);
 		return "map_offical";
 	}
 	
 	@RequestMapping(value="/direction",method=RequestMethod.GET)
 	public String directionDummy(Model model){
-		List<BusStation> busStations= serviceMap.loadDummyMarker();
-		model.addAttribute("busStations",busStations);
+//		List<BusStation> busStations= serviceMap.loadDummyMarker();
+//		model.addAttribute("busStations",busStations);
 		return "direction_ajax";
 	}
 	
@@ -48,13 +49,27 @@ public class MapController {
 		return reponseJson;
 	}
 	
-	@RequestMapping(value=MapURL.BUS_ROUTES,method=RequestMethod.GET)
-	public String busRouteInDetail(@PathVariable("id")String id,Model model){
+	@RequestMapping(value=MapURL.BUS_ROUTE,method=RequestMethod.GET)
+	public String busRouteInDetail(@PathVariable("id")String id,
+									@RequestParam(value="trend")String trend,
+									Model model){
+		// get list bus station
+		// send it into content_map.html
+		String busRoute= serviceMap.getRouteName(id);
 		id="route"+id;
-		String reponseJson="";
-		reponseJson=serviceMap.findBusRoute(id,"go");
-		logger.info(reponseJson);
+		List<BusStop> busStops= serviceMap.getBusStops(id, trend);
+		model.addAttribute("busRoute",busRoute);
+		model.addAttribute("busStops",busStops);
 		return "content_map";
+	}
+	
+	@RequestMapping(value="/ajax",method=RequestMethod.GET)
+	public @ResponseBody String direction(@RequestParam(value="busRoute")String route,
+												@RequestParam(value="trend") String trend){
+		logger.info(route);
+		String reponseJson="";
+		reponseJson=serviceMap.findBusRoute(route,trend);
+		return reponseJson;
 	}
 	
 	
