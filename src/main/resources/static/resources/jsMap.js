@@ -1,5 +1,6 @@
 var markers = [];
 var url = window.location.href;
+var lastOpenedInfoWindow;
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "30%";
@@ -13,6 +14,9 @@ function initMap() {
     let directionsService = new google.maps.DirectionsService;
     let directionsDisplay = new google.maps.DirectionsRenderer;
     let geocoder = new google.maps.Geocoder;
+    let infowindow = new google.maps.InfoWindow;
+    
+    
     var styledMapType = new google.maps.StyledMapType(
     [
             {
@@ -98,17 +102,17 @@ function initMap() {
         ajaxGetContent(url, routeId, "go");
         routeId = "route" + routeId;
         currentRoute = routeId;
-        callAjax(url, routeId, "go", directionsService, directionsDisplay, map,geocoder);
+        callAjax(url, routeId, "go", directionsService, directionsDisplay, map,geocoder,infowindow);
     });
     $("body").on("click", "#btnBack", function (event) {
         clearMarkers();
         markers = [];
-        callAjax(url, currentRoute, "back", directionsService, directionsDisplay, map,geocoder);
+        callAjax(url, currentRoute, "back", directionsService, directionsDisplay, map,geocoder,infowindow);
     });
     $("body").on("click", "#btnGo", function (event) {
         clearMarkers();
         markers = [];
-        callAjax(url, currentRoute, "go", directionsService, directionsDisplay, map,geocoder);
+        callAjax(url, currentRoute, "go", directionsService, directionsDisplay, map,geocoder,infowindow);
     });
 }
 
@@ -164,7 +168,7 @@ function parseLng(str) {
     return number;
 }
 
-function callAjax(url, busRoute, trend, directionsService, directionsDisplay, map,geocoder) {
+function callAjax(url, busRoute, trend, directionsService, directionsDisplay, map,geocoder,infowindow) {
     $.ajax({
         type: "GET"
         , contentType: "application/json"
@@ -176,12 +180,12 @@ function callAjax(url, busRoute, trend, directionsService, directionsDisplay, ma
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
-            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map,geocoder);
+            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map,geocoder,infowindow);
         }
     });
 }
 
-function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map,geocoder) {
+function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map,geocoder,infowindow) {
     // load waypoint from server
     var totalDataLength = jsonResponse.length;
     var waypts = [];
@@ -214,10 +218,11 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
                 , map: map
             }));
         }
-        let infowindow = new google.maps.InfoWindow;
         markers[i].addListener('click', function () {
+            closeLastOpenedInfoWindo();
             geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
             infowindow.open(map, markers[i]);
+            lastOpenedInfoWindow=infowindow;
         });
     }
     directionsService.route({
@@ -247,7 +252,8 @@ function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
     }, function (results, status) {
         if (status === 'OK') {
             if (results[0]) {
-                var contentString = '<div id="infoContent" style="height:85px;width:355px">' + '<div id="siteNotice">' + '</div>' + '<div id="bodyContent" >' + '<p><b>Tên trạm dừng:    </b>' + nameStation + '</p>' + '<p><b>Địa chỉ:    </b>' + results[0].formatted_address + '</p>' + '<input style="height:20px;width:341px" type = "button" value = "Thời gian chờ"/>' + '</div>' + '</div>';
+                let contentString = '<div id="infoContent" style="height:85px;width:355px">' + '<div id="siteNotice">' + '</div>' + '<div id="bodyContent" >' + '<p><b>Tên trạm dừng:    </b>' + nameStation + '</p>' + '<p><b>Địa chỉ:    </b>' + results[0].formatted_address + '</p>' + '<input style="height:20px;width:341px" type = "button" value = "Thời gian chờ"/>' + '</div>' + '</div>';
+                
                 infowindow.setContent(contentString);
             }
             else {
@@ -259,3 +265,8 @@ function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
         }
     });
 }
+
+function closeLastOpenedInfoWindo() {
+if (lastOpenedInfoWindow) {
+    lastOpenedInfoWindow.close();
+}}
