@@ -1,6 +1,5 @@
 var markers = [];
 var url = window.location.href;
-var lastOpenedInfoWindow;
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "30%";
@@ -15,64 +14,11 @@ function initMap() {
     let directionsDisplay = new google.maps.DirectionsRenderer;
     let geocoder = new google.maps.Geocoder;
     let infowindow = new google.maps.InfoWindow;
+    let dispatchRoutes=$("#dispatchRoutes");
+    let dispatchDirection=$("#dispatchDirection");
+    let currentRoute;
     
-    
-    var styledMapType = new google.maps.StyledMapType(
-    [
-            {
-                "featureType": "poi"
-                , "stylers": [
-                    {
-                        "color": "#ff3b88"
-      }
-                      , {
-                        "visibility": "off"
-      }
-    ]
-  }
-              , {
-                "featureType": "poi.attraction"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-      }
-    ]
-  }
-              , {
-                "featureType": "poi.government"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-      }
-    ]
-  }
-              , {
-                "featureType": "poi.medical"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-      }
-    ]
-  }
-              , {
-                "featureType": "poi.school"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-      }
-    ]
-  }
-              , {
-                "featureType": "poi.sports_complex"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-      }
-    ]
-  }
-], {
-            name: 'Styled Map'
-        });
+    var styledMapType = customizeMap();
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
         , center: {
@@ -90,8 +36,18 @@ function initMap() {
     directionsDisplay.setOptions({
         suppressMarkers: true
     });
-    let currentRoute;
+    
     /* init event for app */
+    dispatchDirection.click(function(){
+        dispatchRoutes.removeClass("active");
+        dispatchDirection.addClass("active");
+        //call ajax
+    });
+    dispatchRoutes.click(function(){
+        dispatchDirection.removeClass("active");
+        dispatchRoutes.addClass("active");
+        //call ajax
+    });
     $("body").on("click", ".btn-back", function (event) {
         getBack(url);
     });
@@ -219,10 +175,8 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             }));
         }
         markers[i].addListener('click', function () {
-            closeLastOpenedInfoWindo();
             geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
             infowindow.open(map, markers[i]);
-            lastOpenedInfoWindow=infowindow;
         });
     }
     directionsService.route({
@@ -265,8 +219,63 @@ function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
         }
     });
 }
+ function customizeMap(){
+	 let styledMapType=new google.maps.StyledMapType(
+			    [
+		            {
+		                "featureType": "poi"
+		                , "stylers": [
+		                    {
+		                        "color": "#ff3b88"
+		      }
+		                      , {
+		                        "visibility": "off"
+		      }
+		    ]
+		  }
+		              , {
+		                "featureType": "poi.attraction"
+		                , "stylers": [
+		                    {
+		                        "visibility": "off"
+		      }
+		    ]
+		  }
+		              , {
+		                "featureType": "poi.government"
+		                , "stylers": [
+		                    {
+		                        "visibility": "off"
+		      }
+		    ]
+		  }
+		              , {
+		                "featureType": "poi.medical"
+		                , "stylers": [
+		                    {
+		                        "visibility": "off"
+		      }
+		    ]
+		  }
+		              , {
+		                "featureType": "poi.school"
+		                , "stylers": [
+		                    {
+		                        "visibility": "off"
+		      }
+		    ]
+		  }
+		              , {
+		                "featureType": "poi.sports_complex"
+		                , "stylers": [
+		                    {
+		                        "visibility": "off"
+		      }
+		    ]
+		  }
+		], {
+		            name: 'Styled Map'
+		        });
+	 return styledMapType;
+ }
 
-function closeLastOpenedInfoWindo() {
-if (lastOpenedInfoWindow) {
-    lastOpenedInfoWindow.close();
-}}
