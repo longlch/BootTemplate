@@ -22,10 +22,11 @@ function getBack(url) {
     });
 }
 function getDirectionContent(url) {
-//	let routeUrl=url+"/";
+	alert("haha");
+	let routeUrl=url+"/direction1";
     $.ajax({
         type: "GET"
-        , url: "http://localhost:8080/map/direction1"
+        , url: routeUrl
         , success: function (data) {
         	let html = jQuery('<body>').html(data);
             let content = html.find("#content").html();
