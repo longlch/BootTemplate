@@ -114,4 +114,15 @@
 .detailPage .btn{
         padding: 0px;
 }
+.directionDispatcher{
+     padding:10px;
+    background-color:#C0C0C0;
+}
+
+.rowClear4 {
+     display: block;
+     padding:10px 5px;
+     height: 40px;
+    border-bottom: 1px solid #ccc;
+ }
 

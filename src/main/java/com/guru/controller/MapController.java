@@ -63,14 +63,20 @@ public class MapController {
 		return "content_map";
 	}
 	
-	@RequestMapping(value="/ajax",method=RequestMethod.GET)
-	public @ResponseBody String direction(@RequestParam(value="busRoute")String route,
+	@RequestMapping(value=MapURL.BUS_ROUTES,method=RequestMethod.GET)
+	public @ResponseBody String drawBusRoute(@RequestParam(value="busRoute")String route,
 												@RequestParam(value="trend") String trend){
 		logger.info(route);
 		String reponseJson="";
 		reponseJson=serviceMap.findBusRoute(route,trend);
 		return reponseJson;
 	}
+	
+	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION,method=RequestMethod.GET)
+	public  String direction(){
+		return "direction_route";
+	}
+	
 	
 	
 	

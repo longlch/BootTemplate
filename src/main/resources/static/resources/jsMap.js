@@ -10,6 +10,30 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
+function getBack(url) {
+    $.ajax({
+        type: "GET"
+        , url: url
+        , success: function (data) {
+            var html = jQuery('<body>').html(data);
+            var content = html.find("#content").html();
+            $("#content").html(content);
+        }
+    });
+}
+function getDirectionContent(url) {
+	let routeUrl=url+"/direction1";
+    $.ajax({
+        type: "GET"
+        , url: routeUrl
+        , success: function (data) {
+            var html = jQuery('<body>').html(data);
+            var content = html.find("#content").html();
+            alert("content la"+content);
+            $("#content").html(content);
+        }
+    });
+}
 
 function initMap() {
     let directionsService = new google.maps.DirectionsService;
@@ -44,12 +68,15 @@ function initMap() {
     dispatchDirection.click(function(){
         dispatchRoutes.removeClass("active");
         dispatchDirection.addClass("active");
-        //call ajax
+        //call ajax to change content
+        getDirectionContent(url);
+        
     });
     dispatchRoutes.click(function(){
         dispatchDirection.removeClass("active");
         dispatchRoutes.addClass("active");
         //call ajax
+        getBack(url);
     });
     $("body").on("click", ".btn-back", function (event) {
         getBack(url);
