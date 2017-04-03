@@ -1,5 +1,7 @@
 var markers = [];
 var url = window.location.href;
+var trend;
+var currentTrend;
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "30%";
@@ -17,6 +19,7 @@ function initMap() {
     let dispatchRoutes=$("#dispatchRoutes");
     let dispatchDirection=$("#dispatchDirection");
     let currentRoute;
+    
     
     var styledMapType = customizeMap();
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -55,23 +58,32 @@ function initMap() {
         clearMarkers();
         markers = [];
         let routeId = $(this).find(".routeId").text();
-        ajaxGetContent(url, routeId, "go");
-        routeId = "route" + routeId;
+        trend="go";
+        currentTrend="go"
+        ajaxGetContent(url, routeId, trend);
         currentRoute = routeId;
-        callAjax(url, routeId, "go", directionsService, directionsDisplay, map,geocoder,infowindow);
+        callAjax(url, routeId, trend, directionsService, directionsDisplay, map,geocoder,infowindow);
     });
     $("body").on("click", "#btnBack", function (event) {
-        clearMarkers();
-        markers = [];
-        callAjax(url, currentRoute, "back", directionsService, directionsDisplay, map,geocoder,infowindow);
+        currentTrend="back";
+        checkTrend(currentTrend,currentRoute,url,directionsService, directionsDisplay, map,geocoder,infowindow);
     });
     $("body").on("click", "#btnGo", function (event) {
-        clearMarkers();
-        markers = [];
-        callAjax(url, currentRoute, "go", directionsService, directionsDisplay, map,geocoder,infowindow);
+        currentTrend="go";
+        checkTrend(currentTrend,currentRoute,url,directionsService, directionsDisplay, map,geocoder,infowindow);
     });
 }
-
+function checkTrend(currentTrend,currentRoute,url,directionsService, directionsDisplay, map,geocoder,infowindow){
+    if(currentTrend==trend){
+       
+    }else{
+        clearMarkers();
+        markers = [];
+        trend=currentTrend;
+        ajaxGetContent(url,currentRoute,currentTrend);
+        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map,geocoder,infowindow);
+    }
+}
 function ajaxGetContent(url, routeId, trend) {
     var getUrl = url + "/route/" + routeId;
     $.ajax({
@@ -124,7 +136,8 @@ function parseLng(str) {
     return number;
 }
 
-function callAjax(url, busRoute, trend, directionsService, directionsDisplay, map,geocoder,infowindow) {
+function callAjax(url, routeId, trend, directionsService, directionsDisplay, map,geocoder,infowindow) {
+    let busRoute="route" + routeId;
     $.ajax({
         type: "GET"
         , contentType: "application/json"
