@@ -72,10 +72,8 @@ public class MapController {
 		return reponseJson;
 	}
 	
-	
-	//ahihihi
 	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION,method=RequestMethod.GET)
-	public  String direction(){
+	public String direction(){
 		return "direction_route";
 	}
 	

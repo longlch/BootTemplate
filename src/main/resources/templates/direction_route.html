@@ -1,23 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8"></meta>
-<title>Insert title here</title>
+<meta charset="UTF-8" />
+
 </head>
+
 <body>
-		<!-- content for direction -->
-<div id="content">
-           <div class="row row-eq-height rowClear2">
-						<div class="col-md-12">
-							<div class="btn-group btn-group-justified" role="group">
-								<div class="btn-group" role="group">
-									<button type="button" id="btnGo" class="btn btn-default">Go</button>
-								</div>
-								<div class="btn-group" role="group">
-									<button type="button" id="btnBack" class="btn btn-default">Back</button>
-								</div>
-							</div>
-						</div>
-					</div></div>
+	<!--header-->
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"> <bold>Bus Map Da Nang</bold>
+					</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><span
+						style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;
+					</span></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+							Sign Up</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+							Login</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<!--map-->
+	<div id="map"></div>
+	<!--sidebar-->
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#9776;</a>
+
+		<ul id="dispatch" class="nav nav-tabs nav-justified">
+			<li id="dispatchRoutes" class="active"><a href="#"> <i
+					class="fa fa-search" aria-hidden="true"></i>Routes
+			</a></li>
+			<li id="dispatchDirection"><a href="#"> <i
+					class="glyphicon glyphicon-map-marker"></i>Direction
+			</a></li>
+		</ul>
+
+		<!-- content -->
+		<div id="content">
+            <div class="containter directionDispatcher">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div  class="input-group input-group-sm"> <span class="input-group-addon" id="sizing-addon3">@</span>
+                            <input id="startPoint" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3" value="135 cu chinh lan,da nang"/> </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-group input-group-sm"> <span class="input-group-addon" id="sizing-addon3">@</span>
+                            <input id="endPoint" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3" value="135 le loi,da nang"/> </div>
+                    </div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="button" id="btnSearch" class="btn btn-default">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--it will show direction in detail-->
+            <div id="contentDirection">
+                <div class="containter">
+                    <div class="row row-eq-height rowClear4 route">
+                        <div class="col-md-12"></div>
+                    </div>
+                    <div class="row row-eq-height rowClear4 route">
+                        <div class="col-md-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="../resources/jsMap.js"></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c&amp;callback=initMap"
+		async="async" defer="defer"></script>
 </body>
+
 </html>

@@ -15,21 +15,20 @@ function getBack(url) {
         type: "GET"
         , url: url
         , success: function (data) {
-            var html = jQuery('<body>').html(data);
-            var content = html.find("#content").html();
+            let html = jQuery('<body>').html(data);
+            let content = html.find("#content").html();
             $("#content").html(content);
         }
     });
 }
 function getDirectionContent(url) {
-	let routeUrl=url+"/direction1";
+//	let routeUrl=url+"/";
     $.ajax({
         type: "GET"
-        , url: routeUrl
+        , url: "http://localhost:8080/map/direction1"
         , success: function (data) {
-            var html = jQuery('<body>').html(data);
-            var content = html.find("#content").html();
-            alert("content la"+content);
+        	let html = jQuery('<body>').html(data);
+            let content = html.find("#content").html();
             $("#content").html(content);
         }
     });
