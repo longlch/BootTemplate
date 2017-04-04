@@ -9,15 +9,16 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 
 public class TestGoogleApi {
+//	@autowire
+	static GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyAB2LvImfNA4Z4iZ_Rib15YsLYJR5AOqO8");
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println("get long and lat by geo code");
-		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyAB2LvImfNA4Z4iZ_Rib15YsLYJR5AOqO8");
-		GeocodingResult[] results = GeocodingApi.geocode(context, "1600 Amphitheatre Parkway Mountain View, CA 94043")
-				.await();
+//		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyAB2LvImfNA4Z4iZ_Rib15YsLYJR5AOqO8");
+		GeocodingResult[] results = GeocodingApi.geocode(context, "453 hoang dieu,da nang").await();
 		System.out.println(results[0].geometry.location.lat);
+		System.out.println(results[0].geometry.location.lng);
 		
-		System.out.println("testTextSearchGoogleAPI");
-		testTextSearchGoogleAPI();
 	}
 	private static void testTextSearchGoogleAPI(){
 		RestTemplate restTemplate = new RestTemplate();
@@ -28,6 +29,8 @@ public class TestGoogleApi {
 			System.out.println(jsonArray.getJSONObject(i).get("name"));
 		}
 	}
+	
+
 
 }
 
