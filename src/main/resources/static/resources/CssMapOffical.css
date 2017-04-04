@@ -27,7 +27,7 @@
  
  .sidenav a:hover,
  .offcanvas a:focus {
-     color: darkred;
+     color: green;
  }
  
  .sidenav .closebtn {

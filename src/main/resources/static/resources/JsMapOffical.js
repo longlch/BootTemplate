@@ -22,7 +22,6 @@ function getBack(url) {
     });
 }
 function getDirectionContent(url) {
-	alert("haha");
 	let routeUrl=url+"/direction1";
     $.ajax({
         type: "GET"
