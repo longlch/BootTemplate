@@ -14,6 +14,7 @@ public class HomeController {
 	public String home(@RequestParam(value="name",required=false,defaultValue="Hoang Long")String greeting,Model model){
 		model.addAttribute("haha","hihi");
 		model.addAttribute(greeting);
+		
 		return "home";
 	}
 	

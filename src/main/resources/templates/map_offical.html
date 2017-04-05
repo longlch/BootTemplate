@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="../resources/CssMapOffical.css"></link>
+
+</head>
+
+<body>
+	<!--header-->
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<p class="navbar-brand"><bold>Bus Map Da Nang</bold></p>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><span
+						style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;
+					</span></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a><span class="glyphicon glyphicon-user"></span>
+							Sign Up</a></li>
+					<li><a><span class="glyphicon glyphicon-log-in"></span>
+							Login</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<!--map-->
+	<div id="map"></div>
+	<!--sidebar-->
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#9776;</a>
+		
+		<ul id="dispatch" class="nav nav-tabs nav-justified">
+            <li id="dispatchRoutes" class="active">
+                <a><span class="glyphicon glyphicon-search"></span> Routes</a>
+            </li>
+            <li id="dispatchDirection">
+                <a> <span class="glyphicon glyphicon-map-marker"></span> Direction</a>
+            </li>
+        </ul>
+
+		<!-- content -->
+			<div id="content">
+				<div class="searchBox">
+					<input type="text" class="form-control" placeholder="Username"
+						aria-describedby="sizing-addon2"></input>
+				</div>
+				<div class="containter">
+					<div class="row row-eq-height rowClear">
+						<div class="col-md-2">
+							<p>route</p>
+						</div>
+						<div class="col-md-2">
+							<p class="routeId">5</p>
+						</div>
+						<div class="col-md-8">
+							<p>Nguyen Tat Thanh- Xuan Dieu </p>
+						</div>
+					</div>
+
+					<div class="row row-eq-height rowClear">
+						<div class="col-md-2">
+							<p>route</p>
+						</div>
+						<div class="col-md-2">
+							<p class="routeId">7</p>
+						</div>
+						<div class="col-md-8">
+							<p>Xuan Dieu- Metro</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="../resources/JsMapOffical.js"></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c&amp;callback=initMap"
+		async="async" defer="defer"></script>
+</body>
+
+</html>

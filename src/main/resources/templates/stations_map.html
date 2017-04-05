@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="content">
+		<div class="detailPage" style="">
+			<div class="containter">
+				<div class="row row-eq-height rowClear2">
+					<div class="col-md-2">
+						<button type="button" class="btn btn-default btn-back"
+							aria-label="Left Align">
+							<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+						</button>
+					</div>
+					<div class="col-md-10">
+						<p th:text="${busRoute}">${busRoute}</p>
+					</div>
+				</div>
+
+				<div class="row row-eq-height rowClear2">
+					<div class="col-md-12">
+						<div class="btn-group btn-group-justified" role="group">
+							<div class="btn-group" role="group">
+								<button type="button" id="btnGo" class="btn btn-default">Go</button>
+							</div>
+							<div class="btn-group" role="group">
+								<button type="button" id="btnBack" class="btn btn-default">Back</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="containter">
+			<div class="row row-eq-height rowClear2"
+				th:each="busStop :${busStops}">
+				<div class="col-md-2">
+					<p th:text="${busStop.id}"></p>
+				</div>
+				<div class="col-md-10">
+					<p th:text="${busStop.name}"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
