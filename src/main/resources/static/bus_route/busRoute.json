@@ -1,0 +1,11 @@
+[
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}, 
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}, 
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}, 
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}, 
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}, 
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}, 
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}, 
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}, 
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}, 
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}]

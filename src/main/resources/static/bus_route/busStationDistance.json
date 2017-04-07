@@ -1,0 +1,317 @@
+[
+{"stationFromId":1, "stationToId":2, "distance":1958, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":2, "stationToId":3, "distance":303, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":3, "stationToId":4, "distance":2111, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":4, "stationToId":5, "distance":511, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":5, "stationToId":6, "distance":1026, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":6, "stationToId":7, "distance":3535, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":7, "stationToId":8, "distance":643, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":8, "stationToId":9, "distance":147, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":9, "stationToId":10, "distance":452, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":10, "stationToId":11, "distance":1320, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":11, "stationToId":12, "distance":1573, "busRoute":
+{"turn":true, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":12, "stationToId":11, "distance":995, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":11, "stationToId":13, "distance":305, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":13, "stationToId":14, "distance":758, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":14, "stationToId":15, "distance":1209, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":15, "stationToId":16, "distance":3594, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":16, "stationToId":17, "distance":1014, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":17, "stationToId":18, "distance":686, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":18, "stationToId":19, "distance":1824, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":19, "stationToId":1, "distance":2123, "busRoute":
+{"turn":false, "id":5, "name":"Nguyen Tat Thanh - Xuan Dieu"}}, 
+{"stationFromId":12, "stationToId":11, "distance":995, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":11, "stationToId":13, "distance":305, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":13, "stationToId":20, "distance":105, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":20, "stationToId":21, "distance":255, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":21, "stationToId":22, "distance":354, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":22, "stationToId":23, "distance":429, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":23, "stationToId":24, "distance":733, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":24, "stationToId":25, "distance":120, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":25, "stationToId":26, "distance":1840, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":26, "stationToId":27, "distance":128, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":27, "stationToId":28, "distance":265, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":28, "stationToId":29, "distance":941, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":29, "stationToId":30, "distance":414, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":30, "stationToId":31, "distance":2149, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":31, "stationToId":32, "distance":2225, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":32, "stationToId":33, "distance":532, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":33, "stationToId":34, "distance":468, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":34, "stationToId":35, "distance":1041, "busRoute":
+{"turn":true, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":35, "stationToId":34, "distance":1041, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":34, "stationToId":33, "distance":468, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":33, "stationToId":32, "distance":532, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":32, "stationToId":31, "distance":3038, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":31, "stationToId":30, "distance":3451, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":30, "stationToId":29, "distance":387, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":29, "stationToId":28, "distance":946, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":28, "stationToId":27, "distance":265, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":27, "stationToId":36, "distance":703, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":36, "stationToId":37, "distance":1153, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":37, "stationToId":38, "distance":122, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":38, "stationToId":39, "distance":376, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":39, "stationToId":40, "distance":458, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":40, "stationToId":41, "distance":1713, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":41, "stationToId":12, "distance":988, "busRoute":
+{"turn":false, "id":7, "name":"Xuan Dieu - Metro - Pham Hung"}}, 
+{"stationFromId":42, "stationToId":43, "distance":312, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":43, "stationToId":44, "distance":923, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":44, "stationToId":45, "distance":297, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":45, "stationToId":46, "distance":233, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":46, "stationToId":47, "distance":5735, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":47, "stationToId":48, "distance":566, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":48, "stationToId":49, "distance":3377, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":49, "stationToId":50, "distance":102, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":50, "stationToId":51, "distance":854, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":51, "stationToId":52, "distance":119, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":52, "stationToId":53, "distance":352, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":53, "stationToId":54, "distance":1227, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":54, "stationToId":55, "distance":575, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":55, "stationToId":35, "distance":1468, "busRoute":
+{"turn":true, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":35, "stationToId":55, "distance":1468, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":55, "stationToId":54, "distance":575, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":54, "stationToId":57, "distance":3725, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":57, "stationToId":58, "distance":141, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":58, "stationToId":51, "distance":268, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":51, "stationToId":59, "distance":250, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":59, "stationToId":60, "distance":654, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":60, "stationToId":61, "distance":2854, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":61, "stationToId":62, "distance":7088, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":62, "stationToId":63, "distance":2226, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":63, "stationToId":64, "distance":203, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":64, "stationToId":65, "distance":318, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":65, "stationToId":43, "distance":791, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":43, "stationToId":42, "distance":312, "busRoute":
+{"turn":false, "id":8, "name":"Tho Quang - Pham Hung"}}, 
+{"stationFromId":12, "stationToId":66, "distance":841, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":66, "stationToId":67, "distance":590, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":67, "stationToId":68, "distance":1004, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":68, "stationToId":69, "distance":1126, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":69, "stationToId":70, "distance":404, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":70, "stationToId":71, "distance":482, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":71, "stationToId":72, "distance":508, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":72, "stationToId":73, "distance":474, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":73, "stationToId":74, "distance":768, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":74, "stationToId":75, "distance":316, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":75, "stationToId":76, "distance":525, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":76, "stationToId":77, "distance":408, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":77, "stationToId":78, "distance":753, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":78, "stationToId":79, "distance":564, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":79, "stationToId":80, "distance":300, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":80, "stationToId":81, "distance":519, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":81, "stationToId":82, "distance":871, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":82, "stationToId":83, "distance":1494, "busRoute":
+{"turn":true, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":83, "stationToId":84, "distance":800, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":84, "stationToId":85, "distance":899, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":85, "stationToId":80, "distance":505, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":80, "stationToId":86, "distance":478, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":86, "stationToId":87, "distance":391, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":87, "stationToId":88, "distance":239, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":88, "stationToId":89, "distance":768, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":89, "stationToId":90, "distance":178, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":90, "stationToId":91, "distance":552, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":91, "stationToId":92, "distance":461, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":92, "stationToId":93, "distance":730, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":93, "stationToId":94, "distance":304, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":94, "stationToId":95, "distance":796, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":95, "stationToId":96, "distance":379, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":96, "stationToId":97, "distance":1167, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":97, "stationToId":98, "distance":431, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":98, "stationToId":99, "distance":903, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":99, "stationToId":12, "distance":1121, "busRoute":
+{"turn":false, "id":11, "name":"Xuan Dieu - Lotte Mart"}}, 
+{"stationFromId":100, "stationToId":101, "distance":1107, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":101, "stationToId":102, "distance":871, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":102, "stationToId":103, "distance":1084, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":103, "stationToId":104, "distance":2086, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":104, "stationToId":105, "distance":715, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":105, "stationToId":106, "distance":793, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":106, "stationToId":107, "distance":228, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":107, "stationToId":108, "distance":1562, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":108, "stationToId":12, "distance":2048, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":12, "stationToId":11, "distance":995, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":11, "stationToId":109, "distance":641, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":109, "stationToId":110, "distance":604, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":110, "stationToId":111, "distance":344, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":111, "stationToId":112, "distance":1217, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":112, "stationToId":113, "distance":580, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":113, "stationToId":114, "distance":1302, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":114, "stationToId":115, "distance":1274, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":115, "stationToId":116, "distance":1960, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":116, "stationToId":117, "distance":1449, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":117, "stationToId":118, "distance":470, "busRoute":
+{"turn":true, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":118, "stationToId":117, "distance":470, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":117, "stationToId":119, "distance":1669, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":119, "stationToId":120, "distance":1064, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":120, "stationToId":114, "distance":1826, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":114, "stationToId":121, "distance":734, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":121, "stationToId":122, "distance":1134, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":122, "stationToId":123, "distance":73, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":123, "stationToId":124, "distance":293, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":124, "stationToId":125, "distance":266, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":125, "stationToId":126, "distance":404, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":126, "stationToId":127, "distance":1766, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":127, "stationToId":12, "distance":987, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":12, "stationToId":108, "distance":2040, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":108, "stationToId":106, "distance":1682, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":106, "stationToId":128, "distance":469, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":128, "stationToId":129, "distance":712, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":129, "stationToId":130, "distance":716, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":130, "stationToId":131, "distance":1476, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":131, "stationToId":132, "distance":2080, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":132, "stationToId":133, "distance":868, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}, 
+{"stationFromId":133, "stationToId":100, "distance":1294, "busRoute":
+{"turn":false, "id":12, "name":"Tho Quang - Truong Sa"}}]

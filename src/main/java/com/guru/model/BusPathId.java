@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class WalkingPathId implements Serializable{
+public class BusPathId implements Serializable{
 	
 	/**
 	 * 
@@ -19,8 +19,14 @@ public class WalkingPathId implements Serializable{
 	@Column(name="station_to_id")
 	private int stationToId;
 	
-	public WalkingPathId() {
+	public BusPathId() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public BusPathId(int stationFromId, int stationToId) {
+		super();
+		this.stationFromId = stationFromId;
+		this.stationToId = stationToId;
 	}
 
 	public int getStationFromId() {

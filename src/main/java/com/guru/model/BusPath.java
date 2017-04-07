@@ -1,47 +1,52 @@
 package com.guru.model;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="bus_path")
 public class BusPath {
 
-	private int stationFromId;
-	private int stationToId;
-	private int distance;
-	
+	@EmbeddedId
+	private BusPathId busPathId;
+
+	@ManyToOne
+	@JoinColumn(name="bus_route_id")
+	private BusRoute busRoute;
+
+	@ManyToOne
+	@JoinColumn(name="bus_station_id")
+	private BusStation busStation;
+
 	public BusPath() {
 		// TODO Auto-generated constructor stub
 	}
 	
-
-	public BusPath(int stationFromId, int stationToId, int distance) {
+	public BusPath(BusPathId busPathId, BusRoute busRoute, BusStation busStation) {
 		super();
-		this.stationFromId = stationFromId;
-		this.stationToId = stationToId;
-		this.distance = distance;
+		this.busPathId = busPathId;
+		this.busRoute = busRoute;
+		this.busStation = busStation;
 	}
 
-
-	public int getStationFromId() {
-		return stationFromId;
+	public BusPathId getBusPathId() {
+		return busPathId;
 	}
 
-	public void setStationFromId(int stationFromId) {
-		this.stationFromId = stationFromId;
+	public void setBusPathId(BusPathId busPathId) {
+		this.busPathId = busPathId;
 	}
 
-	public int getStationToId() {
-		return stationToId;
+	public BusRoute getBusRoute() {
+		return busRoute;
 	}
 
-	public void setStationToId(int stationToId) {
-		this.stationToId = stationToId;
+	public void setBusRoute(BusRoute busRoute) {
+		this.busRoute = busRoute;
 	}
-
-	public int getDistance() {
-		return distance;
-	}
-
-	public void setDistance(int distance) {
-		this.distance = distance;
-	}
-
+	
 	
 }
