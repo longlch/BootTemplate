@@ -121,6 +121,7 @@ function ajaxGetContent(url, routeId, trend) {
             var html = jQuery('<body>').html(data);
             var content = html.find("#content").html();
             $("#content").html(content);
+             showMarkerDetail(markers);
         }
     });
 }
@@ -138,7 +139,7 @@ function getBack(url) {
 }
 
 function setMapOnAll(map) {
-    for (var i = 0; i < markers.length; i++) {
+    for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }
@@ -213,7 +214,6 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
             infowindow.open(map, markers[i]);
         });
-        showMarkerDetail(marker);
     }
     directionsService.route({
         origin: new google.maps.LatLng(parseLat(jsonResponse[0].latLng), parseLng(jsonResponse[0].latLng))
@@ -239,15 +239,30 @@ function createMarker(lat, lng, icon, map) {
     });
     return marker;
 }
-function showMarkerDetail(marker){
-    let busStations=$(".busStations");
-    for(let i=0;i<busStations.length;i++){
-        google.maps.event.addDomListener(busStations[i], "click", function (){
-                google.maps.event.trigger(marker, "click");
+function showMarkerDetail(markers){
+    let stationsName=$(".stationsName");
+    for(let j=0;j<stationsName.length;j++){
+        google.maps.event.addDomListener(stationsName[j], "click", function () {
+                google.maps.event.trigger(markers[j], "click");
         });
     }
-    console.log("haha");
 }
+function showMarkerDetail1(markers){
+    let markersLength=markers.length;
+    let stationsName=$(".stationsName");
+    if(markersLength>0 && ( typeof(stationsName) != "underfined") ){
+        for(let j=0;j<stationsName.length;j++){
+        console.log("stations name object "+stationsName[j]);
+            
+        google.maps.event.addDomListener(stationsName[j], "click", function () {
+                google.maps.event.trigger(markers[j], "click");
+        });
+    }
+    }else{
+        alert("ahhihi");
+    }
+}
+
 
 function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
     let latlngStr = latLngObj.split(',', 2);
