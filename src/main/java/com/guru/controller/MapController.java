@@ -57,7 +57,13 @@ public class MapController {
 	public String direction(){
 		return "direction_map";
 	}
-	
+	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION_DETAIL,method=RequestMethod.GET)
+	public @ResponseBody String directionInDetail(@RequestParam(value="startPoint")String startPoint,
+													@RequestParam(value="endPoint")String endPoint){
+		logger.info(startPoint+" "+endPoint);
+		String reponseJson="";
+		return reponseJson;
+	}
 	
 	
 	

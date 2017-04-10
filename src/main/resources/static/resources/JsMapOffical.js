@@ -23,6 +23,7 @@ function getBack(url) {
     });
 }
 
+/*redirect to direction page*/
 function getDirectionContent(url) {
     let routeUrl = url + "/direction";
     $.ajax({
@@ -41,8 +42,8 @@ function initMap() {
     let directionsDisplay = new google.maps.DirectionsRenderer;
     let geocoder = new google.maps.Geocoder;
     let infowindow = new google.maps.InfoWindow;
-    let dispatchRoutes = $("#dispatchRoutes");
-    let dispatchDirection = $("#dispatchDirection");
+    let btnDispatchRoutes = $("#dispatchRoutes");
+    let btnDispatchDirection = $("#dispatchDirection");
     let currentRoute;
     var styledMapType = customizeMap();
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -63,15 +64,17 @@ function initMap() {
         suppressMarkers: true
     });
     /* init event for app */
-    dispatchDirection.click(function () {
-        dispatchRoutes.removeClass("active");
-        dispatchDirection.addClass("active");
+    
+    
+    btnDispatchDirection.click(function () {
+        btnDispatchRoutes.removeClass("active");
+        btnDispatchDirection.addClass("active");
         //call ajax to change content
         getDirectionContent(url);
     });
-    dispatchRoutes.click(function () {
-        dispatchDirection.removeClass("active");
-        dispatchRoutes.addClass("active");
+    btnDispatchRoutes.click(function () {
+        btnDispatchDirection.removeClass("active");
+        btnDispatchRoutes.addClass("active");
         //call ajax
         getBack(url);
     });
@@ -96,6 +99,15 @@ function initMap() {
         currentTrend = "go";
         checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
+    $("body").on("click","#btnSearch",function(event){
+        sendAddress(url,startPoint,endPoint);
+    });
+}
+
+function sendAddress(){
+    let startPoint=$("#startPoint").val();
+    let endPoint=$("#endPoint").val();
+    ajaxDirection(url,startPoint,endPoint) 
 }
 
 function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow) {
@@ -122,6 +134,21 @@ function ajaxGetContent(url, routeId, trend) {
             var content = html.find("#content").html();
             $("#content").html(content);
              showMarkerDetail(markers);
+        }
+    });
+}
+
+function ajaxDirection(url,startPoint,endPoint) {
+    var getUrl = url + "/detail" ;
+    $.ajax({
+        type: "GET"
+        , url: getUrl
+        , data: {
+            startPoint:startPoint,
+            endPoint:endPoint
+        }
+        , success: function (data) {
+            console.log("datat ne "+data);
         }
     });
 }
@@ -247,6 +274,8 @@ function showMarkerDetail(markers){
         });
     }
 }
+
+/*backup if markers = 0*/
 function showMarkerDetail1(markers){
     let markersLength=markers.length;
     let stationsName=$(".stationsName");

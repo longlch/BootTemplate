@@ -7,43 +7,6 @@
 </head>
 
 <body>
-	<!--header-->
-	<header>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#"> <bold>Bus Map Da Nang</bold>
-					</a>
-				</div>
-				<ul class="nav navbar-nav">
-					<li class="active"><span
-						style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;
-					</span></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-							Sign Up</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-							Login</a></li>
-				</ul>
-			</div>
-		</nav>
-	</header>
-	<!--map-->
-	<div id="map"></div>
-	<!--sidebar-->
-	<div id="mySidenav" class="sidenav">
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#9776;</a>
-
-		<ul id="dispatch" class="nav nav-tabs nav-justified">
-			<li id="dispatchRoutes" class="active"><a href="#"> <i
-					class="fa fa-search" aria-hidden="true"></i>Routes
-			</a></li>
-			<li id="dispatchDirection"><a href="#"> <i
-					class="glyphicon glyphicon-map-marker"></i>Direction
-			</a></li>
-		</ul>
-
 		<!-- content -->
 		<div id="content">
             <div class="containter directionDispatcher">
@@ -77,13 +40,6 @@
                 </div>
             </div>
         </div>
-	</div>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="../resources/jsMap.js"></script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c&amp;callback=initMap"
-		async="async" defer="defer"></script>
 </body>
 
 </html>
