@@ -125,4 +125,10 @@
      height: 40px;
     border-bottom: 1px solid #ccc;
  }
+ .stations {
+     display: block;
+     padding:10px 5px;
+     height: 40px;
+    border-bottom: 1px solid #ccc;
+ }
 

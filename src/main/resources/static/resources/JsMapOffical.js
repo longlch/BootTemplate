@@ -10,6 +10,7 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
+
 function getBack(url) {
     $.ajax({
         type: "GET"
@@ -21,13 +22,14 @@ function getBack(url) {
         }
     });
 }
+
 function getDirectionContent(url) {
-	let routeUrl=url+"/direction";
+    let routeUrl = url + "/direction";
     $.ajax({
         type: "GET"
         , url: routeUrl
         , success: function (data) {
-        	let html = jQuery('<body>').html(data);
+            let html = jQuery('<body>').html(data);
             let content = html.find("#content").html();
             $("#content").html(content);
         }
@@ -39,11 +41,9 @@ function initMap() {
     let directionsDisplay = new google.maps.DirectionsRenderer;
     let geocoder = new google.maps.Geocoder;
     let infowindow = new google.maps.InfoWindow;
-    let dispatchRoutes=$("#dispatchRoutes");
-    let dispatchDirection=$("#dispatchDirection");
+    let dispatchRoutes = $("#dispatchRoutes");
+    let dispatchDirection = $("#dispatchDirection");
     let currentRoute;
-    
-    
     var styledMapType = customizeMap();
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
@@ -62,16 +62,14 @@ function initMap() {
     directionsDisplay.setOptions({
         suppressMarkers: true
     });
-    
     /* init event for app */
-    dispatchDirection.click(function(){
+    dispatchDirection.click(function () {
         dispatchRoutes.removeClass("active");
         dispatchDirection.addClass("active");
         //call ajax to change content
         getDirectionContent(url);
-        
     });
-    dispatchRoutes.click(function(){
+    dispatchRoutes.click(function () {
         dispatchDirection.removeClass("active");
         dispatchRoutes.addClass("active");
         //call ajax
@@ -84,32 +82,33 @@ function initMap() {
         clearMarkers();
         markers = [];
         let routeId = $(this).find(".routeId").text();
-        trend="go";
-        currentTrend="go"
+        trend = "go";
+        currentTrend = "go"
         ajaxGetContent(url, routeId, trend);
         currentRoute = routeId;
-        callAjax(url, routeId, trend, directionsService, directionsDisplay, map,geocoder,infowindow);
+        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
     $("body").on("click", "#btnBack", function (event) {
-        currentTrend="back";
-        checkTrend(currentTrend,currentRoute,url,directionsService, directionsDisplay, map,geocoder,infowindow);
+        currentTrend = "back";
+        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
     $("body").on("click", "#btnGo", function (event) {
-        currentTrend="go";
-        checkTrend(currentTrend,currentRoute,url,directionsService, directionsDisplay, map,geocoder,infowindow);
+        currentTrend = "go";
+        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
 }
-function checkTrend(currentTrend,currentRoute,url,directionsService, directionsDisplay, map,geocoder,infowindow){
-    if(currentTrend==trend){
-       
-    }else{
+
+function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow) {
+    if (currentTrend == trend) {}
+    else {
         clearMarkers();
         markers = [];
-        trend=currentTrend;
-        ajaxGetContent(url,currentRoute,currentTrend);
-        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map,geocoder,infowindow);
+        trend = currentTrend;
+        ajaxGetContent(url, currentRoute, currentTrend);
+        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow);
     }
 }
+
 function ajaxGetContent(url, routeId, trend) {
     var getUrl = url + "/route/" + routeId;
     $.ajax({
@@ -162,8 +161,8 @@ function parseLng(str) {
     return number;
 }
 
-function callAjax(url, routeId, trend, directionsService, directionsDisplay, map,geocoder,infowindow) {
-    let busRoute="route" + routeId;
+function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow) {
+    let busRoute = "route" + routeId;
     $.ajax({
         type: "GET"
         , contentType: "application/json"
@@ -175,48 +174,46 @@ function callAjax(url, routeId, trend, directionsService, directionsDisplay, map
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
-            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map,geocoder,infowindow);
+            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow);
         }
     });
 }
 
-function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map,geocoder,infowindow) {
+function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow) {
     // load waypoint from server
-    var totalDataLength = jsonResponse.length;
-    var waypts = [];
-    var totalDataLength = jsonResponse.length;
+    let totalDataLength = jsonResponse.length;
+    let waypts = [];
+    let marker;
+    let startIcon = "https://chart.googleapis.com/chart?chst=d_map_xpin_icon&chld=pin_star|car-dealer|ADDE63|FF0000";
+    let endIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=flag|ADDE63";
+    let wayPointsIcon;
+    let lat;
+    let lng;
     for (let i = 0; i < jsonResponse.length; i++) {
-        let lat = parseLat(jsonResponse[i].latLng);
-        let lng = parseLng(jsonResponse[i].latLng);
+        lat = parseLat(jsonResponse[i].latLng);
+        lng = parseLng(jsonResponse[i].latLng);
+        wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" + (i + 1) + "|FF0000|000000";
         if (i == 0) {
-            markers.push(marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat, lng)
-                , icon: "https://chart.googleapis.com/chart?chst=d_map_xpin_icon&chld=pin_star|car-dealer|ADDE63|FF0000"
-                , map: map
-            }));
+            marker = createMarker(lat, lng, startIcon, map);
+            markers.push(marker);
         }
         else if (i > 0 && i < jsonResponse.length - 1) {
-            markers.push(marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat, lng)
-                , icon: "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" + (i + 1) + "|FF0000|000000"
-                , map: map
-            }));
+            marker = createMarker(lat, lng, wayPointsIcon, map);
+            markers.push(marker);
             waypts.push({
                 location: new google.maps.LatLng(lat, lng)
                 , stopover: true
             });
         }
         else {
-            markers.push(marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat, lng)
-                , icon: "https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=flag|ADDE63"
-                , map: map
-            }));
+            marker = createMarker(lat, lng, endIcon, map);
+            markers.push(marker);
         }
         markers[i].addListener('click', function () {
             geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
             infowindow.open(map, markers[i]);
         });
+        showMarkerDetail(marker);
     }
     directionsService.route({
         origin: new google.maps.LatLng(parseLat(jsonResponse[0].latLng), parseLng(jsonResponse[0].latLng))
@@ -234,6 +231,24 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
     });
 }
 
+function createMarker(lat, lng, icon, map) {
+    let marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat, lng)
+        , icon: icon
+        , map: map
+    });
+    return marker;
+}
+function showMarkerDetail(marker){
+    let busStations=$(".busStations");
+    for(let i=0;i<busStations.length;i++){
+        google.maps.event.addDomListener(busStations[i], "click", function (){
+                google.maps.event.trigger(marker, "click");
+        });
+    }
+    console.log("haha");
+}
+
 function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
     let latlngStr = latLngObj.split(',', 2);
     let latlng = {
@@ -246,7 +261,6 @@ function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
         if (status === 'OK') {
             if (results[0]) {
                 let contentString = '<div id="infoContent" style="height:85px;width:355px">' + '<div id="siteNotice">' + '</div>' + '<div id="bodyContent" >' + '<p><b>Tên trạm dừng:    </b>' + nameStation + '</p>' + '<p><b>Địa chỉ:    </b>' + results[0].formatted_address + '</p>' + '<input style="height:20px;width:341px" type = "button" value = "Thời gian chờ"/>' + '</div>' + '</div>';
-                
                 infowindow.setContent(contentString);
             }
             else {
@@ -258,63 +272,63 @@ function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
         }
     });
 }
- function customizeMap(){
-	 let styledMapType=new google.maps.StyledMapType(
+
+function customizeMap() {
+    let styledMapType = new google.maps.StyledMapType(
 			    [
-		            {
-		                "featureType": "poi"
-		                , "stylers": [
-		                    {
-		                        "color": "#ff3b88"
+            {
+                "featureType": "poi"
+                , "stylers": [
+                    {
+                        "color": "#ff3b88"
 		      }
 		                      , {
-		                        "visibility": "off"
+                        "visibility": "off"
 		      }
 		    ]
 		  }
 		              , {
-		                "featureType": "poi.attraction"
-		                , "stylers": [
-		                    {
-		                        "visibility": "off"
+                "featureType": "poi.attraction"
+                , "stylers": [
+                    {
+                        "visibility": "off"
 		      }
 		    ]
 		  }
 		              , {
-		                "featureType": "poi.government"
-		                , "stylers": [
-		                    {
-		                        "visibility": "off"
+                "featureType": "poi.government"
+                , "stylers": [
+                    {
+                        "visibility": "off"
 		      }
 		    ]
 		  }
 		              , {
-		                "featureType": "poi.medical"
-		                , "stylers": [
-		                    {
-		                        "visibility": "off"
+                "featureType": "poi.medical"
+                , "stylers": [
+                    {
+                        "visibility": "off"
 		      }
 		    ]
 		  }
 		              , {
-		                "featureType": "poi.school"
-		                , "stylers": [
-		                    {
-		                        "visibility": "off"
+                "featureType": "poi.school"
+                , "stylers": [
+                    {
+                        "visibility": "off"
 		      }
 		    ]
 		  }
 		              , {
-		                "featureType": "poi.sports_complex"
-		                , "stylers": [
-		                    {
-		                        "visibility": "off"
+                "featureType": "poi.sports_complex"
+                , "stylers": [
+                    {
+                        "visibility": "off"
 		      }
 		    ]
 		  }
 		], {
-		            name: 'Styled Map'
-		        });
-	 return styledMapType;
- }
-
+            name: 'Styled Map'
+        });
+    return styledMapType;
+}
