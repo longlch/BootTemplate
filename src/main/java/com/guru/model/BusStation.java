@@ -1,98 +1,71 @@
 package com.guru.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="bus_station")
+import java.util.ArrayList;
 public class BusStation {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-	private String name;
-	private double lat; 
-	private double lng;
-	
-    @OneToMany(mappedBy = "busStation", cascade = CascadeType.ALL)
-	private List<WalkingPath> walkingPaths;
-    
-    @OneToMany(mappedBy = "busStation", cascade = CascadeType.ALL)
-    private List<BusPath> busPaths;
-	
-	public BusStation() {
-		// TODO Auto-generated constructor stub
-	}
+	private Integer id;
+    private String name;
+    private Double lat;
+    private Double lng;
+    private ArrayList<BusRoute> busList;
 
-	public BusStation(String name, double lat, double lng, List<WalkingPath> walkingPaths, List<BusPath> busPaths) {
-		super();
-		this.name = name;
-		this.lat = lat;
-		this.lng = lng;
-		this.walkingPaths = walkingPaths;
-		this.busPaths = busPaths;
-	}
+    public BusStation(Integer id, String name, Double lat, Double lng, ArrayList<BusRoute> busList) {
+        this.id = id;
+        this.name = name;
+        this.lat = lat;
+        this.lng = lng;
+        this.busList = busList;
+    }
 
-	public BusStation(String name, double lat, double lng) {
-		super();
-		this.name = name;
-		this.lat = lat;
-		this.lng = lng;
-	}
+    @Override
+    public String toString() {
+        return "\n{'id':" + id + ", 'name':'" + name + "', 'lat':" + lat + ", 'lng':" + lng + ", 'busList':" + busList
+                + "}";
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public double getLat() {
-		return lat;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setLat(double lat) {
-		this.lat = lat;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public double getLng() {
-		return lng;
-	}
+    public Double getLat() {
+        return lat;
+    }
 
-	public void setLng(double lng) {
-		this.lng = lng;
-	}
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
 
-	public List<WalkingPath> getWalkingPaths() {
-		return walkingPaths;
-	}
+    public Double getLng() {
+        return lng;
+    }
 
-	public void setWalkingPaths(List<WalkingPath> walkingPaths) {
-		this.walkingPaths = walkingPaths;
-	}
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
 
-	public List<BusPath> getBusPaths() {
-		return busPaths;
-	}
+    public ArrayList<BusRoute> getBusList() {
+        return busList;
+    }
 
-	public void setBusPaths(List<BusPath> busPaths) {
-		this.busPaths = busPaths;
-	}
+    public void setBusList(ArrayList<BusRoute> busList) {
+        this.busList = busList;
+    }
 
-	public int getId() {
-		return id;
-	}
-	
+    public void addBusRoute(BusRoute busRoute) {
+        this.busList.add(busRoute);
+}	
 	
 	
 	

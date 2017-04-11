@@ -6,44 +6,46 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="walking_path")
 public class WalkingPath {
 	
-	@EmbeddedId
-	private WalkingPathId walkingPathId;
-	private int distance;
-	
-	@ManyToOne
-	@JoinColumn(name="bus_station_id")
-	private BusStation busStation;
-	
-	public WalkingPath() {
-		// TODO Auto-generated constructor stub
-	}
-	public WalkingPath(WalkingPathId walkingPathId, int distance) {
-		super();
-		this.walkingPathId = walkingPathId;
-		this.distance = distance;
-	}
-	public int getDistance() {
-		return distance;
-	}
+    private Integer stationFromId;
+    private Integer stationToId;
+    private Integer distance;
 
-	public void setDistance(int distance) {
-		this.distance = distance;
-	}
-	public WalkingPathId getWalkingPathId() {
-		return walkingPathId;
-	}
-	public void setWalkingPathId(WalkingPathId walkingPathId) {
-		this.walkingPathId = walkingPathId;
-	}
-	public BusStation getBusStation() {
-		return busStation;
-	}
-	public void setBusStation(BusStation busStation) {
-		this.busStation = busStation;
-	}
+    public WalkingPath(Integer stationFromId, Integer stationToId, Integer distance) {
+        this.stationFromId = stationFromId;
+        this.distance = distance;
+        this.stationToId = stationToId;
+    }
+
+    @Override
+    public String toString() {
+        return "WalkingPath [stationFromId=" + stationFromId + ", stationToId=" + stationToId + ", distance=" + distance
+                + "]";
+    }
+
+    public Integer getStationFromId() {
+        return stationFromId;
+    }
+
+    public void setStationFromId(Integer stationFromId) {
+        this.stationFromId = stationFromId;
+    }
+
+    public Integer getStationToId() {
+        return stationToId;
+    }
+
+    public void setStationToId(Integer stationToId) {
+        this.stationToId = stationToId;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+}
 	
 }

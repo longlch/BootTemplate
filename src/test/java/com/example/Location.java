@@ -1,7 +1,7 @@
 package com.example;
 
 public class Location { 
-    private String name;
+	private String name;
     private double longitude;
     private double latitude;   
    
@@ -40,35 +40,10 @@ public class Location {
 
     // test client
     public static void main(String[] args) {
-    	/*double lat1=16.095451;
-		double lng1=108.146206;
-		
-		double lat2=16.084785;
-		double lng2=108.158735;
-		
-		double lng3=108.157655;
-		double lat3=16.08257;
-		
-		double lat4=16.08257;
-		double lng4=108.173516;
-		
-		Location loc1 = new Location("PRINCETON_NJ", lat1, lng2);
-		Location loc2 = new Location("ITHACA_NY",    lat2, lng2);  
-		
-//		Location loc1 = new Location("PRINCETON_NJ", lat2, lng2);
-//		Location loc2 = new Location("ITHACA_NY",    lat3, lng3);  
-		
-//		Location loc1 = new Location("PRINCETON_NJ", lat3, lng3);
-//		Location loc2 = new Location("ITHACA_NY",    lat4, lng4);  
-		
-        double distance = loc1.distanceTo(loc2)* 1.609;
-        System.out.println("%6.3f miles from\n"+ distance);
-        System.out.println(loc1 + " to " + loc2);*/
-        
         Location loc1 = new Location("PRINCETON_NJ", 40.366633, 74.640832);
         Location loc2 = new Location("ITHACA_NY",    42.443087, 76.488707);  
         double distance = loc1.distanceTo(loc2);
-        System.out.println("%6.3f miles from\n"+ distance);
+        System.out.println( distance);
         System.out.println(loc1 + " to " + loc2);
     }
 }
