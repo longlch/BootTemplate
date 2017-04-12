@@ -20,11 +20,5 @@ public class TestMatrixGoogleMapJavaCilent {
 		DistanceMatrix matrix = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations1).await();
 		System.out.println(matrix.rows[0].elements[0].distance.humanReadable);
 		
-		
-/*		DistanceMatrix matrix = DistanceMatrixApi.newRequest(context).origins("135 cu chinh lan,da nang").destinations("466 le duan, da nang")
-															.destinations(destinations).awaitIgnoreError();
-		System.out.println(matrix.rows[0].elements[0].distance);
-*/		
-		
 	}
 }

@@ -1,4 +1,4 @@
-package com.guru.stuff;
+package com.guru.util;
 
 import java.util.List;
 
