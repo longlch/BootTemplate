@@ -14,11 +14,11 @@ public class TestNearlyPoint {
 		double lng3=108.157655;
 		
 		
-		double result=distanceMelesLatLng( 40.366633, 74.640832, 42.443087, 76.488707);
+		double result=distanceMelesLatLng( 36.12 , -86.67, 33.94, -118.4);
 		System.out.println(result*1.609344);
 		double result2=distanceTo( 40.366633, 74.640832, 42.443087, 76.488707);
 		System.out.println(result2*1.609344);
-		double result3=distanceToTruman( 40.366633, 74.640832, 42.443087, 76.488707);
+		double result3=distanceTo( 36.12 , -86.67, 33.94, -118.4);
 		System.out.println(result3*1.609344);
 	}
 	private static double distanceMelesLatLng(double lat1, double lng1, double lat2, double lng2) {
