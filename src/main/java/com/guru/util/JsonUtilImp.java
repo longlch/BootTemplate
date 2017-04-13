@@ -12,15 +12,16 @@ import org.springframework.core.io.Resource;
 
 import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
+import com.guru.model.BusStationDistance;
+import com.guru.model.WalkingPath;
 
-public class JsonUtil implements IJsonUtil {
+public class JsonUtilImp implements IJsonUtil {
 
 	@Override
 	public List<BusStation> getBusStations() {
 		JSONParser parser = new JSONParser();
 		List<BusStation> busStations = new ArrayList<>();
 		List<BusRoute> busRoutes= new ArrayList<>();
-		BusStation busStation;
 		JSONArray jsonRouteArray;
 		int busRouteLength=0;
 		try {
@@ -46,7 +47,6 @@ public class JsonUtil implements IJsonUtil {
 						jsonArray.getJSONObject(i).getString("name"), 
 						jsonArray.getJSONObject(i).getDouble("lat"),
 						jsonArray.getJSONObject(i).getDouble("lng"),busRoutes));
-				System.out.println("id "+i+" "+busRoutes);
 				
 				/*Why busRoute clear here will empty busRoutes[i] in BusStations[i]
 				busRoutes.clear();*/
@@ -59,7 +59,7 @@ public class JsonUtil implements IJsonUtil {
 	}
 
 	@Override
-	public List<BusRoute> getBusRoute() {
+	public List<BusRoute> getBusRoutes() {
 		JSONParser parser = new JSONParser();
 		List<BusRoute> busRoutes = new ArrayList<>();
 		try {
@@ -82,15 +82,14 @@ public class JsonUtil implements IJsonUtil {
 		return null;
 	}
 
-	public static void main(String[] args) {
+	
+
+	@Override
+	public List<BusStationDistance> getBusStationDistances() {
 		JSONParser parser = new JSONParser();
-		List<BusStation> busStations = new ArrayList<>();
-		List<BusRoute> busRoutes= new ArrayList<>();
-		BusStation busStation;
-		JSONArray jsonRouteArray;
-		int busRouteLength=0;
+		List<BusStationDistance> busStDistances= new ArrayList<>();
 		try {
-			Resource resource = new ClassPathResource("static/bus_route/busStation.json");
+			Resource resource = new ClassPathResource("static/bus_route/busStationDistance.json");
 			resource.toString();
 			File file = resource.getFile();
 			Object obj = parser.parse(new FileReader(file.toString()));
@@ -98,31 +97,41 @@ public class JsonUtil implements IJsonUtil {
 			JSONArray jsonArray = new JSONArray(jsonString);
 			
 			for(int i = 0; i < jsonArray.length(); i++){
-				jsonRouteArray=jsonArray.getJSONObject(i).getJSONArray("busList");
-				busRouteLength=jsonRouteArray.length();
-				
-				busRoutes.clear();
-				for(int j=0;j<busRouteLength;j++){
-					BusRoute busRoute=new BusRoute(jsonRouteArray.getJSONObject(j).getBoolean("turn"),
-							jsonRouteArray.getJSONObject(j).getInt("id"),
-							jsonRouteArray.getJSONObject(j).getString("name"));
-					busRoutes.add(busRoute);
-				}
-				
-				busStations.add(new BusStation(jsonArray.getJSONObject(i).getInt("id"),
-						jsonArray.getJSONObject(i).getString("name"), 
-						jsonArray.getJSONObject(i).getDouble("lat"),
-						jsonArray.getJSONObject(i).getDouble("lng"),busRoutes));
-				System.out.println("id "+i+" "+busRoutes);
-				
-				/*Why busRoute clear here will empty busRoutes[i] in BusStations[i]
-				busRoutes.clear();*/
+				busStDistances.add(new BusStationDistance(jsonArray.getJSONObject(i).getInt("stationFromId"),
+						jsonArray.getJSONObject(i).getInt("stationToId"), 
+						jsonArray.getJSONObject(i).getInt("distance"),
+						new BusRoute(jsonArray.getJSONObject(i).getJSONObject("busRoute").getBoolean("turn"),
+								jsonArray.getJSONObject(i).getJSONObject("busRoute").getInt("id"),
+								jsonArray.getJSONObject(i).getJSONObject("busRoute").getString("name"))));
 			}
-			for (BusStation busStation1 : busStations) {
-				System.out.println("hihi"+busStation1.getBusList());
-			}
+			return busStDistances;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	@Override
+	public List<WalkingPath> getWalkingPaths() {
+		JSONParser parser = new JSONParser();
+		List<WalkingPath> walkingPaths= new ArrayList<>();
+		try {
+			Resource resource = new ClassPathResource("static/bus_route/walkingPath.json");
+			resource.toString();
+			File file = resource.getFile();
+			Object obj = parser.parse(new FileReader(file.toString()));
+			String jsonString = obj.toString();
+			JSONArray jsonArray = new JSONArray(jsonString);
+			
+			for (int i = 0; i < jsonArray.length(); i++) {
+				walkingPaths.add(new WalkingPath(jsonArray.getJSONObject(i).getInt("stationFromId"), 
+						jsonArray.getJSONObject(i).getInt("stationToId"),
+						jsonArray.getJSONObject(i).getInt("distance")));
+			}
+			return walkingPaths;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

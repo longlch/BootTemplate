@@ -6,10 +6,10 @@ import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
 
 public class BusDirection {
-	private ArrayList<BusRoute> bRoute = new ArrayList<BusRoute>();
-	private ArrayList<BusStation> bStation = new ArrayList<BusStation>();
-	private ArrayList<BusStationDistance> bDistance = new ArrayList<BusStationDistance>();
-	private ArrayList<WalkingPath> wPath = new ArrayList<WalkingPath>();
+	private List<BusRoute> bRoute = new ArrayList<BusRoute>();
+	private List<BusStation> bStation = new ArrayList<BusStation>();
+	private List<BusStationDistance> bDistance = new ArrayList<BusStationDistance>();
+	private List<WalkingPath> wPath = new ArrayList<WalkingPath>();
 
 	public BusDirection(ArrayList<BusRoute> bRoute, ArrayList<BusStation> bStation,
 			ArrayList<BusStationDistance> bDistance, ArrayList<WalkingPath> wPath) {
