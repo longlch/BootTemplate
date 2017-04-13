@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.maps.DistanceMatrixApi;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
@@ -87,11 +88,40 @@ public class Direction {
 		DistanceMatrix matrix;
 		List<Integer> realDistances= new ArrayList<>();
 		int destinationsLength=destinations.length;
-		int count = 0;
-		System.out.println(nearlyBStations.toString());
+		int nearlyBusStationsLength=nearlyBStations.size();
+		for(int i=0;i<nearlyBStations.size();i++){
+			latLng=nearlyBStations.get(i).getLat()+","+nearlyBStations.get(i).getLng();
+			if(nearlyBusStationsLength <=24 ){
+				destinations=this.addElement(destinations, latLng);
+			}else if(nearlyBusStationsLength <=24 && (i<nearlyBusStationsLength-1) ){
+				System.out.println("come here");
+				matrix = ggMatrix.getDistanceMatrixUser(origins, destinations);
+				for (int j = 0; j < matrix.rows[0].elements.length; j++) {
+					realDistance=(int)matrix.rows[0].elements[i].distance.inMeters;
+					realDistances.add(realDistance);
+				}
+				destinations=new String [] {""};
+//				something wrong here
+			}else if(nearlyBusStationsLength >24 && (destinationsLength==24 || i<nearlyBusStationsLength-1)){
+				matrix = ggMatrix.getDistanceMatrixUser(origins, destinations);
+				for (int j = 0; j < matrix.rows[0].elements.length; j++) {
+					realDistance=(int)matrix.rows[0].elements[i].distance.inMeters;
+					realDistances.add(realDistance);
+				}
+				destinations=new String [] {""};
+			}else{
+				this.addElement(destinations, latLng);
+			}
+		}
+		
+		for(int i=0; i<nearlyBStations.size();i++){
+			routeElements.add(new RouteElement(-1,nearlyBStations.get(i).getId(),
+					realDistances.get(i),0, null));
+		}
+//		Mason code
+		/*int count = 0;
 		for(int i=0, k=nearlyBStations.size(); i < k ; i++){
 			if(count==24 && i<k-1 || count<=24 && i==k-1) {
-				
 				if(latLng.length()>0) destinations = latLng.substring(0, latLng.length()-1).split("|");
 				else this.addElement(destinations, nearlyBStations.get(i).getLat()+", "+nearlyBStations.get(i).getLng());
 				System.out.println(destinations);
@@ -113,7 +143,7 @@ public class Direction {
 		for(int i=0; i<nearlyBStations.size();i++){
 			routeElements.add(new RouteElement(-1,nearlyBStations.get(i).getId(),
 					realDistances.get(i),0, null));
-		}
+		}*/
 		
 		return routeElements;
 	}
