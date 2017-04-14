@@ -13,6 +13,7 @@ import org.springframework.core.io.Resource;
 import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
 import com.guru.model.BusStationDistance;
+import com.guru.model.RouteElement;
 import com.guru.model.WalkingPath;
 
 public class JsonUtilImp implements IJsonUtil {
@@ -133,5 +134,20 @@ public class JsonUtilImp implements IJsonUtil {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<RouteElement> graphRouteElement() {
+		List<RouteElement> routeElements= new ArrayList<>();
+		
+		for (BusStationDistance busStationDistance: this.getBusStationDistances()) {
+			routeElements.add(new RouteElement(busStationDistance.getStationFromId(), busStationDistance.getStationToId(), 0,
+					busStationDistance.getDistance(), busStationDistance.getBusRoute()));
+		}
+		for (WalkingPath wPath :this.getWalkingPaths()) {
+			routeElements.add(new RouteElement(wPath.getStationFromId(), wPath.getStationToId(),
+					wPath.getDistance(), 0, null));
+		}
+		return routeElements;
 	}
 }

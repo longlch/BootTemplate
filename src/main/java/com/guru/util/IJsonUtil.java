@@ -5,6 +5,7 @@ import java.util.List;
 import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
 import com.guru.model.BusStationDistance;
+import com.guru.model.RouteElement;
 import com.guru.model.WalkingPath;
 
 public interface IJsonUtil {
@@ -12,4 +13,6 @@ public interface IJsonUtil {
 	List<BusRoute> getBusRoutes();
 	List<WalkingPath> getWalkingPaths();
 	List<BusStationDistance> getBusStationDistances();
+	
+	List<RouteElement> graphRouteElement();
 }

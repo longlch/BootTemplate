@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.maps.DistanceMatrixApi;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
@@ -13,8 +12,6 @@ import com.guru.model.BusStation;
 import com.guru.model.BusStationDistance;
 import com.guru.model.RouteElement;
 import com.guru.model.WalkingPath;
-import com.guru.util.BusDirection.Edge;
-import com.guru.util.BusDirection.Vertex;
 
 public class Direction {
 
@@ -30,6 +27,7 @@ public class Direction {
 	private List<BusStation> bStations = dataUtil.getBusStations();
 	private List<BusStationDistance> bDistances = dataUtil.getBusStationDistances();
 	private List<WalkingPath> wPaths = dataUtil.getWalkingPaths();
+	private List<RouteElement> grapRouteElement=dataUtil.graphRouteElement();
 
 	public Direction() {
 	}
@@ -181,34 +179,28 @@ public class Direction {
 		return routeElements;
 	}
 
-	// can get data from xml file and place here?
-	private List<RouteElement> createGraph(List<BusStationDistance> bDistances, List<WalkingPath> wPaths) {
-		List<RouteElement> routeElements= new ArrayList<>();
-		for (BusStationDistance busStationDistance: bDistances) {
-			routeElements.add(new RouteElement(busStationDistance.getStationFromId(), busStationDistance.getStationToId(), 0,
-					busStationDistance.getDistance(), busStationDistance.getBusRoute()));
-		}
-		for (WalkingPath wPath : wPaths) {
-			routeElements.add(new RouteElement(wPath.getStationFromId(), wPath.getStationToId(),
-					wPath.getDistance(), 0, null));
-		}
-		return routeElements;
-	}
 	
-	private List<RouteElement> createGraphWithOrignDestination(String originAddress,String destinationAddress,
-			List<RouteElement> graph){
-		graph.addAll(this.routeElementsWithOrigin(originAddress));
-		graph.addAll(this.routeElementsWithDestination(destinationAddress));
-		return graph;
+	// we need to refresh or delete grapRouteElement after using this function
+	private List<RouteElement> createGraphWithOrignDestination(String originAddress,String destinationAddress){
+		grapRouteElement.addAll(this.routeElementsWithOrigin(originAddress));
+		grapRouteElement.addAll(this.routeElementsWithDestination(destinationAddress));
+		return grapRouteElement;
 	}
 	
 	private List<RouteElement> findDirection(String originAddress,String destinationAddress){
-		 ArrayList<RouteElement> direction = new ArrayList<RouteElement>();
+		 ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
+		 List<RouteElement> routeElementsWithOriginDestination=new ArrayList<>();
 		 List<Vertex> vertexes = new ArrayList<Vertex>();
 	     List<Edge> edges = new ArrayList<Edge>();
 	     
+//	     vertexes.add(new Vertex(-1, "Origin", origin.latitude, origin.longitude));
+	     for(BusStation bs: bStations) {
+	            vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
+	     }
+//	     vertexes.add(new Vertex(999, "Destination", destination.latitude, destination.longitude));
 	     
-		return null;
+	     routeElementsWithOriginDestination.addAll(this.createGraphWithOrignDestination(originAddress, destinationAddress));
+		return routeDirection;
 	}
 	public static void main(String[] args) {
 		Direction direction = new Direction();
@@ -219,8 +211,11 @@ public class Direction {
 			System.out.println(routeElement.toString());
 		}*/
 		
-		List<RouteElement> routeElements=direction.createGraph(direction.bDistances, direction.wPaths);
+		List<RouteElement> routeElements=direction.grapRouteElement;
 		int count=0;
-		
+		for (RouteElement routeElement : routeElements) {
+			count++;
+		}
+		System.out.println(count);
 	}
 }
