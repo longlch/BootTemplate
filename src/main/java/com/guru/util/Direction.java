@@ -13,6 +13,8 @@ import com.guru.model.BusStation;
 import com.guru.model.BusStationDistance;
 import com.guru.model.RouteElement;
 import com.guru.model.WalkingPath;
+import com.guru.util.BusDirection.Edge;
+import com.guru.util.BusDirection.Vertex;
 
 public class Direction {
 
@@ -53,11 +55,12 @@ public class Direction {
 		return kilometer * 1000;
 	}
 
-	private  String[] addElement(String[] strArr,String element){
-		strArr=Arrays.copyOf(strArr, strArr.length+1);
-		strArr[strArr.length-1]=element;
+	private String[] addElement(String[] strArr, String element) {
+		strArr = Arrays.copyOf(strArr, strArr.length + 1);
+		strArr[strArr.length - 1] = element;
 		return strArr;
 	}
+
 	private List<RouteElement> routeElementsWithOrigin(String originAddress) {
 		/*
 		 * find the nearly busStation in busStation.json file by lat lng then
@@ -65,119 +68,159 @@ public class Direction {
 		 */
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> nearlyBStations = new ArrayList<>();
-		List<Integer> stationToIds = new ArrayList<>();
-		GeocodingResult[] results=ggMatrix.geocodeFromAddress(originAddress);
-		LatLng originLatLng= new LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng);
-		double distance;
-		
-//		get nearly bus station and it's id
+		GeocodingResult[] results = ggMatrix.geocodeFromAddress(originAddress);
+		LatLng originLatLng = new LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng);
+		double distance = 0;
+
+		// get nearly bus station and it's id
 		for (BusStation busStation : bStations) {
-			distance = this.distanceToMileByLatLng(originLatLng.lat, originLatLng.lng, busStation.getLat(), busStation.getLng());
+			distance = this.distanceToMileByLatLng(originLatLng.lat, originLatLng.lng, busStation.getLat(),
+					busStation.getLng());
 			if (distance < 0.3 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
-		
-//		metter
-		int realDistance=0;
-//		calculate exactly distance from origin to bus
-		String [] destinations= {};
-		String [] origins= {originAddress};
+
+		System.out.println("busStation length " + nearlyBStations.size());
+		// metter
+		int realDistance = 0;
+		// calculate exactly distance from origin to bus
+		String[] destinations = {};
+		String[] origins = { originAddress };
 		String latLng = "";
 		routeElements.add(new RouteElement(-1, -1, 0, 0, null));
 		DistanceMatrix matrix;
-		List<Integer> realDistances= new ArrayList<>();
-		int destinationsLength=destinations.length;
-		int nearlyBusStationsLength=nearlyBStations.size();
-		for(int i=0;i<nearlyBStations.size();i++){
-			latLng=nearlyBStations.get(i).getLat()+","+nearlyBStations.get(i).getLng();
-			if(nearlyBusStationsLength <=24 ){
-				destinations=this.addElement(destinations, latLng);
-			}else if(nearlyBusStationsLength <=24 && (i<nearlyBusStationsLength-1) ){
-				System.out.println("come here");
+		List<Integer> realDistances = new ArrayList<>();
+		int destinationsLength = 0;
+		int nearlyBusStationsLength = nearlyBStations.size();
+		int matrixLength = 0;
+		for (int i = 0; i < nearlyBusStationsLength; i++) {
+			latLng = nearlyBStations.get(i).getLat() + "," + nearlyBStations.get(i).getLng();
+			destinations = this.addElement(destinations, latLng);
+			destinationsLength = destinations.length;
+
+			if (destinationsLength == 100) {
 				matrix = ggMatrix.getDistanceMatrixUser(origins, destinations);
-				for (int j = 0; j < matrix.rows[0].elements.length; j++) {
-					realDistance=(int)matrix.rows[0].elements[i].distance.inMeters;
+				matrixLength = matrix.rows[0].elements.length;
+				for (int j = 0; j < matrixLength; j++) {
+					realDistance = (int) matrix.rows[0].elements[j].distance.inMeters;
 					realDistances.add(realDistance);
 				}
-				destinations=new String [] {""};
-//				something wrong here
-			}else if(nearlyBusStationsLength >24 && (destinationsLength==24 || i<nearlyBusStationsLength-1)){
+				destinations = new String[] {};
+			} else if (destinationsLength < 100 && i == nearlyBusStationsLength - 1) {
 				matrix = ggMatrix.getDistanceMatrixUser(origins, destinations);
-				for (int j = 0; j < matrix.rows[0].elements.length; j++) {
-					realDistance=(int)matrix.rows[0].elements[i].distance.inMeters;
+				matrixLength = matrix.rows[0].elements.length;
+				for (int j = 0; j < matrixLength; j++) {
+					realDistance = (int) matrix.rows[0].elements[j].distance.inMeters;
 					realDistances.add(realDistance);
 				}
-				destinations=new String [] {""};
-			}else{
-				this.addElement(destinations, latLng);
+				destinations = new String[] {};
 			}
 		}
-		
-		for(int i=0; i<nearlyBStations.size();i++){
-			routeElements.add(new RouteElement(-1,nearlyBStations.get(i).getId(),
-					realDistances.get(i),0, null));
+		// add stationToId to Route Element
+		for (int i = 0; i < nearlyBusStationsLength; i++) {
+			routeElements.add(new RouteElement(-1, nearlyBStations.get(i).getId(), realDistances.get(i), 0, null));
 		}
-//		Mason code
-		/*int count = 0;
-		for(int i=0, k=nearlyBStations.size(); i < k ; i++){
-			if(count==24 && i<k-1 || count<=24 && i==k-1) {
-				if(latLng.length()>0) destinations = latLng.substring(0, latLng.length()-1).split("|");
-				else this.addElement(destinations, nearlyBStations.get(i).getLat()+", "+nearlyBStations.get(i).getLng());
-				System.out.println(destinations);
-				matrix= ggMatrix.getDistanceMatrixUser(origins, destinations);
-				for(int j=0;j<matrix.rows[0].elements.length;j++){
-					realDistance=(int)matrix.rows[0].elements[j].distance.inMeters;
-					realDistances.add(realDistance);
-					routeElements.add(new RouteElement(-1, nearlyBStations.get(i-j).getId(), realDistance, 0, null));
-				}
-				count=0;
-				latLng = "";				
-			}
-			else {
-				latLng=latLng+nearlyBStations.get(i).getLat()+", "+nearlyBStations.get(i).getLng()+"|";
-				count++;
-			}
-		}
-		
-		for(int i=0; i<nearlyBStations.size();i++){
-			routeElements.add(new RouteElement(-1,nearlyBStations.get(i).getId(),
-					realDistances.get(i),0, null));
-		}*/
-		
 		return routeElements;
 	}
 
-	public static void main(String[] args) {
-		Direction direction = new Direction();
-		// test init gg matrix object
-		/*
-		 * List<BusStation> busStations= direction.bStation; for (BusStation
-		 * busStation : busStations) {
-		 * System.out.println(busStation.toString()); }
-		 * System.out.println(direction.ggMatrix);
-		 */
-
-		// test distanceToMileByLatLng function
-		/*LatLng origin = new LatLng(16.065331, 108.185810);
+	private List<RouteElement> routeElementsWithDestination(String destinationAddress) {
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> nearlyBStations = new ArrayList<>();
-		double distance;
-		for (BusStation busStation : direction.bStations) {
-			distance = direction.distanceToMileByLatLng(origin.lat, origin.lng, busStation.getLat(),
+		double distance = 0;
+		GeocodingResult[] results = ggMatrix.geocodeFromAddress(destinationAddress);
+		LatLng destinationLatLng = new LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng);
+
+		for (BusStation busStation : bStations) {
+			distance = this.distanceToMileByLatLng(destinationLatLng.lat, destinationLatLng.lng, busStation.getLat(),
 					busStation.getLng());
-			if (distance < 0.3 && distance > 0) {
-				System.out.println("distance" + distance);
+			if (distance < 1 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
-		int count = 0;
-		for (BusStation busStation : nearlyBStations) {
-			System.out.println(++count + " " + busStation.toString());
-		}*/
-		List<RouteElement> routeElements= direction.routeElementsWithOrigin("135 cu chinh lan, da nang");
+		System.out.println("nearly busStation length " + nearlyBStations.size());
+		// caculate a real distance
+		int realDistance = 0;
+		// calculate exactly distance from origin to bus
+		String[] destinations = {};
+		String[] origins = { destinationAddress };
+		String latLng = "";
+		DistanceMatrix matrix;
+		List<Integer> realDistances = new ArrayList<>();
+		int destinationsLength = 0;
+		int nearlyBusStationsLength = nearlyBStations.size();
+		int matrixLength = 0;
+		for (int i = 0; i < nearlyBusStationsLength; i++) {
+			latLng = nearlyBStations.get(i).getLat() + "," + nearlyBStations.get(i).getLng();
+			destinations = this.addElement(destinations, latLng);
+			destinationsLength = destinations.length;
+
+			if (destinationsLength == 100) {
+				matrix = ggMatrix.getDistanceMatrixUser(origins, destinations);
+				matrixLength = matrix.rows[0].elements.length;
+				for (int j = 0; j < matrixLength; j++) {
+					realDistance = (int) matrix.rows[0].elements[j].distance.inMeters;
+					realDistances.add(realDistance);
+				}
+				destinations = new String[] {};
+			} else if (destinationsLength < 100 && i == nearlyBusStationsLength - 1) {
+				matrix = ggMatrix.getDistanceMatrixUser(origins, destinations);
+				matrixLength = matrix.rows[0].elements.length;
+				for (int j = 0; j < matrixLength; j++) {
+					realDistance = (int) matrix.rows[0].elements[j].distance.inMeters;
+					realDistances.add(realDistance);
+				}
+				destinations = new String[] {};
+			}
+		}
+		// add stationToId to Route Element
+		for (int i = 0; i < nearlyBusStationsLength; i++) {
+			routeElements.add(new RouteElement(nearlyBStations.get(i).getId(), 9999, realDistances.get(i), 0, null));
+		}
+		routeElements.add(new RouteElement(-1, 9999, 0, 0, null));
+		return routeElements;
+	}
+
+	// can get data from xml file and place here?
+	private List<RouteElement> createGraph(List<BusStationDistance> bDistances, List<WalkingPath> wPaths) {
+		List<RouteElement> routeElements= new ArrayList<>();
+		for (BusStationDistance busStationDistance: bDistances) {
+			routeElements.add(new RouteElement(busStationDistance.getStationFromId(), busStationDistance.getStationToId(), 0,
+					busStationDistance.getDistance(), busStationDistance.getBusRoute()));
+		}
+		for (WalkingPath wPath : wPaths) {
+			routeElements.add(new RouteElement(wPath.getStationFromId(), wPath.getStationToId(),
+					wPath.getDistance(), 0, null));
+		}
+		return routeElements;
+	}
+	
+	private List<RouteElement> createGraphWithOrignDestination(String originAddress,String destinationAddress,
+			List<RouteElement> graph){
+		graph.addAll(this.routeElementsWithOrigin(originAddress));
+		graph.addAll(this.routeElementsWithDestination(destinationAddress));
+		return graph;
+	}
+	
+	private List<RouteElement> findDirection(String originAddress,String destinationAddress){
+		 ArrayList<RouteElement> direction = new ArrayList<RouteElement>();
+		 List<Vertex> vertexes = new ArrayList<Vertex>();
+	     List<Edge> edges = new ArrayList<Edge>();
+	     
+	     
+		return null;
+	}
+	public static void main(String[] args) {
+		Direction direction = new Direction();
+		
+//		test routeElementsWithDestination()
+/*		List<RouteElement> routeElements = direction.routeElementsWithDestination("135 cu chinh lan, da nang");
 		for (RouteElement routeElement : routeElements) {
 			System.out.println(routeElement.toString());
-		}
+		}*/
+		
+		List<RouteElement> routeElements=direction.createGraph(direction.bDistances, direction.wPaths);
+		int count=0;
+		
 	}
 }

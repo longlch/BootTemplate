@@ -16,20 +16,23 @@ import com.google.maps.model.LatLng;
 
 public class TestMatrixGoogleMapJavaCilent {
 	public static void main(String[] args) throws ApiException, InterruptedException, IOException {
-	/*	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
+		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
 		String[] origins = new String[] { "135 cu chinh lan ,da nang"};
 		String[] destinations1 = new String[] { "16.067056, 108.207089",
 												"16.052675, 108.217832" };
 		DistanceMatrix matrix = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations1).await();
-		System.out.println(matrix.rows[0].elements[1].distance.humanReadable);
-		int a=(int)matrix.rows[0].elements[1].distance.inMeters;
-		System.out.println(a);*/
+		int count;
+		for(int i=0;i<matrix.rows[0].elements.length;i++){
+			count=(int)matrix.rows[0].elements[i].distance.inMeters;
+			System.out.println(count);
+		}
 		
 		/*GeocodingResult[] results = GeocodingApi.geocode(context, "453 hoang dieu,da nang").await();
 			System.out.println(results[0].geometry.location.lat);*/
-		String [] destination= {};
+		
+		/*String [] destination= {};
 		destination=addElement(destination, "haha");
-		System.out.println(destination[0]);
+		System.out.println(destination[0]);*/
 	}
 	
 	private static  String[] addElement(String[] strArr,String element){
