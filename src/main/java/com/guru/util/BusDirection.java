@@ -34,6 +34,7 @@ public class BusDirection {
 	            vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
 	        }
 	        vertexes.add(new Vertex(999, "Destination", destination.latitude, destination.longitude));
+	        
 //			create edges from distance list
 	        for(int i=1; i<list.size(); i++) {
 	            int source=0, des=0;

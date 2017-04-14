@@ -2,6 +2,7 @@ package com.guru.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.maps.model.DistanceMatrix;
@@ -27,7 +28,7 @@ public class Direction {
 	private List<BusStation> bStations = dataUtil.getBusStations();
 	private List<BusStationDistance> bDistances = dataUtil.getBusStationDistances();
 	private List<WalkingPath> wPaths = dataUtil.getWalkingPaths();
-	private List<RouteElement> grapRouteElement=dataUtil.graphRouteElement();
+	private List<RouteElement> grapRouteElement = dataUtil.graphRouteElement();
 
 	public Direction() {
 	}
@@ -59,17 +60,16 @@ public class Direction {
 		return strArr;
 	}
 
-	private List<RouteElement> routeElementsWithOrigin(String originAddress) {
+	private List<RouteElement> routeElementsWithOrigin(LatLng originLatLng) {
 		/*
 		 * find the nearly busStation in busStation.json file by lat lng then
 		 * call Google matrix to calculate excatly distance
 		 */
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> nearlyBStations = new ArrayList<>();
-		GeocodingResult[] results = ggMatrix.geocodeFromAddress(originAddress);
-		LatLng originLatLng = new LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng);
-		double distance = 0;
 
+		// here
+		double distance = 0;
 		// get nearly bus station and it's id
 		for (BusStation busStation : bStations) {
 			distance = this.distanceToMileByLatLng(originLatLng.lat, originLatLng.lng, busStation.getLat(),
@@ -78,15 +78,16 @@ public class Direction {
 				nearlyBStations.add(busStation);
 			}
 		}
-
-		System.out.println("busStation length " + nearlyBStations.size());
+		System.out.println("nearly busStation length with origin " + nearlyBStations.size());
 		// metter
 		int realDistance = 0;
 		// calculate exactly distance from origin to bus
 		String[] destinations = {};
-		String[] origins = { originAddress };
+		// here
+		String originLatLngStr = originLatLng.lat + "," + originLatLng.lng;
+		String[] origins = { originLatLngStr };
+
 		String latLng = "";
-		routeElements.add(new RouteElement(-1, -1, 0, 0, null));
 		DistanceMatrix matrix;
 		List<Integer> realDistances = new ArrayList<>();
 		int destinationsLength = 0;
@@ -122,26 +123,25 @@ public class Direction {
 		return routeElements;
 	}
 
-	private List<RouteElement> routeElementsWithDestination(String destinationAddress) {
+	private List<RouteElement> routeElementsWithDestination(LatLng destinationLatLng) {
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> nearlyBStations = new ArrayList<>();
 		double distance = 0;
-		GeocodingResult[] results = ggMatrix.geocodeFromAddress(destinationAddress);
-		LatLng destinationLatLng = new LatLng(results[0].geometry.location.lat, results[0].geometry.location.lng);
 
 		for (BusStation busStation : bStations) {
 			distance = this.distanceToMileByLatLng(destinationLatLng.lat, destinationLatLng.lng, busStation.getLat(),
 					busStation.getLng());
-			if (distance < 1 && distance > 0) {
+			if (distance < 0.5 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
-		System.out.println("nearly busStation length " + nearlyBStations.size());
+		System.out.println("nearly busStation length with destination " + nearlyBStations.size());
 		// caculate a real distance
 		int realDistance = 0;
 		// calculate exactly distance from origin to bus
+		String destinationLatLngStr = destinationLatLng.lat + "," + destinationLatLng.lng;
 		String[] destinations = {};
-		String[] origins = { destinationAddress };
+		String[] origins = { destinationLatLngStr };
 		String latLng = "";
 		DistanceMatrix matrix;
 		List<Integer> realDistances = new ArrayList<>();
@@ -175,47 +175,106 @@ public class Direction {
 		for (int i = 0; i < nearlyBusStationsLength; i++) {
 			routeElements.add(new RouteElement(nearlyBStations.get(i).getId(), 9999, realDistances.get(i), 0, null));
 		}
-		routeElements.add(new RouteElement(-1, 9999, 0, 0, null));
 		return routeElements;
 	}
 
-	
 	// we need to refresh or delete grapRouteElement after using this function
-	private List<RouteElement> createGraphWithOrignDestination(String originAddress,String destinationAddress){
-		grapRouteElement.addAll(this.routeElementsWithOrigin(originAddress));
-		grapRouteElement.addAll(this.routeElementsWithDestination(destinationAddress));
+	private List<RouteElement> createGraphWithOrignDestination(LatLng originLatLng, LatLng destinationLatLng) {
+		grapRouteElement.addAll(this.routeElementsWithOrigin(originLatLng));
+		grapRouteElement.addAll(this.routeElementsWithDestination(destinationLatLng));
 		return grapRouteElement;
 	}
-	
-	private List<RouteElement> findDirection(String originAddress,String destinationAddress){
-		 ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
-		 List<RouteElement> routeElementsWithOriginDestination=new ArrayList<>();
-		 List<Vertex> vertexes = new ArrayList<Vertex>();
-	     List<Edge> edges = new ArrayList<Edge>();
-	     
-//	     vertexes.add(new Vertex(-1, "Origin", origin.latitude, origin.longitude));
-	     for(BusStation bs: bStations) {
-	            vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
-	     }
-//	     vertexes.add(new Vertex(999, "Destination", destination.latitude, destination.longitude));
-	     
-	     routeElementsWithOriginDestination.addAll(this.createGraphWithOrignDestination(originAddress, destinationAddress));
-		return routeDirection;
-	}
-	public static void main(String[] args) {
-		Direction direction = new Direction();
+
+	private List<RouteElement> findDirection(String originAddress, String destinationAddress) {
+
+		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
+		List<RouteElement> routeElementsWithOriginDestination = new ArrayList<>();
+		List<Vertex> vertexes = new ArrayList<Vertex>();
+		List<Edge> edges = new ArrayList<Edge>();
+
+		// geocode here
+		GeocodingResult[] result = ggMatrix.geocodeFromAddress(originAddress);
+		LatLng originLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
+		result = ggMatrix.geocodeFromAddress(destinationAddress);
+		LatLng destinationLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
+		System.out.println(""+originLatLng.toString());
+		System.out.println(""+destinationLatLng.toString());
 		
-//		test routeElementsWithDestination()
-/*		List<RouteElement> routeElements = direction.routeElementsWithDestination("135 cu chinh lan, da nang");
-		for (RouteElement routeElement : routeElements) {
-			System.out.println(routeElement.toString());
-		}*/
-		
-		List<RouteElement> routeElements=direction.grapRouteElement;
-		int count=0;
-		for (RouteElement routeElement : routeElements) {
+		vertexes.add(new Vertex(-1, "Origin", originLatLng.lat, originLatLng.lng));
+		for (BusStation bs : bStations) {
+			vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
+		}
+		vertexes.add(new Vertex(9999, "Destination", destinationLatLng.lat, destinationLatLng.lng));
+
+		routeElementsWithOriginDestination
+				.addAll(this.createGraphWithOrignDestination(originLatLng, destinationLatLng));
+		int count = 0;
+
+		for (RouteElement route : routeElementsWithOriginDestination) {
 			count++;
 		}
-		System.out.println(count);
+		System.out.println("count " + count);
+		
+		int lengthRouteElementsOriDesti = routeElementsWithOriginDestination.size();
+		for (int i = 1; i < lengthRouteElementsOriDesti; i++) {
+			int source = 0, des = 0;
+			for (Vertex v : vertexes) {
+				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationFromId())source = vertexes.indexOf(v);
+				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationToId())des = vertexes.indexOf(v);
+			}
+			edges.add(new Edge(i - 1 + "", vertexes.get(source), vertexes.get(des),
+					routeElementsWithOriginDestination.get(i).getDistanceOnBus()
+							+ routeElementsWithOriginDestination.get(i).getDistanceWalking()));
+		}
+
+		Graph graph = new Graph(vertexes, edges);
+		DijkstraAlgorithm da = new DijkstraAlgorithm(graph);
+		da.execute(vertexes.get(0));
+		LinkedList<Vertex> path = da.getPath(vertexes.get(vertexes.size() - 1));
+		routeDirection.add(routeElementsWithOriginDestination.get(0));
+		for (int i = 1; i < path.size(); i++) {
+			for (int j = 1; j < routeElementsWithOriginDestination.size(); j++) {
+				if (routeElementsWithOriginDestination.get(j).getStationFromId() == path.get(i - 1).getId()
+						&& routeElementsWithOriginDestination.get(j).getStationToId() == path.get(i).getId()) {
+					routeDirection.add(routeElementsWithOriginDestination.get(j));
+				}
+			}
+		}
+		return routeDirection;
+	}
+
+	public static void main(String[] args) {
+		Direction direction = new Direction();
+		/*int count = 0;
+		// test routeElementsWithDestination()
+		LatLng originLatLng = new LatLng(16.065238, 108.185810);
+		LatLng destinationLatLng = new LatLng(16.065238, 108.185810);
+		 List<RouteElement> routeElements =direction.routeElementsWithOrigin(originLatLng);
+		 for (RouteElement routeElement : routeElements) {
+			System.out.println(routeElement.toString());
+		}
+		 List<RouteElement> routeElements2 =
+		 direction.routeElementsWithDestination(originLatLng);
+		 for (RouteElement routeElement : routeElements2) {
+				System.out.println(routeElement.toString());
+			}*/
+		/*
+		 * List<RouteElement> routeElements =
+		 * direction.createGraphWithOrignDestination(originLatLng,
+		 * destinationLatLng); for (RouteElement routeElement : routeElements) {
+		 * count++; } System.out.println(count);
+		 */
+		/*
+		 * List<RouteElement> routeElements=direction.grapRouteElement;
+		 * 
+		 * for (RouteElement routeElement : routeElements) { count++; }
+		 * System.out.println(count);
+		 */
+		
+		List<RouteElement> routeElementDirection = direction.findDirection("130 cu chinh lan, da nang",
+				"435 hoang dieu,da nang");
+		for (RouteElement routeElement : routeElementDirection) {
+			System.out.println("test "+routeElement);
+		}
 	}
 }

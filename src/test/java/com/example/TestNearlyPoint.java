@@ -15,15 +15,15 @@ public class TestNearlyPoint {
 		
 		
 		double result=distanceMelesLatLng(16.095451,108.146206,16.084785,108.158735);
-//		System.out.println(result);
+		System.out.println(result);
 		
 //		bStation1 to bStation2
-		double result2=distanceTo(16.095451,108.146206,16.084785,108.158735);
-		System.out.println(result2);
+		/*double result2=distanceTo(16.095451,108.146206,16.084785,108.158735);
+		System.out.println(result2);*/
 		
 //		bStation2 to bStation3
-		double result3=distanceTo(16.084785,108.158735,16.08257,108.157655);
-		System.out.println(result3*1.609);
+		double result3=distanceTo(16.095451,108.146206,16.084785,108.158735);
+		System.out.println(result3);
 	}
 	private static double distanceMelesLatLng(double lat1, double lng1, double lat2, double lng2) {
 		double r = 3959;
