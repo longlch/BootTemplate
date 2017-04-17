@@ -42,8 +42,6 @@ function initMap() {
     let directionsDisplay = new google.maps.DirectionsRenderer;
     let geocoder = new google.maps.Geocoder;
     let infowindow = new google.maps.InfoWindow;
-    let btnDispatchRoutes = $("#dispatchRoutes");
-    let btnDispatchDirection = $("#dispatchDirection");
     let currentRoute;
     var styledMapType = customizeMap();
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -66,18 +64,6 @@ function initMap() {
     /* init event for app */
     
     
-    btnDispatchDirection.click(function () {
-        btnDispatchRoutes.removeClass("active");
-        btnDispatchDirection.addClass("active");
-        //call ajax to change content
-        getDirectionContent(url);
-    });
-    btnDispatchRoutes.click(function () {
-        btnDispatchDirection.removeClass("active");
-        btnDispatchRoutes.addClass("active");
-        //call ajax
-        getBack(url);
-    });
     $("body").on("click", ".btn-back", function (event) {
         getBack(url);
     });

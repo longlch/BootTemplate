@@ -32,7 +32,7 @@
  .sidenav .closebtn {
      position: absolute;
      top: 0;
-     right: 25px;
+     right: 20px;
      font-size: 36px;
      margin-left: 50px;
  }
@@ -91,10 +91,16 @@
      display: block;
      padding: 10px 5px;
      height: 40px;
-     border-bottom: 1px solid #ccc;
+     /*border-bottom: 1px solid #ccc;*/
  }
- /*customize color*/
- 
+ .rowClear2 p{
+     color: white;
+     font-size: 16px;
+ }
+.btn-back{
+    color: white;
+}
+
  #mySidenav .nav .active a {
      background-color: #109d59;
  }
@@ -113,7 +119,7 @@
  }
  
  .detailPage {
-     background-color: #C0C0C0;
+     background-color:  #109d59;
  }
  
  .detailPage .btn {
@@ -122,7 +128,7 @@
  
  .directionDispatcher {
      padding: 10px;
-     background-color: #C0C0C0;
+     background-color: #109d59;
  }
  
  .rowClear4 {
@@ -148,4 +154,20 @@
 /*should customize it*/
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: white;
+}
+.btn-default {
+    color: white;
+    background-color: #34b67a;
+    border-radius:0;
+}
+.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: white;
+    text-align: center;
+    background-color:#34b67a;
+    border: 1px solid #ccc;
+    /* border-radius: 4px; */
 }
