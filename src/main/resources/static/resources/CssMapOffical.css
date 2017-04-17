@@ -9,21 +9,20 @@
      z-index: 1;
      top: 0;
      left: 0;
-     background-color: #f8f8f8;
+     background-color: #34b67a;
      overflow-x: hidden;
      transition: 0.5s;
      padding-top: 60px;
  }
  
- .sidenav ul li a{
-    /* padding: 8px 8px 8px 32px;*/
+ .sidenav ul li a {
+     /* padding: 8px 8px 8px 32px;*/
      text-decoration: none;
      font-size: 25px;
-     color: black;
+     color: #f8f8f8;
      display: block;
      transition: 0.3s
  }
-
  
  .sidenav a:hover,
  .offcanvas a:focus {
@@ -82,53 +81,71 @@
  
  .rowClear {
      display: block;
-     padding:10px 5px;
-     border-bottom: 1px solid #ccc;
-    /* margin-bottom: 10px;*/
-     height: 40px;
+     padding: 10px 5px;
      
- }
-
-.rowClear2 {
-     display: block;
-     padding:10px 5px;
+     /* margin-bottom: 10px;*/
      height: 40px;
-    border-bottom: 1px solid #ccc;
+ }
+ 
+ .rowClear2 {
+     display: block;
+     padding: 10px 5px;
+     height: 40px;
+     border-bottom: 1px solid #ccc;
  }
  /*customize color*/
+ 
  #mySidenav .nav .active a {
+     background-color: #109d59;
+ }
+ 
+ #content {
+     /*padding-top: 10px;*/
+     padding-bottom: 10px;
+     background-color:white;
+     height: 90%;
+ }
+ 
+ .searchBox {
+     padding: 10px;
+     background-color: #109d59;
+     /*margin-bottom: 10px;*/
+ }
+ 
+ .detailPage {
      background-color: #C0C0C0;
  }
-#content{
-    /*padding-top: 10px;*/
-    padding-bottom:10px;
-}
-.searchBox{
-    padding:10px;
-    background-color:#C0C0C0;
-    /*margin-bottom: 10px;*/
-}
-.detailPage{
-     background-color:#C0C0C0;
-}
-.detailPage .btn{
-        padding: 0px;
-}
-.directionDispatcher{
-     padding:10px;
-    background-color:#C0C0C0;
-}
-
-.rowClear4 {
-     display: block;
-     padding:10px 5px;
-     height: 40px;
-    border-bottom: 1px solid #ccc;
+ 
+ .detailPage .btn {
+     padding: 0px;
  }
+ 
+ .directionDispatcher {
+     padding: 10px;
+     background-color: #C0C0C0;
+ }
+ 
+ .rowClear4 {
+     display: block;
+     padding: 10px 5px;
+     height: 40px;
+     border-bottom: 1px solid #ccc;
+ }
+ 
  .stations {
      display: block;
-     padding:10px 5px;
+     padding: 10px 5px;
      height: 40px;
-    border-bottom: 1px solid #ccc;
+     border-bottom: 1px solid #ccc;
  }
+.row-bordered:after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid #ccc;
+  margin: 0 15px;
+}
 
+/*should customize it*/
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: white;
+}

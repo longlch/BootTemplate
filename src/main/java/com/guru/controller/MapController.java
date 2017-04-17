@@ -1,10 +1,12 @@
 package com.guru.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.guru.model.BusStation;
 import com.guru.model.BusStop;
-import com.guru.service.IMapService;;
+import com.guru.model.RouteElement;
+import com.guru.service.IMapService;
+import com.guru.util.Direction;;
 
 
 @Controller
@@ -22,6 +27,10 @@ import com.guru.service.IMapService;;
 public class MapController {
 	@Autowired
 	public IMapService serviceMap;
+	
+//	@Autowired
+	public Direction direction = new Direction();
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(MapController.class);
 	
@@ -47,7 +56,6 @@ public class MapController {
 	@RequestMapping(value=MapURL.BUS_STATIONS,method=RequestMethod.GET)
 	public @ResponseBody String drawBusRoute(@RequestParam(value="busRoute")String route,
 												@RequestParam(value="trend") String trend){
-		logger.info(route);
 		String reponseJson="";
 		reponseJson=serviceMap.findBusRoute(route,trend);
 		return reponseJson;
@@ -57,14 +65,36 @@ public class MapController {
 	public String direction(){
 		return "direction_map";
 	}
-	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION_DETAIL,method=RequestMethod.GET)
+	
+	/*@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION_DETAIL,method=RequestMethod.GET)
 	public @ResponseBody String directionInDetail(@RequestParam(value="startPoint")String startPoint,
 													@RequestParam(value="endPoint")String endPoint){
 		logger.info(startPoint+" "+endPoint);
+		
 		String reponseJson="";
 		return reponseJson;
+	}*/
+	
+	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION_DETAIL,method=RequestMethod.GET,
+					produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<BusStation> directionInDetail(@RequestParam(value="startPoint")String startPoint,
+			@RequestParam(value="endPoint")String endPoint){
+		logger.info(startPoint+" "+endPoint);
+		List<BusStation> busStations= new ArrayList<>();
+		double a=12;
+		busStations.add(new BusStation(1,"dfs",a,a,null));
+		return busStations;
 	}
 	
+	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION_SIDE_BAR,method=RequestMethod.GET)
+	public String directionInSideBar(@RequestParam(value="startPoint")String startPoint,
+			@RequestParam(value="endPoint")String endPoint){
+		startPoint=startPoint+", da nang";
+		endPoint=startPoint+", da nang";
+		List<RouteElement> routeElements= direction.findDirection(startPoint, endPoint);
+		
+		return "direction_map";
+	}
 	
 	
 }

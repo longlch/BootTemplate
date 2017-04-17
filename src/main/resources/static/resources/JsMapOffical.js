@@ -148,7 +148,7 @@ function ajaxDirection(url,startPoint,endPoint) {
             endPoint:endPoint
         }
         , success: function (data) {
-            console.log("datat ne "+data);
+            console.log("datat ne "+data[0].name);
         }
     });
 }

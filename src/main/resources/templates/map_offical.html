@@ -12,10 +12,13 @@
 <body>
 	<!--header-->
 	<header>
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default"
+			style="background-color: #34b67a; color: #f8f8f8; border: none">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<p class="navbar-brand"><bold>Bus Map Da Nang</bold></p>
+					<p class="navbar-brand" style="color: #f8f8f8; font-size: 2em">
+						<strong>BUS MAP DA NANG</strong>
+					</p>
 				</div>
 				<ul class="nav navbar-nav">
 					<li class="active"><span
@@ -23,9 +26,12 @@
 					</span></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a><span class="glyphicon glyphicon-user"></span>
+					<!--change <a> tag and glyph icon color  -->
+					<li><a style="color: #f8f8f8"><span
+							class="glyphicon glyphicon-user" style="color: #f8f8f8"></span>
 							Sign Up</a></li>
-					<li><a><span class="glyphicon glyphicon-log-in"></span>
+					<li><a style="color: #f8f8f8"><span
+							class="glyphicon glyphicon-log-in" style="color: #f8f8f8"></span>
 							Login</a></li>
 				</ul>
 			</div>
@@ -35,50 +41,53 @@
 	<div id="map"></div>
 	<!--sidebar-->
 	<div id="mySidenav" class="sidenav">
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#9776;</a>
-		
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+			style="color: #f8f8f8">&#9776;</a>
+
 		<ul id="dispatch" class="nav nav-tabs nav-justified">
-            <li id="dispatchRoutes" class="active">
-                <a><span class="glyphicon glyphicon-search"></span> Routes</a>
-            </li>
-            <li id="dispatchDirection">
-                <a> <span class="glyphicon glyphicon-map-marker"></span> Direction</a>
-            </li>
-        </ul>
+			<li id="dispatchRoutes" class="active"
+				style="cursor: pointer; border: none"><a><span
+					class="glyphicon glyphicon-search"></span> Routes</a></li>
+			<li id="dispatchDirection" style="cursor: pointer; border: none">
+				<a> <span class="glyphicon glyphicon-map-marker"></span>
+					Direction
+			</a>
+			</li>
+		</ul>
 
 		<!-- content -->
-			<div id="content">
-				<div class="searchBox">
-					<input type="text" class="form-control" placeholder="Username"
-						aria-describedby="sizing-addon2"></input>
-				</div>
-				<div class="containter">
-					<div class="row row-eq-height rowClear">
-						<div class="col-md-2">
-							<p>route</p>
-						</div>
-						<div class="col-md-2">
-							<p class="routeId">5</p>
-						</div>
-						<div class="col-md-8">
-							<p>Nguyen Tat Thanh- Xuan Dieu </p>
-						</div>
-					</div>
+		<div id="content">
+			<div class="searchBox">
+				<input type="text" class="form-control" placeholder="Search"
+					aria-describedby="sizing-addon2"></input>
+			</div>
+			<div class="containter">
+				<div class="row row-eq-height rowClear row-bordered">
+                    <div class="col-md-2 col-xs-6">
+                        <p>route</p>
+                    </div>
+                    <div class="col-md-2 col-xs-6">
+                        <p class="routeId">5</p>
+                    </div>
+                    <div class="col-md-8 col-xs-12">
+                        <p>Nguyen Tat Thanh- Xuan Dieu </p>
+                    </div>
+                </div>
 
-					<div class="row row-eq-height rowClear">
-						<div class="col-md-2">
-							<p>route</p>
-						</div>
-						<div class="col-md-2">
-							<p class="routeId">7</p>
-						</div>
-						<div class="col-md-8">
-							<p>Xuan Dieu- Metro</p>
-						</div>
-					</div>
-				</div>
+				<div class="row row-eq-height rowClear row-bordered">
+                    <div class="col-md-2 col-xs-6">
+                        <p>route</p>
+                    </div>
+                    <div class="col-md-2 col-xs-6">
+                        <p class="routeId">7</p>
+                    </div>
+                    <div class="col-md-8 col-xs-12">
+                        <p>Pham Hung- Nguyen Tat Thanh</p>
+                    </div>
+                </div>
 			</div>
 		</div>
+	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="../resources/JsMapOffical.js"></script>
