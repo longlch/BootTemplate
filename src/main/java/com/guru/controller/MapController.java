@@ -19,7 +19,8 @@ import com.guru.model.BusStation;
 import com.guru.model.BusStop;
 import com.guru.model.RouteElement;
 import com.guru.service.IMapService;
-import com.guru.util.Direction;;
+import com.guru.util.Direction;
+import com.guru.util.IJsonUtil;;
 
 
 @Controller
@@ -30,6 +31,9 @@ public class MapController {
 	
 //	@Autowired
 	public Direction direction = new Direction();
+	
+	@Autowired
+	public IJsonUtil serviceJson;
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(MapController.class);

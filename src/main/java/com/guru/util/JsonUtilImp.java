@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
@@ -16,6 +17,7 @@ import com.guru.model.BusStationDistance;
 import com.guru.model.RouteElement;
 import com.guru.model.WalkingPath;
 
+@Service
 public class JsonUtilImp implements IJsonUtil {
 
 	@Override

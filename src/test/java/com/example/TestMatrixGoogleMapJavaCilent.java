@@ -17,7 +17,31 @@ public class TestMatrixGoogleMapJavaCilent {
 		String[] origins = new String[] { "135 cu chinh lan ,da nang"};
 		String[] destinations1 = new String[] { "đội56, 108.207089",
 												"16.052675, 108.217832" };
-		String[] wayPoints= new String[]{"466 le duan,đà nẵng","23 phan thanh,đà nẵng"};
+		String[] wayPoints= new String[]{
+				"49 đường 3/2, Đà Nẵng",
+				"20 Đống Đa, Đà Nẵng",
+				"40 Lê Lợi, Đà Nẵng",
+				"24 Trần Phú, Đà Nẵng",
+				"2 Quang Trung, Đà Nẵng",
+				"126 Lê Lợi, Đà Nẵng",
+				"154 Lê Lợi, Đà Nẵng",
+				"86 Hng Vương, Đà Nẵng",
+				"106 Phan Châu Trinh, Đà Nẵng",
+				"174 Phan Châu Trinh, Đà Nẵng",
+				"391 Phan Châu Trinh, Đà Nẵng",
+				"60 Núi Thành, Đà Nẵng",
+				"161 Nguyễn Tất Thành, Đà nẵng",
+				"62 Lê Thanh Nghị, Đà Nẵng",
+				"108 Phan Đăng Lưu, Đà Nẵng",
+				"Chợ đầu mối Hòa Cường Đà Nẵng", 
+				"Siêu thị Metro, Đà Nẵng", 
+				"64 Cách Mạng Tháng 8, Đà Nẵng", 
+				"178 Cách Mạng Tháng 8, Đà Nẵng",
+				"58 Ông Ích Đường, Đà Nẵng",
+				"166 Ông Ích Đường, Đà Nẵng",
+				"50 Phạm Hùng, Hòa Phước, Đà Nẵng, Đà Nẵng",
+				"182 Pham Hùng, Đà Nẵng",
+				};
 		
 //		Distance matrix
 		/*DistanceMatrix matrix = DistanceMatrixApi.getDistanceMatrix(context, origins, destinations1).await();
@@ -33,11 +57,11 @@ public class TestMatrixGoogleMapJavaCilent {
 
 //		direction with waypoints
 	    DirectionsResult result = DirectionsApi.newRequest(context)
-	    						.origin("135 cu chinh lan,da nang")
-	    						.destination("435 hoang dieu,da nang")
+	    						.origin("Night Sky Hotel, Xuân Diệu Hà Lam,Đà Nẵng")
+	    						.destination("A199 (97) Phạm Hùng, Cẩm Lệ, Đà Nẵng")
 	    						.waypoints(wayPoints).await();
 	    
-	    /*System.out.println(result.routes[0].overviewPolyline.getEncodedPath());*/
+	    System.out.println(result.routes[0].overviewPolyline.getEncodedPath().toString());
 	    int resultLength=result.routes[0].legs.length;
 	    DirectionsLeg dirLeg = null;
 	    for(int i=0;i<resultLength;i++){
