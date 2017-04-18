@@ -1,13 +1,16 @@
 package com.example;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.LatLng;
 import com.guru.model.BusStation;
 
 
@@ -39,7 +42,7 @@ public class TestMatrixGoogleMapJavaCilent {
 				"178 Cách Mạng Tháng 8, Đà Nẵng",
 				"58 Ông Ích Đường, Đà Nẵng",
 				"166 Ông Ích Đường, Đà Nẵng",
-				"50 Phạm Hùng, Hòa Phước, Đà Nẵng, Đà Nẵng",
+				"50 Phạm Hùng, Hòa Phước,Đà Nẵng",
 				"182 Pham Hùng, Đà Nẵng",
 				};
 		
@@ -57,20 +60,18 @@ public class TestMatrixGoogleMapJavaCilent {
 
 //		direction with waypoints
 	    DirectionsResult result = DirectionsApi.newRequest(context)
-	    						.origin("Night Sky Hotel, Xuân Diệu Hà Lam,Đà Nẵng")
+	    						.origin("Night Sky Hotel, Xuân Diệu,Hà Lam,Đà Nẵng")
 	    						.destination("A199 (97) Phạm Hùng, Cẩm Lệ, Đà Nẵng")
 	    						.waypoints(wayPoints).await();
 	    
 	    System.out.println(result.routes[0].overviewPolyline.getEncodedPath().toString());
+	    List<LatLng> latLngs= new ArrayList<>();
 	    int resultLength=result.routes[0].legs.length;
 	    DirectionsLeg dirLeg = null;
 	    for(int i=0;i<resultLength;i++){
-	    	if(i>0 && i<resultLength-1){
 	    		dirLeg=result.routes[0].legs[i];
 	    		System.out.println(dirLeg.startAddress+" to "+dirLeg.endAddress);
 		    	System.out.println(dirLeg.startLocation+","+dirLeg.endLocation);
-	    	}
-	    	
 	    }
 	    
 	}

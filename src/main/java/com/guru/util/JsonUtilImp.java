@@ -3,7 +3,9 @@ package com.guru.util;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -76,7 +78,7 @@ public class JsonUtilImp implements IJsonUtil {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				busRoutes.add(new BusRoute(jsonArray.getJSONObject(i).getBoolean("turn"),
 											jsonArray.getJSONObject(i).getInt("id"), 
-											jsonArray.getJSONObject(i).getString("name")));
+											jsonArray.getJSONObject(i).getString("name"),jsonArray.getJSONObject(i).getString("information")));
 			}
 			return busRoutes;
 		} catch (Exception e) {
@@ -151,5 +153,72 @@ public class JsonUtilImp implements IJsonUtil {
 					wPath.getDistance(), 0, null));
 		}
 		return routeElements;
+	}
+
+	@Override
+	public List<BusStation> getBusStationFromBusRoute(int route,String trend) {
+		JSONParser parser = new JSONParser();
+		int[] busStationIds=null;
+		Boolean turn = Boolean.valueOf(trend);
+		List<BusStation> busStations= new ArrayList<>();
+		try {
+			Resource resource = new ClassPathResource("static/bus_route/busRoute.json");
+			resource.toString();
+			File file = resource.getFile();
+			Object obj = parser.parse(new FileReader(file.toString()));
+			String jsonString = obj.toString();
+			JSONArray jsonArray = new JSONArray(jsonString);
+			
+			for (int i = 0; i < jsonArray.length(); i++) {
+				if(jsonArray.getJSONObject(i).getInt("id") == route){
+					if(turn){
+						busStationIds=this.getStationIds(jsonArray.getJSONObject(i).getJSONArray("wayToGo"));
+						break;
+					}else{
+						i++;
+						busStationIds=this.getStationIds(jsonArray.getJSONObject(i).getJSONArray("wayToReturn"));
+						break;
+					}
+				}
+			}
+			for (int i : busStationIds) {
+				System.out.println("i la "+i);
+				for (BusStation busStation : this.getBusStations()) {
+					if(i==busStation.getId()){
+						busStations.add(busStation);
+						break;
+					}
+				}
+			}
+			/*for (BusStation bs : this.getBusStations()) {
+				for (int i : busStationIds) {
+					if(bs.getId() == i){
+						busStations.add(bs);
+					}
+					
+				}
+			}*/
+			return busStations;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public int[] getStationIds (JSONArray jsonArray){
+		int[] number= new int[jsonArray.length()];
+		for(int i=0;i<jsonArray.length();i++){
+			number[i]=jsonArray.optInt(i);
+		}
+		return number;
+	}
+	
+	public static void main(String[] args) {
+		JsonUtilImp jsObj= new JsonUtilImp();
+//		List<BusStation> busStations=jsObj.getBusStationFromBusRoute(5, "true");
+		List<BusStation> busStations=jsObj.getBusStationFromBusRoute(7, "false");
+		for (BusStation busStation : busStations) {
+			System.out.println(busStation.toString());
+		}
 	}
 }

@@ -15,4 +15,5 @@ public interface IJsonUtil {
 	List<BusStationDistance> getBusStationDistances();
 	
 	List<RouteElement> graphRouteElement();
+	List<BusStation> getBusStationFromBusRoute(int route,String trend);
 }

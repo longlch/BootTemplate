@@ -16,7 +16,15 @@ public class BusRoute {
 	        this.id = id;
 	        this.name = name;
 	    }
-	    public BusRoute(BusRoute b) {
+	    
+	    public BusRoute(boolean turn, Integer id, String name, String information) {
+			super();
+			this.turn = turn;
+			this.id = id;
+			this.name = name;
+			this.information = information;
+		}
+		public BusRoute(BusRoute b) {
 	        this.turn = b.isTurn();
 	        this.id = b.getId();
 	        this.name = b.getName();
