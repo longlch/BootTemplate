@@ -45,59 +45,85 @@
 			style="color: #f8f8f8">&#9776;</a>
 
 		<ul id="dispatch" class="nav nav-tabs nav-justified">
-            <li id="dispatchRoutes" class="active" style="cursor: pointer;border:none">
-                <a href="#routes-tab"><span class="glyphicon glyphicon-search"></span> Routes</a>
-            </li>
-            <li id="dispatchDirection" style="cursor: pointer;border:none">
-                <a href="#directions-tab"> <span class="glyphicon glyphicon-map-marker"></span> Direction</a>
-            </li>
-        </ul>
+			<li id="dispatchRoutes" class="active"
+				style="cursor: pointer; border: none"><a href="#routes-tab"><span
+					class="glyphicon glyphicon-search"></span> Routes</a></li>
+			<li id="dispatchDirection" style="cursor: pointer; border: none">
+				<a href="#directions-tab"> <span
+					class="glyphicon glyphicon-map-marker"></span> Direction
+			</a>
+			</li>
+		</ul>
 
 		<!-- content -->
 		<div id="content">
 			<div class="tab-content">
-                <div id="routes-tab" class="tab-pane fade in active">
-                    <div class="searchBox">
-                        <input type="text" class="form-control" placeholder="Search" aria-describedby="sizing-addon2"></input>
-                    </div>
-                    <div class="containter">
-                        <div class="row row-eq-height rowClear row-bordered">
-                            <div class="col-md-2 col-xs-6">
-                                <p>route</p>
-                            </div>
-                            <div class="col-md-2 col-xs-6">
-                                <p class="routeId">5</p>
-                            </div>
-                            <div class="col-md-8 col-xs-12">
-                                <p>Nguyen Tat Thanh- Xuan Dieu </p>
-                            </div>
-                        </div>
-                    </div>
+				<div id="routes-tab" class="tab-pane fade in active">
+					<div class="searchBox">
+						<input type="text" class="form-control" placeholder="Search"
+							aria-describedby="sizing-addon2"></input>
+					</div>
+					<div class="containter">
+						<div class="row row-eq-height rowClear row-bordered">
+							<div class="col-md-2 col-xs-6">
+								<p>route</p>
+							</div>
+							<div class="col-md-2 col-xs-6">
+								<p class="routeId">5</p>
+							</div>
+							<div class="col-md-8 col-xs-12">
+								<p>Nguyen Tat Thanh- Xuan Dieu</p>
+							</div>
+						</div>
+					</div>
 
-                </div>
+				</div>
 
-                <div id="directions-tab" class="tab-pane fade">
-                    <div class="containter directionDispatcher">
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                <div class="input-group input-group-sm"> <span class="input-group-addon" id="sizing-addon3">@</span>
-                                    <input id="startPoint" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3" value="135 cu chinh lan,da nang" /> </div>
-                            </div>
-                            <div class="col-md-12 col-xs-12">
-                                <div class="input-group input-group-sm"> <span class="input-group-addon" id="sizing-addon3">@</span>
-                                    <input id="endPoint" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3" value="135 le loi,da nang" /> </div>
-                            </div>
-                            <div class="col-md-4 col-md-offset-4 col-xs-12">
-                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <button type="button" id="btnSearch" class="btn btn-default">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+				<div id="directions-tab" class="tab-pane fade">
+					<div class="containter directionDispatcher">
+						<div class="row">
+							<div class="col-md-12 col-xs-12">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon" id="sizing-addon3">@</span> <input
+										id="startPoint" type="text" class="form-control"
+										placeholder="Username" aria-describedby="sizing-addon3"
+										value="135 cu chinh lan,da nang" />
+								</div>
+							</div>
+							<div class="col-md-12 col-xs-12">
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon" id="sizing-addon3">@</span> <input
+										id="endPoint" type="text" class="form-control"
+										placeholder="Username" aria-describedby="sizing-addon3"
+										value="135 le loi,da nang" />
+								</div>
+							</div>
+							<div class="col-md-4 col-md-offset-4 col-xs-offset-4">
+								<div class="btn-group btn-group-sm" role="group"
+									aria-label="...">
+									<div class="btn-group" role="group" aria-label="...">
+										<button type="button" id="btnSearch" class="btn btn-default">Search</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="contentDirection">
+						<div class="containter">
+							<div class="row row-eq-height rowClear4 row-bordered">
+								<div class="col-md-12 col-xs-6">
+									<p>route</p>
+								</div>
+							</div>
+							<div class="row row-eq-height rowClear4 row-bordered">
+								<div class="col-md-12 col-xs-6">
+									<p>route</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script
@@ -107,13 +133,13 @@
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c&amp;callback=initMap"
 		async="async" defer="defer"></script>
-	 <script>
-        //change tab script
-        $('#dispatch a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
-    </script>
+	<script>
+		//change tab script
+		$('#dispatch a').click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
+	</script>
 </body>
 
 </html>
