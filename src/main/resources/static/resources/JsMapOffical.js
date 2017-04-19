@@ -39,8 +39,7 @@ function getDirectionContent(url) {
 
 function initMap() {
     let directionsService = new google.maps.DirectionsService;
-    let directionsDisplay = new google.maps.DirectionsRenderer;
-                            
+    var directionsDisplay=new google.maps.DirectionsRenderer;
     let geocoder = new google.maps.Geocoder;
     let infowindow = new google.maps.InfoWindow;
     let currentRoute;
@@ -58,14 +57,19 @@ function initMap() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-    directionsDisplay.setMap(map);
+   /* directionsDisplay.setMap(map);
     directionsDisplay.setOptions({
         suppressMarkers: true
-    });
+    });*/
     /* init event for app */
     
     
     $("body").on("click", ".btn-back", function (event) {
+        if(directionsDisplay){
+            directionsDisplay.setMap(null);
+            console.log("direction will generate");
+        }
+        alert(directionsDisplay);
         getBack(url);
     });
     $("body").on("click", ".rowClear", function (event) {
@@ -310,21 +314,21 @@ function drawDirection(stations,map,service,directionsDisplay){
         , south: Math.max.apply(null, lats)
     , });
     // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
-    for (var i = 0, parts = [], max = 8 - 1; i < stations.length; i = i + max) parts.push(stations.slice(i, i + max + 1));
+    for (var i = 0, parts = [], max = 25-1; i < stations.length; i = i + max) parts.push(stations.slice(i, i + max + 1));
     // Callback function to process service results
     var service_callback = function (response, status) {
         if (status != 'OK') {
             console.log('Directions request failed due to ' + status);
             return;
         }
-        var renderer = new google.maps.DirectionsRenderer;
-        renderer.setMap(map);
-        renderer.setOptions({
+        
+//        directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsDisplay.setMap(map);
+        directionsDisplay.setOptions({
             suppressMarkers: true
             , preserveViewport: true
         });
-        renderer.setDirections(response);
-//        renderer.setMap(null);
+        directionsDisplay.setDirections(response);
     };
     // Send requests to service to get route (for stations count <= 25 only one request will be sent)
     for (var i = 0; i < parts.length; i++) {
