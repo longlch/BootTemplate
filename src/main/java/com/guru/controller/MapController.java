@@ -50,24 +50,20 @@ public class MapController {
 		// get list bus station
 		// send it into content_map.html
 		String busRoute= serviceMap.getRouteName(id);
-		id="route"+id;
-		List<BusStop> busStops= serviceMap.getBusStops(id, trend);
+		int route=Integer.parseInt(id);
+		List<BusStation> busStations=serviceJson.getBusStationFromBusRoute(route, trend);
 		model.addAttribute("busRoute",busRoute);
-		model.addAttribute("busStops",busStops);
+		model.addAttribute("busStops",busStations);
 		return "stations_map";
 	}
 	
 	@RequestMapping(value=MapURL.BUS_STATIONS,method=RequestMethod.GET)
-	public @ResponseBody String drawBusRoute(@RequestParam(value="busRoute")String route,
+	public @ResponseBody List<BusStation> drawBusRoute(@RequestParam(value="busRoute")String route,
 												@RequestParam(value="trend") String trend){
-		String reponseJson="";
-		reponseJson=serviceMap.findBusRoute(route,trend);
-		return reponseJson;
-	}
-	
-	@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION,method=RequestMethod.GET)
-	public String direction(){
-		return "direction_map";
+		int id=Integer.parseInt(route);
+		logger.info("draw direction");
+		List<BusStation> busStations=serviceJson.getBusStationFromBusRoute(id, trend);
+		return busStations;
 	}
 	
 	/*@RequestMapping(value=MapURL.BUS_ROUTE_DIRECTION_DETAIL,method=RequestMethod.GET)

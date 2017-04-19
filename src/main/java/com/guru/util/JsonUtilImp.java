@@ -182,7 +182,6 @@ public class JsonUtilImp implements IJsonUtil {
 				}
 			}
 			for (int i : busStationIds) {
-				System.out.println("i la "+i);
 				for (BusStation busStation : this.getBusStations()) {
 					if(i==busStation.getId()){
 						busStations.add(busStation);
@@ -190,14 +189,6 @@ public class JsonUtilImp implements IJsonUtil {
 					}
 				}
 			}
-			/*for (BusStation bs : this.getBusStations()) {
-				for (int i : busStationIds) {
-					if(bs.getId() == i){
-						busStations.add(bs);
-					}
-					
-				}
-			}*/
 			return busStations;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -213,12 +204,4 @@ public class JsonUtilImp implements IJsonUtil {
 		return number;
 	}
 	
-	public static void main(String[] args) {
-		JsonUtilImp jsObj= new JsonUtilImp();
-//		List<BusStation> busStations=jsObj.getBusStationFromBusRoute(5, "true");
-		List<BusStation> busStations=jsObj.getBusStationFromBusRoute(7, "false");
-		for (BusStation busStation : busStations) {
-			System.out.println(busStation.toString());
-		}
-	}
 }

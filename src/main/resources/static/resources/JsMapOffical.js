@@ -40,6 +40,7 @@ function getDirectionContent(url) {
 function initMap() {
     let directionsService = new google.maps.DirectionsService;
     let directionsDisplay = new google.maps.DirectionsRenderer;
+                            
     let geocoder = new google.maps.Geocoder;
     let infowindow = new google.maps.InfoWindow;
     let currentRoute;
@@ -71,18 +72,18 @@ function initMap() {
         clearMarkers();
         markers = [];
         let routeId = $(this).find(".routeId").text();
-        trend = "go";
-        currentTrend = "go"
+        trend = "true";
+        currentTrend = "true"
         ajaxGetContent(url, routeId, trend);
         currentRoute = routeId;
         callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
     $("body").on("click", "#btnBack", function (event) {
-        currentTrend = "back";
+        currentTrend = "false";
         checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
     $("body").on("click", "#btnGo", function (event) {
-        currentTrend = "go";
+        currentTrend = "true";
         checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
     $("body").on("click","#btnSearch",function(event){
@@ -176,18 +177,23 @@ function parseLng(str) {
 }
 
 function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow) {
-    let busRoute = "route" + routeId;
+//    let busRoute = "route" + routeId;
     $.ajax({
         type: "GET"
         , contentType: "application/json"
         , url: url + "/ajax"
         , data: {
-            busRoute: busRoute
+            busRoute: routeId
             , trend: trend
         }
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
+            console.log("reponse la "+jsonResponse);
+            for(let j=0;j<jsonResponse.length;j++){
+                console.log(jsonResponse[j]);
+            }
+            
             calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow);
         }
     });
@@ -204,8 +210,8 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
     let lat;
     let lng;
     for (let i = 0; i < jsonResponse.length; i++) {
-        lat = parseLat(jsonResponse[i].latLng);
-        lng = parseLng(jsonResponse[i].latLng);
+        lat =jsonResponse[i].lat;
+        lng = jsonResponse[i].lng;
         wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" + (i + 1) + "|FF0000|000000";
         if (i == 0) {
             marker = createMarker(lat, lng, startIcon, map);
@@ -224,24 +230,12 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             markers.push(marker);
         }
         markers[i].addListener('click', function () {
-            geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
-            infowindow.open(map, markers[i]);
+            alert("haha");
+        /*    geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
+            infowindow.open(map, markers[i]);*/
         });
     }
-    directionsService.route({
-        origin: new google.maps.LatLng(parseLat(jsonResponse[0].latLng), parseLng(jsonResponse[0].latLng))
-        , destination: new google.maps.LatLng(parseLat(jsonResponse[totalDataLength - 1].latLng), parseLng(jsonResponse[totalDataLength - 1].latLng))
-        , waypoints: waypts
-        , optimizeWaypoints: true
-        , travelMode: 'DRIVING'
-    }, function (response, status) {
-        if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-        }
-        else {
-            window.alert('Directions request failed due to ' + status);
-        }
-    });
+    drawDirection(jsonResponse,map,directionsService,directionsDisplay);
 }
 
 function createMarker(lat, lng, icon, map) {
@@ -279,11 +273,10 @@ function showMarkerDetail1(markers){
 }
 
 
-function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
-    let latlngStr = latLngObj.split(',', 2);
+function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
     let latlng = {
-        lat: parseFloat(latlngStr[0])
-        , lng: parseFloat(latlngStr[1])
+        lat: lat1
+        , lng:lng1
     };
     geocoder.geocode({
         'location': latlng
@@ -302,7 +295,56 @@ function geocodeLatLng(geocoder, map, infowindow, latLngObj, nameStation) {
         }
     });
 }
+function drawDirection(stations,map,service,directionsDisplay){
 
+    var lngs = stations.map(function (station) {
+        return station.lng;
+    });
+    var lats = stations.map(function (station) {
+        return station.lat;
+    });
+    map.fitBounds({
+        west: Math.min.apply(null, lngs)
+        , east: Math.max.apply(null, lngs)
+        , north: Math.min.apply(null, lats)
+        , south: Math.max.apply(null, lats)
+    , });
+    // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
+    for (var i = 0, parts = [], max = 8 - 1; i < stations.length; i = i + max) parts.push(stations.slice(i, i + max + 1));
+    // Callback function to process service results
+    var service_callback = function (response, status) {
+        if (status != 'OK') {
+            console.log('Directions request failed due to ' + status);
+            return;
+        }
+        var renderer = new google.maps.DirectionsRenderer;
+        renderer.setMap(map);
+        renderer.setOptions({
+            suppressMarkers: true
+            , preserveViewport: true
+        });
+        renderer.setDirections(response);
+//        renderer.setMap(null);
+    };
+    // Send requests to service to get route (for stations count <= 25 only one request will be sent)
+    for (var i = 0; i < parts.length; i++) {
+        // Waypoints does not include first station (origin) and last station (destination)
+        var waypoints = [];
+        for (var j = 1; j < parts[i].length - 1; j++) waypoints.push({
+            location: parts[i][j]
+            , stopover: false
+        });
+        // Service options
+        var service_options = {
+            origin: parts[i][0]
+            , destination: parts[i][parts[i].length - 1]
+            , waypoints: waypoints
+            , travelMode: 'DRIVING'
+        };
+        // Send request
+        service.route(service_options, service_callback);
+    }
+}
 function customizeMap() {
     let styledMapType = new google.maps.StyledMapType(
 			    [
