@@ -44,6 +44,12 @@ function initMap() {
     let infowindow = new google.maps.InfoWindow;
     let currentRoute;
     var styledMapType = customizeMap();
+    
+    let directionTab=$("#directions-tab").html();
+    let routesTab=$("#routes-tab").html();
+//    console.log(directionTab.html());
+    
+    
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
         , center: {
@@ -67,10 +73,15 @@ function initMap() {
     $("body").on("click", ".btn-back", function (event) {
         if(directionsDisplay){
             directionsDisplay.setMap(null);
-            console.log("direction will generate");
         }
-        alert(directionsDisplay);
-        getBack(url);
+        clearMarkers();
+        $("#content").html(routesTab);
+    });
+    $("#dispatchRoutes").click(function(){
+         $("#content").html(routesTab);
+    });
+    $("#dispatchDirection").click(function(){
+        $("#content").html(directionTab);
     });
     $("body").on("click", ".rowClear", function (event) {
         clearMarkers();
@@ -193,11 +204,6 @@ function callAjax(url, routeId, trend, directionsService, directionsDisplay, map
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
-            console.log("reponse la "+jsonResponse);
-            for(let j=0;j<jsonResponse.length;j++){
-                console.log(jsonResponse[j]);
-            }
-            
             calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow);
         }
     });
