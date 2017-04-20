@@ -240,11 +240,12 @@ public class Direction {
 		}
 		
 //		temp short direction
-		routeDirection=(ArrayList<RouteElement>)this.shortDirection(routeDirection);
+//		routeDirection=(ArrayList<RouteElement>)this.shortDirection(routeDirection);
 		return routeDirection;
 	}
 
 //	temp short direction
+//	cut off busStation have a same id
 	public List<RouteElement> shortDirection(List<RouteElement> routeElements) {
 		int rouEleSize = routeElements.size();
 		List<RouteElement> shortRouEles = new ArrayList<>();
@@ -313,19 +314,15 @@ public class Direction {
 */		 
 
 		
-		  List<RouteElement> routeElementDirection =
+		/*  List<RouteElement> routeElementDirection =
 		  direction.findDirection("435 hoang dieu, da nang",
-		  "163 dung si thanh khe,da nang");
+		  "163 dung si thanh khe,da nang");*/
 		 
 		List<RouteElement> routeElementDirection = direction.findDirection("435 hoang dieu, da nang",
 				"vincom ,da nang");
 		System.out.println("cac tuyen va size la"+routeElementDirection.size());
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement);
-		}
-		List<BusStation> busStations=direction.getBusStation(routeElementDirection);
-		for (BusStation busStation : busStations) {
-			System.out.println(busStation);
 		}
 
 	}
