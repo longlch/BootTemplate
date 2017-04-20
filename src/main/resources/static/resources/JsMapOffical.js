@@ -240,9 +240,8 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             markers.push(marker);
         }
         markers[i].addListener('click', function () {
-            alert("haha");
-        /*    geocodeLatLng(geocoder, map, infowindow, jsonResponse[i].latLng, jsonResponse[i].name);
-            infowindow.open(map, markers[i]);*/
+           geocodeLatLng(geocoder, map, infowindow, lat,lng, jsonResponse[i].name);
+            infowindow.open(map, markers[i]);
         });
     }
     drawDirection(jsonResponse,map,directionsService,directionsDisplay);
@@ -281,8 +280,6 @@ function showMarkerDetail1(markers){
         alert("ahhihi");
     }
 }
-
-
 function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
     let latlng = {
         lat: lat1
