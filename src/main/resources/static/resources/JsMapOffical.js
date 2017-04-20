@@ -224,6 +224,7 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
         lng = jsonResponse[i].lng;
         wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" + (i + 1) + "|FF0000|000000";
         if (i == 0) {
+        	
             marker = createMarker(lat, lng, startIcon, map);
             markers.push(marker);
         }
@@ -240,7 +241,8 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             markers.push(marker);
         }
         markers[i].addListener('click', function () {
-           geocodeLatLng(geocoder, map, infowindow, lat,lng, jsonResponse[i].name);
+        	map.setCenter(markers[i].getPosition());
+           geocodeLatLng(geocoder, map, infowindow,	 lat,lng, jsonResponse[i].name);
             infowindow.open(map, markers[i]);
         });
     }
@@ -252,16 +254,16 @@ function createMarker(lat, lng, icon, map) {
         position: new google.maps.LatLng(lat, lng)
         , icon: icon
         , map: map
-    });
+    });	
     return marker;
 }
 function showMarkerDetail(markers){
-    let stationsName=$(".stationsName");
-    for(let j=0;j<stationsName.length;j++){
-        google.maps.event.addDomListener(stationsName[j], "click", function () {
-                google.maps.event.trigger(markers[j], "click");
-        });
-    }
+	let stationsName = $(".stationsName");
+	for(let j=0;j<stationsName.length;j++){
+		google.maps.event.addDomListener(stationsName[j],"click",function(){
+			google.maps.event.trigger(markers[j],"click");
+		});
+	}
 }
 
 /*backup if markers = 0*/
