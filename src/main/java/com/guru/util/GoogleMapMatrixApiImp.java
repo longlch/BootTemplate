@@ -13,7 +13,8 @@ public class GoogleMapMatrixApiImp implements IGoogleMapMatrixApi{
 	
 //	@Autowired
 //	get data from xml file?
-	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
+//	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
+	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDnbw4_frlqe5ssp_htlKdIeMsJczTNhpc");
 	
 	@Override
 	public DistanceMatrix getDistanceMatrixUser(String[] origins, String[] destinations) {

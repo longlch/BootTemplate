@@ -102,14 +102,15 @@ function initMap() {
         checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
     $("body").on("click","#btnSearch",function(event){
-        sendAddress(url,startPoint,endPoint);
+        sendAddress();
     });
 }
 
 function sendAddress(){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
-    ajaxDirection(url,startPoint,endPoint) 
+    ajaxDirection(url,startPoint,endPoint);
+    sideBarDirection(url,startPoint,endPoint);
 }
 
 function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow) {
@@ -153,6 +154,23 @@ function ajaxDirection(url,startPoint,endPoint) {
             console.log("datat ne "+data[0].name);
         }
     });
+}
+function sideBarDirection(url,startPoint,endPoint) {
+	var getUrl = url + "/direction" ;
+	$.ajax({
+		type: "GET"
+			, url: getUrl
+			, data: {
+				startPoint:startPoint,
+				endPoint:endPoint
+			}
+	, success: function (data) {
+		let html = jQuery('<body>').html(data);
+        let content = html.find("#contentDirection").html();
+        $("#content").html(content);
+         showMarkerDetail(markers);
+	}
+	});
 }
 
 function getBack(url) {

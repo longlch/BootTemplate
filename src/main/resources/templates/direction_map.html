@@ -7,40 +7,73 @@
 </head>
 
 <body>
-		<!-- content -->
-		<div id="content">
-            <div class="containter directionDispatcher">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div  class="input-group input-group-sm"> <span class="input-group-addon" id="sizing-addon3">@</span>
-                            <input id="startPoint" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3" value="135 cu chinh lan,da nang"/> </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="input-group input-group-sm"> <span class="input-group-addon" id="sizing-addon3">@</span>
-                            <input id="endPoint" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3" value="135 le loi,da nang"/> </div>
-                    </div>
-                    <div class="col-md-4 col-md-offset-4">
-                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                            <div class="btn-group" role="group" aria-label="...">
-                                <button type="button" id="btnSearch" class="btn btn-default">Search</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!--it will show direction in detail-->
-            <div id="contentDirection">
-                <div class="containter">
-                    <div class="row row-eq-height rowClear4 route">
-                        <div class="col-md-12"></div>
-                    </div>
-                    <div class="row row-eq-height rowClear4 route">
-                        <div class="col-md-12"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<!-- content -->
+	<div id="content">
+		<div class="containter directionDispatcher">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon" id="sizing-addon3">@</span> <input
+							id="startPoint" type="text" class="form-control"
+							placeholder="Username" aria-describedby="sizing-addon3"
+							value="135 cu chinh lan,da nang" />
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon" id="sizing-addon3">@</span> <input
+							id="endPoint" type="text" class="form-control"
+							placeholder="Username" aria-describedby="sizing-addon3"
+							value="135 le loi,da nang" />
+					</div>
+				</div>
+				<div class="col-md-4 col-md-offset-4">
+					<div class="btn-group btn-group-sm" role="group" aria-label="...">
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" id="btnSearch" class="btn btn-default">Search</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--it will show direction in detail-->
+		<!-- <div id="contentDirection">
+			<div class="containter">
+				<div class="row row-eq-height rowClear4 row-bordered">
+					<div class="col-md-3 col-xs-3">
+						<p>icon</p>
+					</div>
+					<div class="col-md-9 col-xs-6">
+						<p>Direction</p>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div id="contentDirection">
+			<div class="containter">
+				<div class="row row-eq-height rowClear4 row-bordered" th:each="routeElement :${routeElements}">
+				
+					<div class="col-md-3 col-xs-3"> 
+						<b th:if="${routeElement.distanceWalking != 0}">
+						    <p><img src="../resources/walk.png" height="23" width="23"></img></p>
+						</b>
+						<b th:if="${routeElement.distanceOnBus != 0}">
+							<p><img src="../resources/bus.jpg" height="23" width="23"></img></p>
+						</b>
+					</div>
+					<div class="col-md-9 col-xs-6">
+						<b th:if="${routeElement.distanceWalking != 0}">
+						    <p th:text="'take bus '+ ${routeElement.stationToId}+' '" ></p>
+						</b>
+						<b th:if="${routeElement.distanceOnBus != 0}">
+						    <p th:text="'on bus '+ ${routeElement.stationToId}+' '" ></p>
+						</b>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>

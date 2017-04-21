@@ -18,7 +18,8 @@ import com.guru.model.BusStation;
 
 public class TestMatrixGoogleMapJavaCilent {
 	public static void main(String[] args) throws ApiException, InterruptedException, IOException {
-		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
+//		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
+		GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDnbw4_frlqe5ssp_htlKdIeMsJczTNhpc");
 		String[] origins = new String[] { "135 cu chinh lan ,da nang"};
 		String[] destinations1 = new String[] { "16.067350, 108.207132",
 												"16.052675, 108.217832" };
