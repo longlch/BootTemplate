@@ -23,7 +23,7 @@ function getBack(url) {
     });
 }
 
-/*redirect to direction page*/
+/* redirect to direction page */
 function getDirectionContent(url) {
     let routeUrl = url + "/direction";
     $.ajax({
@@ -47,7 +47,7 @@ function initMap() {
     
     let directionTab=$("#directions-tab").html();
     let routesTab=$("#routes-tab").html();
-//    console.log(directionTab.html());
+// console.log(directionTab.html());
     
     
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -63,10 +63,10 @@ function initMap() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-   /* directionsDisplay.setMap(map);
-    directionsDisplay.setOptions({
-        suppressMarkers: true
-    });*/
+   /*
+	 * directionsDisplay.setMap(map); directionsDisplay.setOptions({
+	 * suppressMarkers: true });
+	 */
     /* init event for app */
     
     
@@ -75,13 +75,13 @@ function initMap() {
             directionsDisplay.setMap(null);
         }
         clearMarkers();
-        $("#content").html(routesTab);
+        $("#routes-tab").html(routesTab);
     });
     $("#dispatchRoutes").click(function(){
-         $("#content").html(routesTab);
+// $("#content").html(routesTab);
     });
     $("#dispatchDirection").click(function(){
-        $("#content").html(directionTab);
+// $("#content").html(directionTab);
     });
     $("body").on("click", ".rowClear", function (event) {
         clearMarkers();
@@ -135,7 +135,7 @@ function ajaxGetContent(url, routeId, trend) {
         , success: function (data) {
             var html = jQuery('<body>').html(data);
             var content = html.find("#content").html();
-            $("#content").html(content);
+            $("#routes-tab").html(content);
              showMarkerDetail(markers);
         }
     });
@@ -167,7 +167,7 @@ function sideBarDirection(url,startPoint,endPoint) {
 	, success: function (data) {
 		let html = jQuery('<body>').html(data);
         let content = html.find("#contentDirection").html();
-        $("#content").html(content);
+        $("#direction-content").html(content);
          showMarkerDetail(markers);
 	}
 	});
@@ -210,7 +210,7 @@ function parseLng(str) {
 }
 
 function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow) {
-//    let busRoute = "route" + routeId;
+// let busRoute = "route" + routeId;
     $.ajax({
         type: "GET"
         , contentType: "application/json"
@@ -284,7 +284,7 @@ function showMarkerDetail(markers){
 	}
 }
 
-/*backup if markers = 0*/
+/* backup if markers = 0 */
 function showMarkerDetail1(markers){
     let markersLength=markers.length;
     let stationsName=$(".stationsName");
@@ -336,7 +336,8 @@ function drawDirection(stations,map,service,directionsDisplay){
         , north: Math.min.apply(null, lats)
         , south: Math.max.apply(null, lats)
     , });
-    // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
+    // Divide route to several parts because max stations limit is 25 (23
+	// waypoints + 1 origin + 1 destination)
     for (var i = 0, parts = [], max = 25-1; i < stations.length; i = i + max) parts.push(stations.slice(i, i + max + 1));
     // Callback function to process service results
     var service_callback = function (response, status) {
@@ -345,7 +346,7 @@ function drawDirection(stations,map,service,directionsDisplay){
             return;
         }
         
-//        directionsDisplay = new google.maps.DirectionsRenderer;
+// directionsDisplay = new google.maps.DirectionsRenderer;
         directionsDisplay.setMap(map);
         directionsDisplay.setOptions({
             suppressMarkers: true
@@ -353,9 +354,11 @@ function drawDirection(stations,map,service,directionsDisplay){
         });
         directionsDisplay.setDirections(response);
     };
-    // Send requests to service to get route (for stations count <= 25 only one request will be sent)
+    // Send requests to service to get route (for stations count <= 25 only one
+	// request will be sent)
     for (var i = 0; i < parts.length; i++) {
-        // Waypoints does not include first station (origin) and last station (destination)
+        // Waypoints does not include first station (origin) and last station
+		// (destination)
         var waypoints = [];
         for (var j = 1; j < parts[i].length - 1; j++) waypoints.push({
             location: parts[i][j]
