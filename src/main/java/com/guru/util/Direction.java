@@ -33,7 +33,54 @@ public class Direction {
 
 	public Direction() {
 	}
-
+	
+	public List<RouteElement> minimizeDirection(int numBus,List<RouteElement> direction){
+		ArrayList<RouteElement> list = new ArrayList<>();
+		list.addAll(direction);
+//		System.out.println(list.toString());
+		list = new Node().getRouteWithNumberRoute(numBus, list);
+//		System.out.println(list.toString());
+		list = list != null ? list : null;
+         
+		return list;
+	}
+	
+	public List<RouteElement> modifiedDirection(ArrayList<RouteElement> direction){
+        ArrayList<RouteElement> mdirectionResult= new ArrayList<>();
+        
+		if (direction != null) {
+            for (int i = 0, j = direction.size(); i < j; i++) {
+                if (direction.get(i).getDistanceWalking() > 0) {
+                    if(i < j-1 && direction.get(i + 1).getDistanceWalking() > 0) {
+                        int _from, _to;
+                        int _distance = 0;
+                        _from = direction.get(i).getStationFromId();
+                        while (i <= j-2 && direction.get(i + 1).getDistanceWalking() > 0) {
+                            _distance += direction.get(i).getDistanceWalking();
+                            i++;
+                        }
+                        _distance += direction.get(i).getDistanceWalking();
+                        _to = direction.get(i).getStationToId();
+                        mdirectionResult.add(new RouteElement(_from, _to, _distance, 0, direction.get(i).getBusRoute()));
+                    }
+                    else mdirectionResult.add(direction.get(i));
+                } else if (direction.get(i).getDistanceOnBus() > 0 && direction.get(i).getBusRoute() != null) {
+                    int _from, _to;
+                    int _distance = 0;
+                    _from = direction.get(i).getStationFromId();
+                    while (direction.get(i + 1).getDistanceOnBus() > 0 && direction.get(i).getBusRoute().getId() == direction.get(i + 1).getBusRoute().getId() && direction.get(i).getBusRoute().isTurn() == direction.get(i + 1).getBusRoute().isTurn()) {
+                        _distance += direction.get(i).getDistanceOnBus();
+                        i++;
+                    }
+                    _distance += direction.get(i).getDistanceOnBus();
+                    _to = direction.get(i).getStationToId();
+                    mdirectionResult.add(new RouteElement(_from, _to, 0, _distance, direction.get(i).getBusRoute()));
+                }
+            }
+		}
+		return mdirectionResult;
+	} 
+	
 	public double distanceToMileByLatLng(double lat1, double lng1, double lat2, double lng2) {
 		double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
 		lat1 = Math.toRadians(lat1);
@@ -439,21 +486,22 @@ public class Direction {
 
 /*		List<RouteElement> routeElementDirection = direction.findDirection("435 hoang dieu, da nang",
 				"163 dung si thanh khe,da nang");*/
-		List<RouteElement> routeElementDirection = direction.findDirection("135 cu chinh lan, da nang",
-				"466 le duan,da nang");
+		List<RouteElement> routeElementDirection = direction.findDirection("435 hoang dieu, da nang",
+				"163 dung si thanh khe,da nang");
 		System.out.println("cac tuyen va size la" + routeElementDirection.size());
 		for (RouteElement routeElement : routeElementDirection) {
-			System.out.println(routeElement);
+			System.out.println(routeElement.toString());
 		}
-		System.out.println("short here");
-		directionHint(routeElementDirection);
-		// short direction
-		System.out.println("short here");
-		List<RouteElement> shortRouteDirect = miniDirection2(routeElementDirection);
-		System.out.println(shortRouteDirect.size());
-		for (RouteElement routeElement : shortRouteDirect) {
-			System.out.println(routeElement);
+		System.out.println("after minimie");
+		List<RouteElement> miniRouteElement = direction.minimizeDirection(3, routeElementDirection);
+		System.out.println(miniRouteElement.toString());
+//		for (RouteElement routeElement : miniRouteElement) {
+//			System.out.println(miniRouteElement);
+//		}
+		System.out.println("after modyfined");
+		List<RouteElement> modifineRouteElements=direction.modifiedDirection((ArrayList<RouteElement>)miniRouteElement);
+		for (RouteElement routeElement : modifineRouteElements) {
+			System.out.println(routeElement.toString());
 		}
-
 	}
 }
