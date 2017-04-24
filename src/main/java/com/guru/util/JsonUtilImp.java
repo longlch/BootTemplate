@@ -1,5 +1,7 @@
 package com.guru.util;
 
+import static org.mockito.Matchers.intThat;
+
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class JsonUtilImp implements IJsonUtil {
 	public List<BusStation> getBusStations() {
 		JSONParser parser = new JSONParser();
 		List<BusStation> busStations = new ArrayList<>();
-		List<BusRoute> busRoutes= new ArrayList<>();
+		List<BusRoute> busRoutes;
 		JSONArray jsonRouteArray;
 		int busRouteLength=0;
 		try {
@@ -41,7 +43,8 @@ public class JsonUtilImp implements IJsonUtil {
 				jsonRouteArray=jsonArray.getJSONObject(i).getJSONArray("busList");
 				busRouteLength=jsonRouteArray.length();
 //				when put busRoute.clear() here then nothing happen
-				busRoutes.clear();
+				// alert here, initial too much array list
+				busRoutes= new ArrayList<>();
 				for(int j=0;j<busRouteLength;j++){
 					BusRoute busRoute=new BusRoute(jsonRouteArray.getJSONObject(j).getBoolean("turn"),
 							jsonRouteArray.getJSONObject(j).getInt("id"),
@@ -203,5 +206,20 @@ public class JsonUtilImp implements IJsonUtil {
 		}
 		return number;
 	}
-	
+	public static void main(String[] args) {
+		List<Integer> ls= new ArrayList<>();
+		ls.add(1);
+		ls.add(2);
+		ls.add(3);
+		System.out.println("before");
+		for (Integer integer : ls) {
+			System.out.println(integer);
+		}
+		System.out.println("after");
+		ls.add(0,0);
+		ls.add(4);
+		for (Integer integer : ls) {
+			System.out.println(integer);
+		}
+	}
 }

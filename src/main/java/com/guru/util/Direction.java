@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
@@ -30,6 +29,7 @@ public class Direction {
 	private List<BusStationDistance> bDistances = dataUtil.getBusStationDistances();
 	private List<WalkingPath> wPaths = dataUtil.getWalkingPaths();
 	private List<RouteElement> grapRouteElement = dataUtil.graphRouteElement();
+	public List<BusStation> oriDestiBusStation=new ArrayList<>();
 
 	public Direction() {
 	}
@@ -252,6 +252,12 @@ public class Direction {
 		LatLng destinationLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
 		System.out.println("origin " + originLatLng.lat + "," + originLatLng.lng);
 		System.out.println("desti " + destinationLatLng.lat + "," + destinationLatLng.lng);
+		////////////////////////
+		BusStation bs1= new BusStation(-1,"origin",originLatLng.lat,originLatLng.lng,null);
+		BusStation bs2= new BusStation(9999,"origin",destinationLatLng.lat,destinationLatLng.lng,null);
+		oriDestiBusStation.add(0,bs1);
+		oriDestiBusStation.add(1,bs2);
+		//////////////////
 		vertexes.add(new Vertex(-1, "Origin", originLatLng.lat, originLatLng.lng));
 
 		for (BusStation bs : bStations) {
@@ -363,21 +369,34 @@ public class Direction {
 		return routeDirection;
 	}
 
-	public List<BusStation> getBusStation(List<RouteElement> routeElements) {
+	public List<BusStation> getBusStation(List<RouteElement> routeElements) {	
 		List<Integer> stationIds = new ArrayList<>();
 		List<BusStation> busStations = new ArrayList<>();
+		
 		for (RouteElement routeElement : routeElements) {
-			if (routeElement.getStationFromId() != -1 || routeElement.getStationToId() != 9999) {
+			if (routeElement.getStationFromId() != -1 || routeElement.getStationToId()!= 9999) {
 				stationIds.add(routeElement.getStationFromId());
 			}
 		}
-		for (BusStation busStation : bStations) {
-			for (Integer id : stationIds) {
-				if (busStation.getId() == id) {
-					busStations.add(busStation);
+		stationIds.remove(0);
+
+		for (Integer id : stationIds) {
+				for (BusStation busStation2 : bStations) {
+					if (id == busStation2.getId()) {
+						busStations.add(busStation2);
+						continue;
+					}
 				}
-			}
+				
 		}
+		System.out.println("oriDestiBusStation is "+this.oriDestiBusStation.size());
+	/*	for (int i = 0; i < this.oriDestiBusStation.size()-1; i++) {
+			System.out.println(this.oriDestiBusStation.get(0).toString());
+		}*/
+		
+	/*	busStations.add(0,oriDestiBusStation.get(0));
+		busStations.add(oriDestiBusStation.get(1));*/
+		
 		return busStations;
 	}
 
@@ -408,10 +427,16 @@ public class Direction {
 
 		List<RouteElement> routeElementDirection = direction.directInMap("435 hoang dieu, da nang",
 				"163 dung si thanh khe,da nang", 3);
-		System.out.println("size la "+routeElementDirection.size());
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement);
 		}
+		System.out.println("get bus station");
+		System.out.println(direction.oriDestiBusStation.size());
+		System.out.println(direction.oriDestiBusStation.get(0).getLat());
+		/*List<BusStation> busStations=direction.getBusStation(routeElementDirection);
+		for (BusStation busStation : busStations) {
+			System.out.println(busStation);
+		}*/
 		System.out.println("minimize");
 		/*List<RouteElement> miniMizeRouEle = direction.directInSideBar("435 hoang dieu, da nang",
 				"163 dung si thanh khe,da nang", 3);
