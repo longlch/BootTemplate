@@ -81,7 +81,7 @@ public class MapController {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
 		logger.info("side bar  " + startPoint + " " + endPoint+" "+maxRoute);
-		List<RouteElement> routeElements = direction.findDirection(startPoint, endPoint);
+		List<RouteElement> routeElements = direction.directInSideBar(startPoint,endPoint, maxRoute);
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
 		return "direction_map";

@@ -45,7 +45,7 @@ function initMap() {
     let currentRoute;
     var styledMapType = customizeMap();
     let maxRoute;
-    
+    let routesTab=$("#routes-tab").html();
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
         , center: {
@@ -73,7 +73,7 @@ function initMap() {
         clearMarkers();
         $("#routes-tab").html(routesTab);
     });
-    $(".rowClear").click(function(){
+    $("body").on("click", ".rowClear", function (event) {
     	clearMarkers();
         markers = [];
         let routeId = $(this).find(".routeId").text();
