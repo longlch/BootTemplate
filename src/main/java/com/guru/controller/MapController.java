@@ -63,10 +63,11 @@ public class MapController {
 
 	@RequestMapping(value = MapURL.BUS_ROUTE_DIRECTION_DETAIL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<BusStation> directionInDetail(@RequestParam(value = "startPoint") String startPoint,
-			@RequestParam(value = "endPoint") String endPoint) {
+			@RequestParam(value = "endPoint") String endPoint,
+			@RequestParam(value = "maxRoute")int maxRoute) {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
-		logger.info("reponse json reponse " + startPoint + " " + endPoint);
+		logger.info("reponse json reponse " + startPoint + " " + endPoint+" "+maxRoute);
 		List<BusStation> busStations = new ArrayList<>();
 		double a = 12;
 		busStations.add(new BusStation(1, "dfs", a, a, null));
@@ -75,9 +76,11 @@ public class MapController {
 
 	@RequestMapping(value = MapURL.BUS_ROUTE_DIRECTION_SIDE_BAR, method = RequestMethod.GET)
 	public String directionInSideBar(@RequestParam(value = "startPoint") String startPoint,
-			@RequestParam(value = "endPoint") String endPoint,Model model) {
+			@RequestParam(value = "endPoint") String endPoint,
+			@RequestParam(value = "maxRoute")int maxRoute,Model model) {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
+		logger.info("side bar  " + startPoint + " " + endPoint+" "+maxRoute);
 		List<RouteElement> routeElements = direction.findDirection(startPoint, endPoint);
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());

@@ -44,11 +44,7 @@ function initMap() {
     let infowindow = new google.maps.InfoWindow;
     let currentRoute;
     var styledMapType = customizeMap();
-    
-    let directionTab=$("#directions-tab").html();
-    let routesTab=$("#routes-tab").html();
-// console.log(directionTab.html());
-    
+    let maxRoute;
     
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
@@ -77,14 +73,8 @@ function initMap() {
         clearMarkers();
         $("#routes-tab").html(routesTab);
     });
-    $("#dispatchRoutes").click(function(){
-// $("#content").html(routesTab);
-    });
-    $("#dispatchDirection").click(function(){
-// $("#content").html(directionTab);
-    });
-    $("body").on("click", ".rowClear", function (event) {
-        clearMarkers();
+    $(".rowClear").click(function(){
+    	clearMarkers();
         markers = [];
         let routeId = $(this).find(".routeId").text();
         trend = "true";
@@ -101,16 +91,57 @@ function initMap() {
         currentTrend = "true";
         checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
     });
-    $("body").on("click","#btnSearch",function(event){
-        sendAddress();
+    $("#btnSearch").click(function(){
+    	if (typeof maxRoute=== "undefined") {
+    		sendAddress(2);
+    	}else{
+    		sendAddress(maxRoute);
+    	}
+    });
+    $(".max-route").click(function() {
+    	maxRoute=$(this).val();
     });
 }
 
-function sendAddress(){
+function sendAddress(maxRoute){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
-    ajaxDirection(url,startPoint,endPoint);
-    sideBarDirection(url,startPoint,endPoint);
+    alert(maxRoute);
+    ajaxDirection(url,startPoint,endPoint,maxRoute);
+    sideBarDirection(url,startPoint,endPoint,maxRoute);
+}
+function ajaxDirection(url,startPoint,endPoint,maxRoute) {
+    var getUrl = url + "/detail" ;
+    $.ajax({
+        type: "GET"
+        , url: getUrl
+        , data: {
+            startPoint:startPoint,
+            endPoint:endPoint,
+            maxRoute:maxRoute
+        }
+        , success: function (data) {
+            console.log("datat ne "+data[0].name);
+        }
+    });
+}
+function sideBarDirection(url,startPoint,endPoint,maxRoute) {
+	var getUrl = url + "/direction" ;
+	$.ajax({
+		type: "GET"
+			, url: getUrl
+			, data: {
+				startPoint:startPoint,
+				endPoint:endPoint,
+				maxRoute:maxRoute
+			}
+	, success: function (data) {
+		let html = jQuery('<body>').html(data);
+        let content = html.find("#contentDirection").html();
+        $("#direction-content").html(content);
+         showMarkerDetail(markers);
+	}
+	});
 }
 
 function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow) {
@@ -141,37 +172,8 @@ function ajaxGetContent(url, routeId, trend) {
     });
 }
 
-function ajaxDirection(url,startPoint,endPoint) {
-    var getUrl = url + "/detail" ;
-    $.ajax({
-        type: "GET"
-        , url: getUrl
-        , data: {
-            startPoint:startPoint,
-            endPoint:endPoint
-        }
-        , success: function (data) {
-            console.log("datat ne "+data[0].name);
-        }
-    });
-}
-function sideBarDirection(url,startPoint,endPoint) {
-	var getUrl = url + "/direction" ;
-	$.ajax({
-		type: "GET"
-			, url: getUrl
-			, data: {
-				startPoint:startPoint,
-				endPoint:endPoint
-			}
-	, success: function (data) {
-		let html = jQuery('<body>').html(data);
-        let content = html.find("#contentDirection").html();
-        $("#direction-content").html(content);
-         showMarkerDetail(markers);
-	}
-	});
-}
+
+
 
 function getBack(url) {
     $.ajax({
