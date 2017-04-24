@@ -10,10 +10,12 @@
      top: 0;
      left: 0;
      background-color: #34b67a;
-     overflow-x: hidden;
+   	overflow: hidden;
      transition: 0.5s;
      padding-top: 60px;
+     
  }
+
  
  .sidenav ul li a {
      /* padding: 8px 8px 8px 32px;*/
@@ -108,8 +110,9 @@
      /*padding-top: 10px;*/
      padding-bottom: 10px;
      background-color:white;
-     height: 90%;
+     height: 700px;
  }
+ 
  
  .searchBox {
      padding: 10px;
@@ -119,10 +122,19 @@
  
  .detailPage {
      background-color:  #109d59;
+     overflow: hidden;
+     height: 80px;
+     
  }
+ .containter{
+	overflow-x:hidden;
+	overflow-y:auto;
+	height: 400px;
+ 	 }
  
  .detailPage .btn {
      padding: 0px;
+     overflow: hidden;
  }
  
  .directionDispatcher {

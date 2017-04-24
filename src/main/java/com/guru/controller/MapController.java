@@ -68,7 +68,9 @@ public class MapController {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
 		logger.info("reponse json reponse " + startPoint + " " + endPoint+" "+maxRoute);
-		List<BusStation> busStations = new ArrayList<>();
+		/*List<RouteElement> rouEleTemp= direction.directInMap(startPoint, endPoint, maxRoute);
+		List<BusStation> busStations=direction.getBusStation(rouEleTemp);*/
+		List<BusStation> busStations= new ArrayList<>();
 		double a = 12;
 		busStations.add(new BusStation(1, "dfs", a, a, null));
 		return busStations;
@@ -80,7 +82,6 @@ public class MapController {
 			@RequestParam(value = "maxRoute")int maxRoute,Model model) {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
-		logger.info("side bar  " + startPoint + " " + endPoint+" "+maxRoute);
 		List<RouteElement> routeElements = direction.directInSideBar(startPoint,endPoint, maxRoute);
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
