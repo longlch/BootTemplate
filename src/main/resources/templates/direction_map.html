@@ -52,7 +52,8 @@
 		</div> -->
 		<div id="contentDirection">
 			<div class="containter">
-				<div class="row row-eq-height rowClear4 row-bordered" th:each="routeElement :${routeElements}">
+				<div th:if="${size != 0}" >
+					<div class="row row-eq-height rowClear4 row-bordered" th:each="routeElement :${routeElements}">
 				
 					<div class="col-md-1 col-xs-3"> 
 						<b th:if="${routeElement.distanceWalking != 0}">
@@ -73,6 +74,16 @@
 						</b>
 					</div>
 				</div>
+				</div>
+				<div th:if="${size == 0}" >
+					<div class="row row-eq-height rowClear4 row-bordered">
+						<div class="col-md-10 col-xs-3">
+							<i>Max bus change's option up to one for optimize result</i>
+							<b th:text="'Click option '+ ${maxRoute+1}+' '" ></b>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>

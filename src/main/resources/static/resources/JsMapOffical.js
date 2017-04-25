@@ -2,6 +2,9 @@ var markers = [];
 var url = window.location.href;
 var trend;
 var currentTrend;
+var renderList=[];
+var busLine;
+var walkLine;
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "30%";
@@ -46,6 +49,9 @@ function initMap() {
     var styledMapType = customizeMap();
     let maxRoute;
     let routesTab=$("#routes-tab").html();
+    
+    walkLine = '#FF0000';
+    busLine =' #00e600';
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
         , center: {
@@ -59,18 +65,11 @@ function initMap() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-   /*
-	 * directionsDisplay.setMap(map); directionsDisplay.setOptions({
-	 * suppressMarkers: true });
-	 */
-    /* init event for app */
-    
     
     $("body").on("click", ".btn-back", function (event) {
-        if(directionsDisplay){
-            directionsDisplay.setMap(null);
-        }
         clearMarkers();
+        clearPolyline(renderList);
+        renderList=[];
         $("#routes-tab").html(routesTab);
     });
     $("body").on("click", ".rowClear", function (event) {
@@ -81,15 +80,15 @@ function initMap() {
         currentTrend = "true"
         ajaxGetContent(url, routeId, trend);
         currentRoute = routeId;
-        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow);
+        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
     });
     $("body").on("click", "#btnBack", function (event) {
         currentTrend = "false";
-        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
+        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
     });
     $("body").on("click", "#btnGo", function (event) {
         currentTrend = "true";
-        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow);
+        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
     });
     $("#btnSearch").click(function(){
     	if (typeof maxRoute=== "undefined") {
@@ -102,11 +101,15 @@ function initMap() {
     	maxRoute=$(this).val();
     });
 }
+function clearPolyline(renderList){
+    for(let i=0;i<renderList.length;i++){
+        renderList[i].setMap(null);
+    }
+}
 
 function sendAddress(maxRoute){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
-    alert(maxRoute);
     ajaxDirection(url,startPoint,endPoint,maxRoute);
     sideBarDirection(url,startPoint,endPoint,maxRoute);
 }
@@ -121,10 +124,18 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute) {
             maxRoute:maxRoute
         }
         , success: function (data) {
-            console.log("datat ne "+data[0].name);
+            // create a function to process it
+            console.log("datat ne "+data.length);
         }
     });
 }
+/*function drawDirectionLine(data){
+    for(let i=0;i<data.length;i++){
+        if(data ){
+           
+        }
+    }
+}*/
 function sideBarDirection(url,startPoint,endPoint,maxRoute) {
 	var getUrl = url + "/direction" ;
 	$.ajax({
@@ -144,14 +155,16 @@ function sideBarDirection(url,startPoint,endPoint,maxRoute) {
 	});
 }
 
-function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow) {
+function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine) {
     if (currentTrend == trend) {}
     else {
         clearMarkers();
         markers = [];
+        clearPolyline(renderList);
+        renderList=[];
         trend = currentTrend;
         ajaxGetContent(url, currentRoute, currentTrend);
-        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow);
+        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
     }
 }
 
@@ -171,9 +184,6 @@ function ajaxGetContent(url, routeId, trend) {
         }
     });
 }
-
-
-
 
 function getBack(url) {
     $.ajax({
@@ -211,7 +221,7 @@ function parseLng(str) {
     return number;
 }
 
-function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow) {
+function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine) {
 // let busRoute = "route" + routeId;
     $.ajax({
         type: "GET"
@@ -224,12 +234,12 @@ function callAjax(url, routeId, trend, directionsService, directionsDisplay, map
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
-            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow);
+            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine);
         }
     });
 }
 
-function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow) {
+function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine) {
     // load waypoint from server
     let totalDataLength = jsonResponse.length;
     let waypts = [];
@@ -251,6 +261,7 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
         else if (i > 0 && i < jsonResponse.length - 1) {
             marker = createMarker(lat, lng, wayPointsIcon, map);
             markers.push(marker);
+            
             waypts.push({
                 location: new google.maps.LatLng(lat, lng)
                 , stopover: true
@@ -266,7 +277,7 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             infowindow.open(map, markers[i]);
         });
     }
-    drawDirection(jsonResponse,map,directionsService,directionsDisplay);
+    drawDirection(jsonResponse,map,directionsService,busLine);
 }
 
 function createMarker(lat, lng, icon, map) {
@@ -285,7 +296,6 @@ function showMarkerDetail(markers){
 		});
 	}
 }
-
 /* backup if markers = 0 */
 function showMarkerDetail1(markers){
     let markersLength=markers.length;
@@ -324,7 +334,7 @@ function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
         }
     });
 }
-function drawDirection(stations,map,service,directionsDisplay){
+function drawDirection(stations,map,service,busLine){
 
     var lngs = stations.map(function (station) {
         return station.lng;
@@ -343,18 +353,19 @@ function drawDirection(stations,map,service,directionsDisplay){
     for (var i = 0, parts = [], max = 25-1; i < stations.length; i = i + max) parts.push(stations.slice(i, i + max + 1));
     // Callback function to process service results
     var service_callback = function (response, status) {
-        if (status != 'OK') {
-            console.log('Directions request failed due to ' + status);
-            return;
-        }
-        
-// directionsDisplay = new google.maps.DirectionsRenderer;
-        directionsDisplay.setMap(map);
-        directionsDisplay.setOptions({
-            suppressMarkers: true
-            , preserveViewport: true
-        });
-        directionsDisplay.setDirections(response);
+                if (status != 'OK') {
+                    console.log('Directions request failed due to ' + status);
+                    return;
+                }
+                var renderer = new google.maps.DirectionsRenderer;
+                renderer.setMap(map);
+                renderer.setOptions({
+                    suppressMarkers: true
+                    , preserveViewport: true, 
+                    polylineOptions: { strokeColor: busLine } 
+                });
+                renderList.push(renderer);
+                renderer.setDirections(response);
     };
     // Send requests to service to get route (for stations count <= 25 only one
 	// request will be sent)

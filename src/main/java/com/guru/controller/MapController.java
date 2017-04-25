@@ -67,12 +67,19 @@ public class MapController {
 			@RequestParam(value = "maxRoute")int maxRoute) {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
-		logger.info("reponse json reponse " + startPoint + " " + endPoint+" "+maxRoute);
-		/*List<RouteElement> rouEleTemp= direction.directInMap(startPoint, endPoint, maxRoute);
-		List<BusStation> busStations=direction.getBusStation(rouEleTemp);*/
+		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> busStations= new ArrayList<>();
-		double a = 12;
-		busStations.add(new BusStation(1, "dfs", a, a, null));
+		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
+		
+		if(routeElements.size() !=0){
+			busStations.clear();
+			busStations=direction.getBusStation(routeElements);
+			logger.info("huhu "+busStations.size());
+		}else{
+			busStations= new ArrayList<>();
+			double a = 12;
+			busStations.add(new BusStation(1, "dfs", a, a, null));
+		}
 		return busStations;
 	}
 
@@ -80,11 +87,13 @@ public class MapController {
 	public String directionInSideBar(@RequestParam(value = "startPoint") String startPoint,
 			@RequestParam(value = "endPoint") String endPoint,
 			@RequestParam(value = "maxRoute")int maxRoute,Model model) {
-		startPoint = startPoint + ", Đà Nẵng";
+		startPoint = startPoint + ", Đà Nẵng";	
 		endPoint = endPoint + ", Đà Nẵng";
-		List<RouteElement> routeElements = direction.directInSideBar(startPoint,endPoint, maxRoute);
+		/*List<RouteElement> routeElements = new ArrayList<>();
+		routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
+		model.addAttribute("maxRoute",maxRoute);*/
 		return "direction_map";
 	}
 
