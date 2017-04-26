@@ -206,20 +206,4 @@ public class JsonUtilImp implements IJsonUtil {
 		}
 		return number;
 	}
-	public static void main(String[] args) {
-		List<Integer> ls= new ArrayList<>();
-		ls.add(1);
-		ls.add(2);
-		ls.add(3);
-		System.out.println("before");
-		for (Integer integer : ls) {
-			System.out.println(integer);
-		}
-		System.out.println("after");
-		ls.add(0,0);
-		ls.add(4);
-		for (Integer integer : ls) {
-			System.out.println(integer);
-		}
-	}
 }

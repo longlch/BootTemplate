@@ -16,6 +16,7 @@ public class GoogleMapMatrixApiImp implements IGoogleMapMatrixApi{
 	
 //	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCv7lDkj6Yd3cMbujJcHTKIo_AzLEga-7c");
 	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDnbw4_frlqe5ssp_htlKdIeMsJczTNhpc");
+//	GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDfR6OaUcU8MB1BdRuweZMJrjNVjdDZUOw");
 	
 	@Override
 	public DistanceMatrix getDistanceMatrixUser(String[] origins, String[] destinations) {

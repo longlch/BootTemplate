@@ -117,7 +117,7 @@ function clearPolyline(renderList){
 function sendAddress(maxRoute,map,service,geocoder,infowindow,busLine){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
-//    ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine);
+    ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine);
     sideBarDirection(url,startPoint,endPoint,maxRoute);
 }
 function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,infowindow,busLine) {
@@ -252,15 +252,15 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
     let totalDataLength = jsonResponse.length;
     let waypts = [];
     let marker;
-    let startIcon = "https://chart.googleapis.com/chart?chst=d_map_xpin_icon&chld=pin_star|car-dealer|ADDE63|FF0000";
-    let endIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=flag|ADDE63";
+    let startIcon = "https://chart.googleapis.com/chart?chst=d_map_xpin_icon&chld=pin_star|car-dealer|FFFF00|FF0000";
+    let endIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=flag|FFFF00";
     let wayPointsIcon;
     let lat;
     let lng;
     for (let index = 0; index < jsonResponse.length; index++) {
         lat =jsonResponse[index].lat;
         lng = jsonResponse[index].lng;
-        wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" +jsonResponse[index].id + "|FF0000|000000";
+        wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" +jsonResponse[index].id + "|109d59|ffffff";
         if (index == 0) {
         	
             marker = createMarker(lat, lng, startIcon, map);
