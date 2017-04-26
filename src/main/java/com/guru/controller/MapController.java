@@ -71,10 +71,10 @@ public class MapController {
 		List<BusStation> busStations= new ArrayList<>();
 		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
 		
+		// handle null poiter exception if routeElements don't have element
 		if(routeElements.size() !=0){
 			busStations.clear();
 			busStations=direction.getBusStation(routeElements);
-			logger.info("huhu "+busStations.size());
 		}else{
 			busStations= new ArrayList<>();
 			double a = 12;
@@ -89,11 +89,11 @@ public class MapController {
 			@RequestParam(value = "maxRoute")int maxRoute,Model model) {
 		startPoint = startPoint + ", Đà Nẵng";	
 		endPoint = endPoint + ", Đà Nẵng";
-		/*List<RouteElement> routeElements = new ArrayList<>();
+		List<RouteElement> routeElements = new ArrayList<>();
 		routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
-		model.addAttribute("maxRoute",maxRoute);*/
+		model.addAttribute("maxRoute",maxRoute);
 		return "direction_map";
 	}
 

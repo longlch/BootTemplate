@@ -3,7 +3,7 @@ var url = window.location.href;
 var trend;
 var currentTrend;
 var renderList=[];
-var busLine;
+
 var walkLine;
 
 function openNav() {
@@ -51,7 +51,7 @@ function initMap() {
     let routesTab=$("#routes-tab").html();
     
     walkLine = '#FF0000';
-    busLine =' #00e600';
+    var busLine=' #00e600';
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12
         , center: {
@@ -75,6 +75,7 @@ function initMap() {
     $("body").on("click", ".rowClear", function (event) {
     	clearMarkers();
         markers = [];
+        clearPolyline(renderList);
         let routeId = $(this).find(".routeId").text();
         trend = "true";
         currentTrend = "true"
@@ -88,13 +89,19 @@ function initMap() {
     });
     $("body").on("click", "#btnGo", function (event) {
         currentTrend = "true";
-        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+        checkTrend(currentTrend, currentRoute,url,directionsService,directionsDisplay,map,geocoder,infowindow,busLine);
     });
     $("#btnSearch").click(function(){
     	if (typeof maxRoute=== "undefined") {
-    		sendAddress(2);
+           clearMarkers();
+            markers = [];
+            clearPolyline(renderList);
+    		sendAddress(2,map,directionsService,geocoder,infowindow,busLine);
     	}else{
-    		sendAddress(maxRoute);
+             clearMarkers();
+            markers = [];
+            clearPolyline(renderList);
+    		sendAddress(maxRoute,map,directionsService,geocoder,infowindow,busLine);
     	}
     });
     $(".max-route").click(function() {
@@ -107,13 +114,13 @@ function clearPolyline(renderList){
     }
 }
 
-function sendAddress(maxRoute){
+function sendAddress(maxRoute,map,service,geocoder,infowindow,busLine){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
-    ajaxDirection(url,startPoint,endPoint,maxRoute);
+//    ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine);
     sideBarDirection(url,startPoint,endPoint,maxRoute);
 }
-function ajaxDirection(url,startPoint,endPoint,maxRoute) {
+function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,infowindow,busLine) {
     var getUrl = url + "/detail" ;
     $.ajax({
         type: "GET"
@@ -125,10 +132,11 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute) {
         }
         , success: function (data) {
             // create a function to process it
-            console.log("datat ne "+data.length);
+            calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);
         }
     });
 }
+
 /*function drawDirectionLine(data){
     for(let i=0;i<data.length;i++){
         if(data ){
@@ -249,16 +257,16 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
     let wayPointsIcon;
     let lat;
     let lng;
-    for (let i = 0; i < jsonResponse.length; i++) {
-        lat =jsonResponse[i].lat;
-        lng = jsonResponse[i].lng;
-        wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" + (i + 1) + "|FF0000|000000";
-        if (i == 0) {
+    for (let index = 0; index < jsonResponse.length; index++) {
+        lat =jsonResponse[index].lat;
+        lng = jsonResponse[index].lng;
+        wayPointsIcon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" +jsonResponse[index].id + "|FF0000|000000";
+        if (index == 0) {
         	
             marker = createMarker(lat, lng, startIcon, map);
             markers.push(marker);
         }
-        else if (i > 0 && i < jsonResponse.length - 1) {
+        else if (index > 0 && index < jsonResponse.length - 1) {
             marker = createMarker(lat, lng, wayPointsIcon, map);
             markers.push(marker);
             
@@ -271,10 +279,10 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             marker = createMarker(lat, lng, endIcon, map);
             markers.push(marker);
         }
-        markers[i].addListener('click', function () {
-        	map.setCenter(markers[i].getPosition());
-           geocodeLatLng(geocoder, map, infowindow,	 lat,lng, jsonResponse[i].name);
-            infowindow.open(map, markers[i]);
+        markers[index].addListener('click', function () {
+        	map.setCenter(markers[index].getPosition());
+           geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
+            infowindow.open(map, markers[index]);
         });
     }
     drawDirection(jsonResponse,map,directionsService,busLine);
@@ -317,6 +325,7 @@ function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
         lat: lat1
         , lng:lng1
     };
+    console.log(" ahihi"+lat1+" "+lng1);
     geocoder.geocode({
         'location': latlng
     }, function (results, status) {

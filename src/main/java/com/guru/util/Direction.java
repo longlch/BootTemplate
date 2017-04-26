@@ -136,13 +136,13 @@ public class Direction {
 		for (BusStation busStation : bStations) {
 			distance = this.distanceToMileByLatLng(originLatLng.lat, originLatLng.lng, busStation.getLat(),
 					busStation.getLng());
-			if (distance < 0.3 && distance > 0) {
+			if (distance < 0.5 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
 		nearlyBusStationsLength = nearlyBStations.size();
-		// System.out.println("nearly busStation length with origin " +
-		// nearlyBStations.size());
+		 System.out.println("nearly busStation length with origin " +
+		 nearlyBStations.size());
 
 		for (int i = 0; i < nearlyBusStationsLength; i++) {
 			latLng = nearlyBStations.get(i).getLat() + "," + nearlyBStations.get(i).getLng();
@@ -192,7 +192,7 @@ public class Direction {
 		for (BusStation busStation : bStations) {
 			distance = this.distanceToMileByLatLng(destinationLatLng.lat, destinationLatLng.lng, busStation.getLat(),
 					busStation.getLng());
-			if (distance < 1 && distance > 0) {
+			if (distance < 0.5 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
@@ -367,6 +367,7 @@ public class Direction {
 				}
 			}
 		}
+		
 		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
 		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
 		return routeDirection;
@@ -490,19 +491,20 @@ public class Direction {
 		 * }
 		 */
 
-		List<RouteElement> routeElementDirection = direction.directInMap2("435 hoang dieu, da nang","163 dung si thanh khe,da nang", 2);
+		List<RouteElement> routeElementDirection = direction.directInMap2("435 hoang dieu, da nang","163 dung si thanh khe,da nang", 3);
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement);
 		}
 		
 		/*System.out.println("get bus station from Route Element");
 		List<BusStation> newBusStation=direction.getBusStation(routeElementDirection);
+		System.out.println(newBusStation.size());*/
 		
-		for (BusStation busStation : newBusStation) {
+		/*for (BusStation busStation : newBusStation) {
 			System.out.println(busStation.getName()+" "+busStation.getLat()+" "+busStation.getLng());
-		}
+		}*/
 		
-		direction.oriDestiBusStation.clear();*/
+		direction.oriDestiBusStation.clear();
 		
 		/*List<BusStation> busStations=direction.getBusStation(routeElementDirection);
 		for (BusStation busStation : busStations) {
