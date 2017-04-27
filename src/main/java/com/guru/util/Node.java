@@ -93,7 +93,7 @@ public class Node {
 				}
 				else if(b != null && arr.get(i).getBusRoute() != null) {
 					if(arr.get(i).getBusRoute().getId().equals(b.getId())) {
-						if(arr.get(i).getBusRoute().isTurn() || b.isTurn()) {
+						if(arr.get(i).getBusRoute().isTurn() != b.isTurn()) {
 							b = arr.get(i).getBusRoute();
 							count++;
 //							System.out.println(i+ "count "+count);

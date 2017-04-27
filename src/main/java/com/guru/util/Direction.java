@@ -39,7 +39,6 @@ public class Direction {
 	public ArrayList<RouteElement> minimizeDirection(int numBus, List<RouteElement> direction) {
 		ArrayList<RouteElement> list = new ArrayList<>();
 		list.addAll(direction);
-		// System.out.println(list.toString());
 		list = new Node().getRouteWithNumberRoute(numBus, list);
 		// System.out.println(list.toString());
 		list = list != null ? list : null;
@@ -240,138 +239,8 @@ public class Direction {
 		return routeElements;
 	}
 
-	public List<RouteElement> directInMap(String originAddress, String destinationAddress, int maxBusRoute) {
 
-		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
-		List<RouteElement> routeElementsWithOriginDestination = new ArrayList<>();
-		List<Vertex> vertexes = new ArrayList<Vertex>();
-		List<Edge> edges = new ArrayList<Edge>();
-
-		// geocode here
-		GeocodingResult[] result = ggMatrix.geocodeFromAddress(originAddress);
-		LatLng originLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
-		result = ggMatrix.geocodeFromAddress(destinationAddress);
-		LatLng destinationLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
-		System.out.println("origin " + originLatLng.lat + "," + originLatLng.lng);
-		System.out.println("desti " + destinationLatLng.lat + "," + destinationLatLng.lng);
-		
-		////////////////////////
-			BusStation bs1= new BusStation(-1,"origin",originLatLng.lat,originLatLng.lng,null);
-			BusStation bs2= new BusStation(9999,"desti",destinationLatLng.lat,destinationLatLng.lng,null);
-			oriDestiBusStation.add(0,bs1);
-			oriDestiBusStation.add(1,bs2);
-		//////////////////
-		vertexes.add(new Vertex(-1, "Origin", originLatLng.lat, originLatLng.lng));
-
-		for (BusStation bs : bStations) {
-			vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
-		}
-		vertexes.add(new Vertex(9999, "Destination", destinationLatLng.lat, destinationLatLng.lng));
-
-		routeElementsWithOriginDestination
-				.addAll(this.createGraphWithOrignDestination(originLatLng, destinationLatLng));
-
-		System.out.println("size routeElementsWithOriginDestination la " + routeElementsWithOriginDestination.size());
-
-		/*
-		 * int count = 0; for (RouteElement route :
-		 * routeElementsWithOriginDestination) { count++; }
-		 * System.out.println("routeElementsWithOriginDestination" + count);
-		 */
-
-		int lengthRouteElementsOriDesti = routeElementsWithOriginDestination.size();
-		for (int i = 1; i < lengthRouteElementsOriDesti; i++) {
-			int source = 0, des = 0;
-			for (Vertex v : vertexes) {
-				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationFromId())
-					source = vertexes.indexOf(v);
-				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationToId())
-					des = vertexes.indexOf(v);
-			}
-			edges.add(new Edge(i - 1 + "", vertexes.get(source), vertexes.get(des),
-					routeElementsWithOriginDestination.get(i).getDistanceOnBus()
-							+ routeElementsWithOriginDestination.get(i).getDistanceWalking()));
-		}
-
-		Graph graph = new Graph(vertexes, edges);
-		DijkstraAlgorithm da = new DijkstraAlgorithm(graph);
-		da.execute(vertexes.get(0));
-		LinkedList<Vertex> path = da.getPath(vertexes.get(vertexes.size() - 1));
-		for (int i = 1; i < path.size(); i++) {
-			for (int j = 1; j < routeElementsWithOriginDestination.size(); j++) {
-				if (routeElementsWithOriginDestination.get(j).getStationFromId() == path.get(i - 1).getId()
-						&& routeElementsWithOriginDestination.get(j).getStationToId() == path.get(i).getId()) {
-					routeDirection.add(routeElementsWithOriginDestination.get(j));
-				}
-			}
-		}
-		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
-		return routeDirection;
-	}
-
-	public List<RouteElement> directInSideBar(String originAddress, String destinationAddress, int maxBusRoute) {
-
-		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
-		List<RouteElement> routeElementsWithOriginDestination = new ArrayList<>();
-		List<Vertex> vertexes = new ArrayList<Vertex>();
-		List<Edge> edges = new ArrayList<Edge>();
-
-		// geocode here
-		GeocodingResult[] result = ggMatrix.geocodeFromAddress(originAddress);
-		LatLng originLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
-		result = ggMatrix.geocodeFromAddress(destinationAddress);
-		LatLng destinationLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
-		System.out.println("origin " + originLatLng.lat + "," + originLatLng.lng);
-		System.out.println("desti " + destinationLatLng.lat + "," + destinationLatLng.lng);
-		vertexes.add(new Vertex(-1, "Origin", originLatLng.lat, originLatLng.lng));
-
-		for (BusStation bs : bStations) {
-			vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
-		}
-		vertexes.add(new Vertex(9999, "Destination", destinationLatLng.lat, destinationLatLng.lng));
-
-		routeElementsWithOriginDestination
-				.addAll(this.createGraphWithOrignDestination(originLatLng, destinationLatLng));
-
-		System.out.println("size routeElementsWithOriginDestination la " + routeElementsWithOriginDestination.size());
-
-		/*
-		 * int count = 0; for (RouteElement route :
-		 * routeElementsWithOriginDestination) { count++; }
-		 * System.out.println("routeElementsWithOriginDestination" + count);
-		 */
-
-		int lengthRouteElementsOriDesti = routeElementsWithOriginDestination.size();
-		for (int i = 1; i < lengthRouteElementsOriDesti; i++) {
-			int source = 0, des = 0;
-			for (Vertex v : vertexes) {
-				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationFromId())
-					source = vertexes.indexOf(v);
-				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationToId())
-					des = vertexes.indexOf(v);
-			}
-			edges.add(new Edge(i - 1 + "", vertexes.get(source), vertexes.get(des),
-					routeElementsWithOriginDestination.get(i).getDistanceOnBus()
-							+ routeElementsWithOriginDestination.get(i).getDistanceWalking()));
-		}
-
-		Graph graph = new Graph(vertexes, edges);
-		DijkstraAlgorithm da = new DijkstraAlgorithm(graph);
-		da.execute(vertexes.get(0));
-		LinkedList<Vertex> path = da.getPath(vertexes.get(vertexes.size() - 1));
-		for (int i = 1; i < path.size(); i++) {
-			for (int j = 1; j < routeElementsWithOriginDestination.size(); j++) {
-				if (routeElementsWithOriginDestination.get(j).getStationFromId() == path.get(i - 1).getId()
-						&& routeElementsWithOriginDestination.get(j).getStationToId() == path.get(i).getId()) {
-					routeDirection.add(routeElementsWithOriginDestination.get(j));
-				}
-			}
-		}
-		
-		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
-		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
-		return routeDirection;
-	}
+	
 	public List<RouteElement> directInMap2(String originAddress, String destinationAddress, int maxBusRoute) {
 		
 		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
@@ -466,32 +335,77 @@ public class Direction {
 		return busStations;
 	}
 
+	public List<RouteElement> directInSideBar(String originAddress, String destinationAddress, int maxBusRoute) {
 
+		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
+		List<RouteElement> routeElementsWithOriginDestination = new ArrayList<>();
+		List<Vertex> vertexes = new ArrayList<Vertex>();
+		List<Edge> edges = new ArrayList<Edge>();
+
+		// geocode here
+		GeocodingResult[] result = ggMatrix.geocodeFromAddress(originAddress);
+		LatLng originLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
+		result = ggMatrix.geocodeFromAddress(destinationAddress);
+		LatLng destinationLatLng = new LatLng(result[0].geometry.location.lat, result[0].geometry.location.lng);
+		System.out.println("origin " + originLatLng.lat + "," + originLatLng.lng);
+		System.out.println("desti " + destinationLatLng.lat + "," + destinationLatLng.lng);
+		vertexes.add(new Vertex(-1, "Origin", originLatLng.lat, originLatLng.lng));
+
+		for (BusStation bs : bStations) {
+			vertexes.add(new Vertex(bs.getId(), bs.getName(), bs.getLat(), bs.getLng()));
+		}
+		vertexes.add(new Vertex(9999, "Destination", destinationLatLng.lat, destinationLatLng.lng));
+
+		routeElementsWithOriginDestination
+				.addAll(this.createGraphWithOrignDestination(originLatLng, destinationLatLng));
+
+		System.out.println("size routeElementsWithOriginDestination la " + routeElementsWithOriginDestination.size());
+
+		/*
+		 * int count = 0; for (RouteElement route :
+		 * routeElementsWithOriginDestination) { count++; }
+		 * System.out.println("routeElementsWithOriginDestination" + count);
+		 */
+
+		int lengthRouteElementsOriDesti = routeElementsWithOriginDestination.size();
+		for (int i = 1; i < lengthRouteElementsOriDesti; i++) {
+			int source = 0, des = 0;
+			for (Vertex v : vertexes) {
+				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationFromId())
+					source = vertexes.indexOf(v);
+				if (v.getId() == routeElementsWithOriginDestination.get(i).getStationToId())
+					des = vertexes.indexOf(v);
+			}
+			edges.add(new Edge(i - 1 + "", vertexes.get(source), vertexes.get(des),
+					routeElementsWithOriginDestination.get(i).getDistanceOnBus()
+							+ routeElementsWithOriginDestination.get(i).getDistanceWalking()));
+		}
+
+		Graph graph = new Graph(vertexes, edges);
+		DijkstraAlgorithm da = new DijkstraAlgorithm(graph);
+		da.execute(vertexes.get(0));
+		LinkedList<Vertex> path = da.getPath(vertexes.get(vertexes.size() - 1));
+		for (int i = 1; i < path.size(); i++) {
+			for (int j = 1; j < routeElementsWithOriginDestination.size(); j++) {
+				if (routeElementsWithOriginDestination.get(j).getStationFromId() == path.get(i - 1).getId()
+						&& routeElementsWithOriginDestination.get(j).getStationToId() == path.get(i).getId()) {
+					routeDirection.add(routeElementsWithOriginDestination.get(j));
+				}
+			}
+		}
+		
+		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
+		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
+		return routeDirection;
+	}
 	public static void main(String[] args) {
 		Direction direction = new Direction();
 
-		// direction step by step without minimize and customize
-		/*
-		 * List<RouteElement> routeElementDirection =
-		 * direction.findDirection("435 hoang dieu, da nang",
-		 * "163 dung si thanh khe,da nang");
-		 * System.out.println("cac tuyen va size la" +
-		 * routeElementDirection.size()); for (RouteElement routeElement :
-		 * routeElementDirection) { System.out.println(routeElement.toString());
-		 * } System.out.println("after minimie"); List<RouteElement>
-		 * miniRouteElement = direction.minimizeDirection(3,
-		 * routeElementDirection);
-		 * System.out.println(miniRouteElement.toString()); // for (RouteElement
-		 * routeElement : miniRouteElement) { //
-		 * System.out.println(miniRouteElement); // }
-		 * System.out.println("after modyfined"); List<RouteElement>
-		 * modifineRouteElements=direction.modifiedDirection((ArrayList<
-		 * RouteElement>)miniRouteElement); for (RouteElement routeElement :
-		 * modifineRouteElements) { System.out.println(routeElement.toString());
-		 * }
-		 */
-
-		List<RouteElement> routeElementDirection = direction.directInMap2("435 hoang dieu, da nang","163 dung si thanh khe,da nang", 3);
+		List<RouteElement> routeElementDirection = direction.directInSideBar("5 quang trung, da nang","88 nguyễn văn thoại ,da nang", 4);
+//		List<RouteElement> routeElementDirection = direction.directInSideBar("5 quang trung, da nang","135 cù chính lan ,da nang", 3);
+//		List<RouteElement> routeElementDirection = direction.directInSideBar("453 hoàng diệu, da nang","163 dũng sĩ thanh khê,da nang", 3);
+//		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","466 lê duẩn ,da nang", 3);
+//		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","5 quang trung,da nang", 3);
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement);
 		}
@@ -510,7 +424,6 @@ public class Direction {
 		for (BusStation busStation : busStations) {
 			System.out.println(busStation);
 		}*/
-		System.out.println("minimize");
 		/*List<RouteElement> miniMizeRouEle = direction.directInSideBar("435 hoang dieu, da nang",
 				"163 dung si thanh khe,da nang", 3);
 		for (RouteElement routeElement : miniMizeRouEle) {

@@ -1,9 +1,18 @@
+    var socket = io.connect('https://dnbus-rt.herokuapp.com/');
+    var arrayMarker = [];
+
+   
+ $("body").on("click", "#btnGet", function (event) {
+	 alert(routeId);
+	 socket.emit('subscribe',routeId);
+ });
+    
 var markers = [];
 var url = window.location.href;
 var trend;
 var currentTrend;
 var renderList=[];
-
+var routeId=null;
 var walkLine;
 
 function openNav() {
@@ -65,7 +74,22 @@ function initMap() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-    
+    socket.on('message', function(data) {
+        var now = new Date(Date.now());
+        var formatted = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+        for (let i = 0, n = data.length; i < n; i++) {
+            let newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
+            let curMarker = new google.maps.Marker({
+                map: map,
+                position: newLatLng,
+                visible: false
+            });
+            if (arrayMarker[i]) arrayMarker[i].setVisible(false);
+            arrayMarker[i] = curMarker;
+            arrayMarker[i].setVisible(true);
+        }
+        console.log(data, formatted);
+    });
     $("body").on("click", ".btn-back", function (event) {
         clearMarkers();
         clearPolyline(renderList);
@@ -76,7 +100,7 @@ function initMap() {
     	clearMarkers();
         markers = [];
         clearPolyline(renderList);
-        let routeId = $(this).find(".routeId").text();
+        routeId = $(this).find(".routeId").text();
         trend = "true";
         currentTrend = "true"
         ajaxGetContent(url, routeId, trend);
@@ -137,13 +161,10 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
     });
 }
 
-/*function drawDirectionLine(data){
-    for(let i=0;i<data.length;i++){
-        if(data ){
-           
-        }
-    }
-}*/
+/*
+ * function drawDirectionLine(data){ for(let i=0;i<data.length;i++){ if(data ){
+ *  } } }
+ */
 function sideBarDirection(url,startPoint,endPoint,maxRoute) {
 	var getUrl = url + "/direction" ;
 	$.ajax({
