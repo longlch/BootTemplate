@@ -3,8 +3,10 @@
 
    
  $("body").on("click", "#btnGet", function (event) {
-	 alert(routeId);
 	 socket.emit('subscribe',routeId);
+ });
+$("body").on("click", "#btnStop", function (event) {
+	 socket.emit('unsubscribe', routeId);
  });
     
 var markers = [];
@@ -121,11 +123,16 @@ function initMap() {
             markers = [];
             clearPolyline(renderList);
     		sendAddress(2,map,directionsService,geocoder,infowindow,busLine);
-    	}else{
-             clearMarkers();
+    	}else if(maxRoute >3){
+            alert("There are no direction with option is 4");
+            maxRoute=2;
+
+        }else{
+            clearMarkers();
             markers = [];
             clearPolyline(renderList);
     		sendAddress(maxRoute,map,directionsService,geocoder,infowindow,busLine);
+            maxRoute=2;
     	}
     });
     $(".max-route").click(function() {
@@ -155,8 +162,12 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             maxRoute:maxRoute
         }
         , success: function (data) {
-            // create a function to process it
-            calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);
+            if(data.length != 1){
+                calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);   
+            }else{
+                alert("reload");
+            }
+            
         }
     });
 }
@@ -420,59 +431,42 @@ function drawDirection(stations,map,service,busLine){
 }
 function customizeMap() {
     let styledMapType = new google.maps.StyledMapType(
-			    [
-            {
-                "featureType": "poi"
-                , "stylers": [
-                    {
-                        "color": "#ff3b88"
-		      }
-		                      , {
-                        "visibility": "off"
-		      }
-		    ]
-		  }
-		              , {
-                "featureType": "poi.attraction"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-		      }
-		    ]
-		  }
-		              , {
-                "featureType": "poi.government"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-		      }
-		    ]
-		  }
-		              , {
-                "featureType": "poi.medical"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-		      }
-		    ]
-		  }
-		              , {
-                "featureType": "poi.school"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-		      }
-		    ]
-		  }
-		              , {
-                "featureType": "poi.sports_complex"
-                , "stylers": [
-                    {
-                        "visibility": "off"
-		      }
-		    ]
-		  }
-		], {
+    		[
+    			  {
+    			    "featureType": "poi",
+    			    "elementType": "labels.text",
+    			    "stylers": [
+    			      {
+    			        "visibility": "off"
+    			      }
+    			    ]
+    			  },
+    			  {
+    			    "featureType": "poi.business",
+    			    "stylers": [
+    			      {
+    			        "visibility": "off"
+    			      }
+    			    ]
+    			  },
+    			  {
+    			    "featureType": "road",
+    			    "elementType": "labels.icon",
+    			    "stylers": [
+    			      {
+    			        "visibility": "off"
+    			      }
+    			    ]
+    			  },
+    			  {
+    			    "featureType": "transit",
+    			    "stylers": [
+    			      {
+    			        "visibility": "off"
+    			      }
+    			    ]
+    			  }
+    			], {
             name: 'Styled Map'
         });
     return styledMapType;

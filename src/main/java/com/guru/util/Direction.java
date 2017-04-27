@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.print.attribute.standard.Destination;
-
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+import com.guru.exception.DestiNearbyException;
+import com.guru.exception.DirectionException;
+import com.guru.exception.OriginNearlyException;
 import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
 import com.guru.model.BusStationDistance;
@@ -112,7 +113,7 @@ public class Direction {
 		return strArr;
 	}
 
-	public List<RouteElement> routeElementsWithOrigin(LatLng originLatLng) {
+	public List<RouteElement> routeElementsWithOrigin(LatLng originLatLng) throws OriginNearlyException{
 		/*
 		 * find the nearly busStation in busStation.json file by lat lng then
 		 * call Google matrix to calculate excatly distance
@@ -135,13 +136,17 @@ public class Direction {
 		for (BusStation busStation : bStations) {
 			distance = this.distanceToMileByLatLng(originLatLng.lat, originLatLng.lng, busStation.getLat(),
 					busStation.getLng());
-			if (distance < 0.5 && distance > 0) {
+			if (distance < 0.6 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
 		nearlyBusStationsLength = nearlyBStations.size();
-		 System.out.println("nearly busStation length with origin " +
-		 nearlyBStations.size());
+		System.out.println("nearly busStation length with origin " +
+				 nearlyBStations.size());
+		if(nearlyBusStationsLength == 0){
+			throw new OriginNearlyException("No Bus nearby Ori");
+		}
+		 
 
 		for (int i = 0; i < nearlyBusStationsLength; i++) {
 			latLng = nearlyBStations.get(i).getLat() + "," + nearlyBStations.get(i).getLng();
@@ -173,7 +178,7 @@ public class Direction {
 		return routeElements;
 	}
 
-	public List<RouteElement> routeElementsWithDestination(LatLng destinationLatLng) {
+	public List<RouteElement> routeElementsWithDestination(LatLng destinationLatLng) throws DestiNearbyException{
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> nearlyBStations = new ArrayList<>();
 		double distance = 0;
@@ -191,13 +196,16 @@ public class Direction {
 		for (BusStation busStation : bStations) {
 			distance = this.distanceToMileByLatLng(destinationLatLng.lat, destinationLatLng.lng, busStation.getLat(),
 					busStation.getLng());
-			if (distance < 0.5 && distance > 0) {
+			if (distance < 0.6 && distance > 0) {
 				nearlyBStations.add(busStation);
 			}
 		}
 		nearlyBusStationsLength = nearlyBStations.size();
-		// System.out.println("nearly busStation length with destination " +
-		// nearlyBusStationsLength);
+		System.out.println("nearly busStation length with destination " +nearlyBusStationsLength);
+		if(nearlyBusStationsLength == 0){
+			throw new DestiNearbyException("No Bus nearby Desti");
+		}
+		 
 
 		for (int i = 0; i < nearlyBusStationsLength; i++) {
 			latLng = nearlyBStations.get(i).getLat() + "," + nearlyBStations.get(i).getLng();
@@ -230,7 +238,7 @@ public class Direction {
 	}
 
 	// we need to refresh or delete grapRouteElement after using this function
-	public List<RouteElement> createGraphWithOrignDestination(LatLng originLatLng, LatLng destinationLatLng) {
+	public List<RouteElement> createGraphWithOrignDestination(LatLng originLatLng, LatLng destinationLatLng) throws OriginNearlyException,DestiNearbyException{
 		List<RouteElement> routeElements = new ArrayList<>();
 
 		routeElements.addAll(grapRouteElement);
@@ -241,7 +249,7 @@ public class Direction {
 
 
 	
-	public List<RouteElement> directInMap2(String originAddress, String destinationAddress, int maxBusRoute) {
+	public List<RouteElement> directInMap2(String originAddress, String destinationAddress, int maxBusRoute) throws OriginNearlyException,DestiNearbyException,DirectionException{
 		
 		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
 		List<RouteElement> routeElementsWithOriginDestination = new ArrayList<>();
@@ -270,7 +278,6 @@ public class Direction {
 		routeElementsWithOriginDestination
 		.addAll(this.createGraphWithOrignDestination(originLatLng, destinationLatLng));
 		
-		System.out.println("size routeElementsWithOriginDestination la " + routeElementsWithOriginDestination.size());
 		
 		/*
 		 * int count = 0; for (RouteElement route :
@@ -304,6 +311,9 @@ public class Direction {
 				}
 			}
 		}
+		if(routeDirection.size() == 0){
+			throw new DirectionException("can't find the direction at map");
+		}
 		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
 		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
 		return routeDirection;
@@ -335,7 +345,7 @@ public class Direction {
 		return busStations;
 	}
 
-	public List<RouteElement> directInSideBar(String originAddress, String destinationAddress, int maxBusRoute) {
+	public List<RouteElement> directInSideBar(String originAddress, String destinationAddress, int maxBusRoute) throws OriginNearlyException,DestiNearbyException,DirectionException{
 
 		ArrayList<RouteElement> routeDirection = new ArrayList<RouteElement>();
 		List<RouteElement> routeElementsWithOriginDestination = new ArrayList<>();
@@ -358,14 +368,6 @@ public class Direction {
 
 		routeElementsWithOriginDestination
 				.addAll(this.createGraphWithOrignDestination(originLatLng, destinationLatLng));
-
-		System.out.println("size routeElementsWithOriginDestination la " + routeElementsWithOriginDestination.size());
-
-		/*
-		 * int count = 0; for (RouteElement route :
-		 * routeElementsWithOriginDestination) { count++; }
-		 * System.out.println("routeElementsWithOriginDestination" + count);
-		 */
 
 		int lengthRouteElementsOriDesti = routeElementsWithOriginDestination.size();
 		for (int i = 1; i < lengthRouteElementsOriDesti; i++) {
@@ -393,17 +395,30 @@ public class Direction {
 				}
 			}
 		}
-		
+		if(routeDirection.size() == 0){
+			throw new DirectionException("can't find the direction at map");
+		}
 		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
 		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
 		return routeDirection;
 	}
 	public static void main(String[] args) {
 		Direction direction = new Direction();
-
-		List<RouteElement> routeElementDirection = direction.directInSideBar("5 quang trung, da nang","88 nguyễn văn thoại ,da nang", 4);
+		List<RouteElement> routeElementDirection=null;
+		try {
+			routeElementDirection= direction.directInSideBar("435 hoàng diệu, đà nẵng","5 tôn đức thắng, đà nẵng", 2);
+//			routeElementDirection = direction.directInSideBar("453 hoàng diệu, da nang","163 dũng sĩ thanh khê,da nang", 2);
+		} catch (OriginNearlyException e) {
+			e.printStackTrace();
+		}catch(DirectionException  e){
+			e.printStackTrace();
+		}catch(DestiNearbyException e){
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 //		List<RouteElement> routeElementDirection = direction.directInSideBar("5 quang trung, da nang","135 cù chính lan ,da nang", 3);
-//		List<RouteElement> routeElementDirection = direction.directInSideBar("453 hoàng diệu, da nang","163 dũng sĩ thanh khê,da nang", 3);
+//		List<RouteElement> 
 //		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","466 lê duẩn ,da nang", 3);
 //		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","5 quang trung,da nang", 3);
 		for (RouteElement routeElement : routeElementDirection) {

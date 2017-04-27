@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.guru.exception.DestiNearbyException;
+import com.guru.exception.DirectionException;
+import com.guru.exception.OriginNearlyException;
 import com.guru.model.BusStation;
 import com.guru.model.RouteElement;
 import com.guru.service.IMapService;
@@ -69,9 +72,18 @@ public class MapController {
 		endPoint = endPoint + ", Đà Nẵng";
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> busStations= new ArrayList<>();
-		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
 		
-		// handle null poiter exception if routeElements don't have element
+		try {
+			routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
+		} catch (DestiNearbyException e) {
+			e.printStackTrace();
+		}catch(DirectionException e){
+			e.printStackTrace();
+		}catch(OriginNearlyException e){
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		if(routeElements.size() !=0){
 			busStations.clear();
 			busStations=direction.getBusStation(routeElements);
@@ -89,8 +101,19 @@ public class MapController {
 			@RequestParam(value = "maxRoute")int maxRoute,Model model) {
 		startPoint = startPoint + ", Đà Nẵng";	
 		endPoint = endPoint + ", Đà Nẵng";
+
 		List<RouteElement> routeElements = new ArrayList<>();
-		routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
+		try {
+			routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
+		} catch (DestiNearbyException e) {
+			e.printStackTrace();
+		}catch(DirectionException e){
+			e.printStackTrace();
+		}catch(OriginNearlyException e){
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
 		model.addAttribute("maxRoute",maxRoute);
