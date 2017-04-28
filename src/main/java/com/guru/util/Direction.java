@@ -406,7 +406,7 @@ public class Direction {
 		Direction direction = new Direction();
 		List<RouteElement> routeElementDirection=null;
 		try {
-			routeElementDirection= direction.directInSideBar("435 hoàng diệu, đà nẵng","5 tôn đức thắng, đà nẵng", 2);
+			routeElementDirection= direction.directInSideBar(" bến xe, đà nẵng","bến xe, đà nẵng", 2);
 //			routeElementDirection = direction.directInSideBar("453 hoàng diệu, da nang","163 dũng sĩ thanh khê,da nang", 2);
 		} catch (OriginNearlyException e) {
 			e.printStackTrace();
@@ -421,9 +421,9 @@ public class Direction {
 //		List<RouteElement> 
 //		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","466 lê duẩn ,da nang", 3);
 //		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","5 quang trung,da nang", 3);
-		for (RouteElement routeElement : routeElementDirection) {
+		/*for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement);
-		}
+		}*/
 		
 		/*System.out.println("get bus station from Route Element");
 		List<BusStation> newBusStation=direction.getBusStation(routeElementDirection);

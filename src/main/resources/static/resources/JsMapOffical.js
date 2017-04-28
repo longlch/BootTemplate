@@ -124,9 +124,8 @@ function initMap() {
             clearPolyline(renderList);
     		sendAddress(2,map,directionsService,geocoder,infowindow,busLine);
     	}else if(maxRoute >3){
-            alert("There are no direction with option is 4");
+            alert("There are no direction was be found");
             maxRoute=2;
-
         }else{
             clearMarkers();
             markers = [];
@@ -165,7 +164,7 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             if(data.length != 1){
                 calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);   
             }else{
-                alert("reload");
+                console.log("No direction was found");
             }
             
         }

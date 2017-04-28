@@ -67,14 +67,13 @@ public class MapController {
 	@RequestMapping(value = MapURL.BUS_ROUTE_DIRECTION_DETAIL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<BusStation> directionInDetail(@RequestParam(value = "startPoint") String startPoint,
 			@RequestParam(value = "endPoint") String endPoint,
-			@RequestParam(value = "maxRoute")int maxRoute) {
+			@RequestParam(value = "maxRoute")int maxRoute) throws DestiNearbyException,DirectionException,OriginNearlyException {
 		startPoint = startPoint + ", Đà Nẵng";
 		endPoint = endPoint + ", Đà Nẵng";
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> busStations= new ArrayList<>();
-		
-		try {
-			routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
+		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
+		/*try {
 		} catch (DestiNearbyException e) {
 			e.printStackTrace();
 		}catch(DirectionException e){
@@ -83,7 +82,7 @@ public class MapController {
 			e.printStackTrace();
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
 		if(routeElements.size() !=0){
 			busStations.clear();
 			busStations=direction.getBusStation(routeElements);
@@ -98,26 +97,17 @@ public class MapController {
 	@RequestMapping(value = MapURL.BUS_ROUTE_DIRECTION_SIDE_BAR, method = RequestMethod.GET)
 	public String directionInSideBar(@RequestParam(value = "startPoint") String startPoint,
 			@RequestParam(value = "endPoint") String endPoint,
-			@RequestParam(value = "maxRoute")int maxRoute,Model model) {
+			@RequestParam(value = "maxRoute")int maxRoute,Model model) throws DestiNearbyException,DirectionException,OriginNearlyException {
 		startPoint = startPoint + ", Đà Nẵng";	
 		endPoint = endPoint + ", Đà Nẵng";
 
 		List<RouteElement> routeElements = new ArrayList<>();
-		try {
-			routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
-		} catch (DestiNearbyException e) {
-			e.printStackTrace();
-		}catch(DirectionException e){
-			e.printStackTrace();
-		}catch(OriginNearlyException e){
-			e.printStackTrace();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
 		model.addAttribute("maxRoute",maxRoute);
 		return "direction_map";
 	}
+	
 
 }
