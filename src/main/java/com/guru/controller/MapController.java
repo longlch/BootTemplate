@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.guru.exception.DestiNearbyException;
 import com.guru.exception.DirectionException;
 import com.guru.exception.OriginNearlyException;
+import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
 import com.guru.model.RouteElement;
 import com.guru.service.IMapService;
@@ -44,16 +45,25 @@ public class MapController {
 	}
 
 	@RequestMapping(value = MapURL.BUS_ROUTE, method = RequestMethod.GET)
-	public String busRouteInDetail(@PathVariable("id") String id, @RequestParam(value = "trend") String trend,
+	public String busRouteInDetail(@PathVariable("id") int id, @RequestParam(value = "trend") String trend,
 			Model model) {
 		// get list bus station
 		// send it into content_map.html
 		String busRoute = serviceMap.getRouteName(id);
-		int route = Integer.parseInt(id);
-		List<BusStation> busStations = serviceJson.getBusStationFromBusRoute(route, trend);
+		List<BusStation> busStations = serviceJson.getBusStationFromBusRoute(id, trend);
 		model.addAttribute("busRoute", busRoute);
 		model.addAttribute("busStops", busStations);
 		return "stations_map";
+	}
+	
+	@RequestMapping(value = MapURL.BUS_ROUTE_DETAIL, method = RequestMethod.GET)
+	public String busDetail(@PathVariable("id") int id, @RequestParam(value = "trend") String trend,
+			Model model) {
+		String busRoute = serviceMap.getRouteName(id);
+		BusRoute busRouteInfo= serviceJson.getBusRouteDetail(id, trend);
+		model.addAttribute("busRoute", busRoute);
+		model.addAttribute("busRouteInfo", busRouteInfo);
+		return "detail";
 	}
 
 	@RequestMapping(value = MapURL.BUS_STATIONS, method = RequestMethod.GET)
@@ -73,16 +83,7 @@ public class MapController {
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> busStations= new ArrayList<>();
 		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
-		/*try {
-		} catch (DestiNearbyException e) {
-			e.printStackTrace();
-		}catch(DirectionException e){
-			e.printStackTrace();
-		}catch(OriginNearlyException e){
-			e.printStackTrace();
-		}catch(Exception e){
-			e.printStackTrace();
-		}*/
+
 		if(routeElements.size() !=0){
 			busStations.clear();
 			busStations=direction.getBusStation(routeElements);
@@ -100,9 +101,14 @@ public class MapController {
 			@RequestParam(value = "maxRoute")int maxRoute,Model model) throws DestiNearbyException,DirectionException,OriginNearlyException {
 		startPoint = startPoint + ", Đà Nẵng";	
 		endPoint = endPoint + ", Đà Nẵng";
-
+		
+		List<BusStation> busStations= new ArrayList<>();
 		List<RouteElement> routeElements = new ArrayList<>();
 		routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
+		if(routeElements.size() !=0){
+			busStations.clear();
+			busStations=direction.getBusStation(routeElements);
+		}
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
 		model.addAttribute("maxRoute",maxRoute);

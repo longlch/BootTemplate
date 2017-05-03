@@ -319,10 +319,13 @@ public class Direction {
 		return routeDirection;
 	}
 
-	public List<BusStation> getBusStation(List<RouteElement> routeElements) {	
+	public List<BusStation> getBusStation(List<RouteElement> routeElements) throws DirectionException{	
 		List<Integer> stationIds = new ArrayList<>();
 		List<BusStation> busStations = new ArrayList<>();
 		
+		if(routeElements.size()<2){
+			throw new DirectionException("No direction was found");
+		}
 		for (RouteElement routeElement : routeElements) {
 			if (routeElement.getStationFromId() != -1 || routeElement.getStationToId()!= 9999) {
 				stationIds.add(routeElement.getStationFromId());
@@ -406,8 +409,8 @@ public class Direction {
 		Direction direction = new Direction();
 		List<RouteElement> routeElementDirection=null;
 		try {
-			routeElementDirection= direction.directInSideBar(" bến xe, đà nẵng","bến xe, đà nẵng", 2);
-//			routeElementDirection = direction.directInSideBar("453 hoàng diệu, da nang","163 dũng sĩ thanh khê,da nang", 2);
+//			routeElementDirection= direction.directInSideBar(" bến xe, đà nẵng","bến xe, đà nẵng", 2);
+			routeElementDirection = direction.directInMap2("453 hoàng diệu, da nang","5 quang trung,da nang", 2);
 		} catch (OriginNearlyException e) {
 			e.printStackTrace();
 		}catch(DirectionException  e){
@@ -416,6 +419,13 @@ public class Direction {
 			e.printStackTrace();
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+		for (RouteElement routeElement : routeElementDirection) {
+			System.out.println(routeElement.toString());
+		}
+		List<BusStation> busStations=direction.getBusStation(routeElementDirection);
+		for (BusStation busStation : busStations) {
+			System.out.println(busStation.getId());
 		}
 //		List<RouteElement> routeElementDirection = direction.directInSideBar("5 quang trung, da nang","135 cù chính lan ,da nang", 3);
 //		List<RouteElement> 

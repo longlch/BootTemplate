@@ -137,6 +137,10 @@ function initMap() {
     $(".max-route").click(function() {
     	maxRoute=$(this).val();
     });
+    $("body").on("click", "#btnDetail", function (event) {
+    	// It will head to detail page and get conttent from there
+    	detailContent(url, routeId);
+    });
 }
 function clearPolyline(renderList){
     for(let i=0;i<renderList.length;i++){
@@ -161,10 +165,15 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             maxRoute:maxRoute
         }
         , success: function (data) {
-            if(data.length != 1){
-                calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);   
+        	let html = jQuery('<body>').html(data);
+            let checkData= html.find("#contentDirection").val();
+            console.log("check data is "+checkData);
+            if( typeof checkData === "undefined"){
+            	 if(data.length != 1){
+            		 calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);   
+            	 }
             }else{
-                console.log("No direction was found");
+            	console.log("No direction was found");
             }
             
         }
@@ -341,7 +350,6 @@ function showMarkerDetail1(markers){
     let stationsName=$(".stationsName");
     if(markersLength>0 && ( typeof(stationsName) != "underfined") ){
         for(let j=0;j<stationsName.length;j++){
-        console.log("stations name object "+stationsName[j]);
             
         google.maps.event.addDomListener(stationsName[j], "click", function () {
                 google.maps.event.trigger(markers[j], "click");
@@ -356,7 +364,6 @@ function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
         lat: lat1
         , lng:lng1
     };
-    console.log(" ahihi"+lat1+" "+lng1);
     geocoder.geocode({
         'location': latlng
     }, function (results, status) {
@@ -375,7 +382,6 @@ function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
     });
 }
 function drawDirection(stations,map,service,busLine){
-
     var lngs = stations.map(function (station) {
         return station.lng;
     });
@@ -469,4 +475,21 @@ function customizeMap() {
             name: 'Styled Map'
         });
     return styledMapType;
+}
+
+function detailContent(url, routeId) {
+	 var getUrl = url + "/directionDetail/" + routeId;
+	    $.ajax({
+	        type: "GET"
+	        , url: getUrl
+	        , data: {
+	            trend: trend
+	        }
+	        , success: function (data) {
+	            var html = jQuery('<body>').html(data);
+	            var content = html.find("#content").html();
+	            $("#routes-tab").html(content);
+	             showMarkerDetail(markers);
+	        }
+	    });
 }

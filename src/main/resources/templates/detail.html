@@ -43,13 +43,9 @@
 		</div>
 
 		<div class="containter">
-			<div class="row row-eq-height stations"
-				th:each="busStop :${busStops}">
-				<div class="col-md-2">
-					<p th:text="${busStop.id}"> </p>
-				</div>
-				<div class="col-md-10 stationsName">
-					<p th:text="${busStop.name}"></p>
+			<div class="row row-eq-height">
+				<div class="col-md-12">
+					<p th:text="${busRouteInfo.information}"></p>
 				</div>
 			</div>
 		</div>

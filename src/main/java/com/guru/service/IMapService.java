@@ -11,6 +11,6 @@ public interface IMapService {
 //	 get data and show it into lef side bar
 	 List<BusStop> getBusStops(String route,String trend);
 	 
-	 String getRouteName(String id);
+	 String getRouteName(int id);
 	 
 }

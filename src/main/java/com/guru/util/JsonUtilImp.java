@@ -206,4 +206,18 @@ public class JsonUtilImp implements IJsonUtil {
 		}
 		return number;
 	}
+	
+
+	@Override
+	public BusRoute getBusRouteDetail(int route, String trend) {
+		List<BusRoute> busRoutes=this.getBusRoutes();
+		Boolean turn = Boolean.valueOf(trend);
+
+		for (BusRoute busRoute : busRoutes) {
+			if(busRoute.getId()== route && busRoute.isTurn() == turn){
+				return busRoute;
+			}
+		}
+		return null;
+	}
 }

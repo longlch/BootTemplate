@@ -16,4 +16,5 @@ public interface IJsonUtil {
 	
 	List<RouteElement> graphRouteElement();
 	List<BusStation> getBusStationFromBusRoute(int route,String trend);
+	BusRoute getBusRouteDetail(int route,String trend);
 }
