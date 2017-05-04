@@ -10,7 +10,7 @@ $("body").on("click", "#btnStop", function (event) {
  });
     
 var markers = [];
-var url = window.location.href;
+var url = window.location.href;zzz
 var trend;
 var currentTrend;
 var renderList=[];

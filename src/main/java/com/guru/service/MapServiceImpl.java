@@ -54,7 +54,7 @@ public class MapServiceImpl implements IMapService{
 	public String getRouteName(int id) {
 		switch (id) {
 		case 5:return "Tuyến số 5: Nguyễn Tất Thành- Xuân Diệu ";
-		case 7:return "Tuyến số 7: Xuân Diệu- Metro";
+		case 7:return "Tuyến số 7: Xuân Diệu- Metro ";
 		case 8:return "Tuyến số 8: Thọ Quang- Phạm Hùng ";
 		case 11:return "Tuyến số 11: Xuân Diệu- Lotte Mart ";
 		case 12:return "Tuyến số 12: Thọ Quang- Trường Sa";
