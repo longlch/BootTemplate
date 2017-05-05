@@ -10,7 +10,7 @@ $("body").on("click", "#btnStop", function (event) {
  });
     
 var markers = [];
-var url = window.location.href;zzz
+var url = window.location.href;
 var trend;
 var currentTrend;
 var renderList=[];
@@ -60,6 +60,10 @@ function initMap() {
     var styledMapType = customizeMap();
     let maxRoute;
     let routesTab=$("#routes-tab").html();
+    let startPoint1= document.getElementById("startPoint");
+    let autocomplete = new google.maps.places.Autocomplete(startPoint1);
+    let endPoint1= document.getElementById("endPoint");
+    let autocomplete1 = new google.maps.places.Autocomplete(endPoint1);
     
     walkLine = '#FF0000';
     var busLine=' #00e600';
@@ -141,6 +145,11 @@ function initMap() {
     	// It will head to detail page and get conttent from there
     	detailContent(url, routeId);
     });
+    $("body").on("click", ".realTime", function (event) {
+    	// It will head to detail page and get conttent from there
+    	alert("hihi");
+    });
+    
 }
 function clearPolyline(renderList){
     for(let i=0;i<renderList.length;i++){
@@ -152,7 +161,7 @@ function sendAddress(maxRoute,map,service,geocoder,infowindow,busLine){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
     ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine);
-    sideBarDirection(url,startPoint,endPoint,maxRoute);
+//    sideBarDirection(url,startPoint,endPoint,maxRoute);
 }
 function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,infowindow,busLine) {
     var getUrl = url + "/detail" ;
@@ -165,9 +174,12 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             maxRoute:maxRoute
         }
         , success: function (data) {
+        	console.log(data.length);
+        	for(let j=0;j<data.length;j++){
+        		console.log("data is "+data[j].id);
+        	}
         	let html = jQuery('<body>').html(data);
             let checkData= html.find("#contentDirection").val();
-            console.log("check data is "+checkData);
             if( typeof checkData === "undefined"){
             	 if(data.length != 1){
             		 calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);   
@@ -369,7 +381,13 @@ function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {
     }, function (results, status) {
         if (status === 'OK') {
             if (results[0]) {
-                let contentString = '<div id="infoContent" style="height:85px;width:355px">' + '<div id="siteNotice">' + '</div>' + '<div id="bodyContent" >' + '<p><b>Tên trạm dừng:    </b>' + nameStation + '</p>' + '<p><b>Địa chỉ:    </b>' + results[0].formatted_address + '</p>' + '<input style="height:20px;width:341px" type = "button" value = "Thời gian chờ"/>' + '</div>' + '</div>';
+                let contentString = '<div id="infoContent" style="height:85px;width:355px">' 
+                	+ '<div id="siteNotice">' + '</div>' + '<div id="bodyContent" >' 
+                	+ '<p><b>Tên trạm dừng:    </b>'
+                	+ nameStation + '</p>' + '<p><b>Địa chỉ:  </b>' 
+                	+ results[0].formatted_address + '</p>' 
+                	+ '<input class="realTime" style="height:20px;width:341px" type = "button" value = "Thời gian chờ"/>' 
+                	+ '</div>' + '</div>';
                 infowindow.setContent(contentString);
             }
             else {

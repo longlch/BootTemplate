@@ -92,7 +92,6 @@
  .rowClear2 {
      display: block;
      padding: 10px 5px;
-     height: 40px;
      /*border-bottom: 1px solid #ccc;*/
  }
  .rowClear2 b{
@@ -124,12 +123,12 @@
      background-color:  #109d59;
      overflow: hidden;
      height: 80px;
-     
+     margin-bottom: 5px;
  }
  .containter{
 	overflow-x:hidden;
 	overflow-y:auto;
-	height: 400px;
+	height: 450px;
  	 }
  
  .detailPage .btn {
@@ -182,3 +181,13 @@
     border: 1px solid #ccc;
     /* border-radius: 4px; */
 }
+.rowClear5 {
+     display: block;
+     padding: 10px 5px;
+     /*border-bottom: 1px solid #ccc;*/
+ }
+ .rowClear4 {
+     display: block;
+     padding: 5px ;
+     /*border-bottom: 1px solid #ccc;*/
+ }

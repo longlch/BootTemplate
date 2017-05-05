@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value="/")
 public class HomeController {
 	
-	@RequestMapping(method=RequestMethod.GET)
+	/*@RequestMapping(method=RequestMethod.GET)
 	public String home(@RequestParam(value="name",required=false,defaultValue="Hoang Long")String greeting,Model model){
 		model.addAttribute("haha","hihi");
 		model.addAttribute(greeting);
 		
 		return "home";
+	}*/
+	@RequestMapping(method=RequestMethod.GET)
+	public String home(){
+		return "redirect:/map";
 	}
 	
-	/*@RequestMapping(method=RequestMethod.GET)
-	public String home(){
-		return "home";
-	}*/
 	
 }

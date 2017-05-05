@@ -83,10 +83,12 @@ public class MapController {
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> busStations= new ArrayList<>();
 		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));
-
+		// debug here
+		logger.info("route size is "+routeElements.size());
 		if(routeElements.size() !=0){
 			busStations.clear();
 			busStations=direction.getBusStation(routeElements);
+			logger.info("bus station size "+busStations.size());
 		}else{
 			busStations= new ArrayList<>();
 			double a = 12;
@@ -99,16 +101,9 @@ public class MapController {
 	public String directionInSideBar(@RequestParam(value = "startPoint") String startPoint,
 			@RequestParam(value = "endPoint") String endPoint,
 			@RequestParam(value = "maxRoute")int maxRoute,Model model) throws DestiNearbyException,DirectionException,OriginNearlyException {
-		startPoint = startPoint + ", Đà Nẵng";	
-		endPoint = endPoint + ", Đà Nẵng";
-		
-		List<BusStation> busStations= new ArrayList<>();
+
 		List<RouteElement> routeElements = new ArrayList<>();
 		routeElements.addAll(direction.directInSideBar(startPoint,endPoint, maxRoute));
-		if(routeElements.size() !=0){
-			busStations.clear();
-			busStations=direction.getBusStation(routeElements);
-		}
 		model.addAttribute("routeElements",routeElements);
 		model.addAttribute("size",routeElements.size());
 		model.addAttribute("maxRoute",maxRoute);

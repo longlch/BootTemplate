@@ -9,16 +9,15 @@
 		<div class="detailPage" style="">
 			<div class="containter">
 				<div class="row row-eq-height rowClear2">
-					<div class="col-md-2">
-							<span class="glyphicon glyphicon-menu-left btn-back" aria-hidden="true"></span>
+					<div class="col-md-1 col-xs-2 col-sm-2">
+						<span class="glyphicon glyphicon-menu-left btn-back"
+							aria-hidden="true"></span>
 					</div>
-					<div class="col-md-10">
+					<div class="col-md-10 col-xs-9 col-sm-9">
 						<b th:text="${busRoute}">${busRoute}</b>
 					</div>
 				</div>
-
-				<div class="row row-eq-height rowClear2">
-					<div class="col-md-12">
+					<div class="col-md-12 col-xs-12">
 						<div class="btn-group btn-group-justified" role="group">
 							<div class="btn-group" role="group">
 								<button type="button" id="btnGo" class="btn btn-default">Go</button>
@@ -35,22 +34,22 @@
 							<div class="btn-group" role="group">
 								<button type="button" id="btnStop" class="btn btn-default">Stop</button>
 							</div>
-							
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="containter">
-			<div class="row row-eq-height stations"
+			<div class="row row-eq-height rowClear5 row-bordered"
 				th:each="busStop :${busStops}">
-				<div class="col-md-2">
-					<p th:text="${busStop.id}"> </p>
+				<div class="col-md-4 col-sm-4 ">
+					<b th:text="'Station '+${busStop.id}+''"> </b>
 				</div>
-				<div class="col-md-10 stationsName">
-					<p th:text="${busStop.name}"></p>
+				<div class="col-md-8 col-sm-8 stationsName ">
+					<i th:text="${busStop.name}"></i>
 				</div>
+				<div class="clearfix visible-xs-block"></div>
+
 			</div>
 		</div>
 	</div>

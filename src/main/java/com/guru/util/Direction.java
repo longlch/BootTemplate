@@ -323,16 +323,18 @@ public class Direction {
 		List<Integer> stationIds = new ArrayList<>();
 		List<BusStation> busStations = new ArrayList<>();
 		
+//		when walk from A to B it will throw exception
 		if(routeElements.size()<2){
 			throw new DirectionException("No direction was found");
 		}
+		
 		for (RouteElement routeElement : routeElements) {
-			if (routeElement.getStationFromId() != -1 || routeElement.getStationToId()!= 9999) {
+			if (routeElement.getStationFromId() == -1) {
+				stationIds.add(routeElement.getStationToId());
+			}else if(routeElement.getStationToId() == 9999){
 				stationIds.add(routeElement.getStationFromId());
 			}
 		}
-		stationIds.remove(0);
-
 		for (Integer id : stationIds) {
 				for (BusStation busStation2 : bStations) {
 					if (id == busStation2.getId()) {
@@ -340,7 +342,6 @@ public class Direction {
 						continue;
 					}
 				}
-				
 		}
 		busStations.add(0,oriDestiBusStation.get(0));
 		busStations.add(oriDestiBusStation.get(1));
@@ -401,6 +402,7 @@ public class Direction {
 		if(routeDirection.size() == 0){
 			throw new DirectionException("can't find the direction at map");
 		}
+		///// filter direction
 		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
 		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
 		return routeDirection;
@@ -409,8 +411,11 @@ public class Direction {
 		Direction direction = new Direction();
 		List<RouteElement> routeElementDirection=null;
 		try {
-//			routeElementDirection= direction.directInSideBar(" bến xe, đà nẵng","bến xe, đà nẵng", 2);
-			routeElementDirection = direction.directInMap2("453 hoàng diệu, da nang","5 quang trung,da nang", 2);
+//			routeElementDirection= direction.directInSideBar(" 453 hoàng diệu, đà nẵng","163 dũng sĩ thanh khê, đà nẵng", 2);
+//			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
+//			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
+			routeElementDirection = direction.directInMap2("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);
+//			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);
 		} catch (OriginNearlyException e) {
 			e.printStackTrace();
 		}catch(DirectionException  e){
@@ -423,36 +428,13 @@ public class Direction {
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement.toString());
 		}
+		System.out.println("filter route element to get bus station");
 		List<BusStation> busStations=direction.getBusStation(routeElementDirection);
 		for (BusStation busStation : busStations) {
 			System.out.println(busStation.getId());
 		}
-//		List<RouteElement> routeElementDirection = direction.directInSideBar("5 quang trung, da nang","135 cù chính lan ,da nang", 3);
-//		List<RouteElement> 
-//		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","466 lê duẩn ,da nang", 3);
-//		List<RouteElement> routeElementDirection = direction.directInSideBar("135 cù chính lan, da nang","5 quang trung,da nang", 3);
-		/*for (RouteElement routeElement : routeElementDirection) {
-			System.out.println(routeElement);
-		}*/
-		
-		/*System.out.println("get bus station from Route Element");
-		List<BusStation> newBusStation=direction.getBusStation(routeElementDirection);
-		System.out.println(newBusStation.size());*/
-		
-		/*for (BusStation busStation : newBusStation) {
-			System.out.println(busStation.getName()+" "+busStation.getLat()+" "+busStation.getLng());
-		}*/
 		
 		direction.oriDestiBusStation.clear();
 		
-		/*List<BusStation> busStations=direction.getBusStation(routeElementDirection);
-		for (BusStation busStation : busStations) {
-			System.out.println(busStation);
-		}*/
-		/*List<RouteElement> miniMizeRouEle = direction.directInSideBar("435 hoang dieu, da nang",
-				"163 dung si thanh khe,da nang", 3);
-		for (RouteElement routeElement : miniMizeRouEle) {
-			System.out.println(routeElement);
-		}*/
 	}
 }
