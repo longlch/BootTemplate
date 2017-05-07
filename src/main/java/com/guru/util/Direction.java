@@ -2,6 +2,7 @@ package com.guru.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -319,10 +320,9 @@ public class Direction {
 		return routeDirection;
 	}
 
-	public List<BusStation> getBusStation(List<RouteElement> routeElements) throws DirectionException{	
-		List<Integer> stationIds = new ArrayList<>();
-		List<BusStation> busStations = new ArrayList<>();
-		
+	public List<BusStation> getBusStation(List<RouteElement> routeElements) throws DirectionException{
+		List<BusStation> busStations= new ArrayList<>();
+		HashSet<Integer> stationIds= new HashSet<>();
 //		when walk from A to B it will throw exception
 		if(routeElements.size()<2){
 			throw new DirectionException("No direction was found");
@@ -333,19 +333,25 @@ public class Direction {
 				stationIds.add(routeElement.getStationToId());
 			}else if(routeElement.getStationToId() == 9999){
 				stationIds.add(routeElement.getStationFromId());
+			}else{
+				stationIds.add(routeElement.getStationFromId());
 			}
 		}
+		
+		System.out.println("debug: stationIds size is"+stationIds.size());
 		for (Integer id : stationIds) {
-				for (BusStation busStation2 : bStations) {
-					if (id == busStation2.getId()) {
-						busStations.add(busStation2);
-						continue;
-					}
+			for (BusStation busStation1 : bStations) {
+				if (id.intValue() == busStation1.getId().intValue()) {
+					System.out.println("debug: busTation id "+busStation1.getId());
+					busStations.add(busStation1);
+					break;
 				}
+			}
 		}
+		
+		
 		busStations.add(0,oriDestiBusStation.get(0));
 		busStations.add(oriDestiBusStation.get(1));
-		
 		return busStations;
 	}
 
@@ -402,6 +408,7 @@ public class Direction {
 		if(routeDirection.size() == 0){
 			throw new DirectionException("can't find the direction at map");
 		}
+		
 		///// filter direction
 		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
 		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
@@ -414,8 +421,14 @@ public class Direction {
 //			routeElementDirection= direction.directInSideBar(" 453 hoàng diệu, đà nẵng","163 dũng sĩ thanh khê, đà nẵng", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
-			routeElementDirection = direction.directInMap2("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);
+//			routeElementDirection = direction.directInMap2("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);
+			
+//			routeElementDirection = direction.directInMap2("18 Ngô Quyền, Đà Nẵng, Việt Nam","20 Bà Huyện Thanh Quan, Mỹ An, Đà Nẵng, Việt Nam", 2);
+//			routeElementDirection = direction.directInSideBar("18 Ngô Quyền, Đà Nẵng, Việt Nam","20 Bà Huyện Thanh Quan, Mỹ An, Đà Nẵng, Việt Nam", 18);
+			
+			routeElementDirection = direction.directInMap2("5 Nguyễn Thông, Sơn Trà, Đà Nẵng, Việt Nam","Lê Tấn Trung, Sơn Trà, Đà Nẵng, Việt Nam",2);
+//			routeElementDirection = direction.directInSideBar("18 Ngô Quyền, Đà Nẵng, Việt Nam","20 Bà Huyện Thanh Quan, Mỹ An, Đà Nẵng, Việt Nam", 18);
 		} catch (OriginNearlyException e) {
 			e.printStackTrace();
 		}catch(DirectionException  e){
@@ -425,12 +438,13 @@ public class Direction {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		System.out.println("list route element");
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement.toString());
 		}
-		System.out.println("filter route element to get bus station");
-		List<BusStation> busStations=direction.getBusStation(routeElementDirection);
-		for (BusStation busStation : busStations) {
+		System.out.println("debug: getBusStation ");
+		List<BusStation> getBusStation=direction.getBusStation(routeElementDirection);
+		for (BusStation busStation : getBusStation) {
 			System.out.println(busStation.getId());
 		}
 		

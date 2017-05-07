@@ -161,7 +161,7 @@ function sendAddress(maxRoute,map,service,geocoder,infowindow,busLine){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
     ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine);
-//    sideBarDirection(url,startPoint,endPoint,maxRoute);
+   	 sideBarDirection(url,startPoint,endPoint,maxRoute);
 }
 function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,infowindow,busLine) {
     var getUrl = url + "/detail" ;

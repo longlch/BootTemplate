@@ -88,7 +88,7 @@ public class MapController {
 		if(routeElements.size() !=0){
 			busStations.clear();
 			busStations=direction.getBusStation(routeElements);
-			logger.info("bus station size "+busStations.size());
+//			direction.oriDestiBusStation.clear();
 		}else{
 			busStations= new ArrayList<>();
 			double a = 12;
