@@ -64,6 +64,7 @@ function initMap() {
     let autocomplete = new google.maps.places.Autocomplete(startPoint1);
     let endPoint1= document.getElementById("endPoint");
     let autocomplete1 = new google.maps.places.Autocomplete(endPoint1);
+    let flag= true;
     
     walkLine = '#FF0000';
     var busLine=' #00e600';
@@ -96,12 +97,14 @@ function initMap() {
         }
         console.log(data, formatted);
     });
+    // back button from content in side bar
     $("body").on("click", ".btn-back", function (event) {
         clearMarkers();
         clearPolyline(renderList);
         renderList=[];
         $("#routes-tab").html(routesTab);
     });
+    
     $("body").on("click", ".rowClear", function (event) {
     	clearMarkers();
         markers = [];
@@ -110,27 +113,33 @@ function initMap() {
         trend = "true";
         currentTrend = "true"
         ajaxGetContent(url, routeId, trend);
+
+//        get content and push it in side bar
         currentRoute = routeId;
         //  create maker 
-        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+        flag=false;
+        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag);
         // draw poly
         drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
         
     });
     $("body").on("click", "#btnBack", function (event) {
+        flag=false;
         currentTrend = "false";
-        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag);
     });
     $("body").on("click", "#btnGo", function (event) {
+        flag=false;
         currentTrend = "true";
-        checkTrend(currentTrend, currentRoute,url,directionsService,directionsDisplay,map,geocoder,infowindow,busLine);
+        checkTrend(currentTrend, currentRoute,url,directionsService,directionsDisplay,map,geocoder,infowindow,busLine,flag);
     });
     $("#btnSearch").click(function(){
+        flag=true;
     	if (typeof maxRoute=== "undefined") {
            clearMarkers();
             markers = [];
             clearPolyline(renderList);
-    		sendAddress(2,map,directionsService,geocoder,infowindow,busLine);
+    		sendAddress(2,map,directionsService,geocoder,infowindow,busLine,flag);
     	}else if(maxRoute >3){
             alert("There are no direction was be found");
             maxRoute=2;
@@ -138,7 +147,7 @@ function initMap() {
             clearMarkers();
             markers = [];
             clearPolyline(renderList);
-    		sendAddress(maxRoute,map,directionsService,geocoder,infowindow,busLine);
+    		sendAddress(maxRoute,map,directionsService,geocoder,infowindow,busLine,flag);
             maxRoute=2;
     	}
     });
@@ -177,13 +186,13 @@ function clearPolyline(renderList){
     }
 }
 
-function sendAddress(maxRoute,map,service,geocoder,infowindow,busLine){
+function sendAddress(maxRoute,map,service,geocoder,infowindow,busLine,flag){
     let startPoint=$("#startPoint").val();
     let endPoint=$("#endPoint").val();
-    ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine);
+    ajaxDirection(url,startPoint,endPoint,maxRoute,map,service,geocoder,infowindow,busLine,flag);
    	 sideBarDirection(url,startPoint,endPoint,maxRoute);
 }
-function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,infowindow,busLine) {
+function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,infowindow,busLine,flag) {
     var getUrl = url + "/detail" ;
     $.ajax({
         type: "GET"
@@ -202,7 +211,7 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             let checkData= html.find("#contentDirection").val();
             if( typeof checkData === "undefined"){
             	 if(data.length != 1){
-            		 calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine);   
+            		 calculateAndDisplayRoute1(service, null, data, map, geocoder, infowindow,busLine,flag);   
             	 }
             }else{
             	console.log("No direction was found");
@@ -235,7 +244,7 @@ function sideBarDirection(url,startPoint,endPoint,maxRoute) {
 	});
 }
 
-function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine) {
+function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag) {
     if (currentTrend == trend) {}
     else {
         clearMarkers();
@@ -244,7 +253,8 @@ function checkTrend(currentTrend, currentRoute, url, directionsService, directio
         renderList=[];
         trend = currentTrend;
         ajaxGetContent(url, currentRoute, currentTrend);
-        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag);
+        drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
     }
 }
 
@@ -301,7 +311,7 @@ function parseLng(str) {
     return number;
 }
 
-function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine) {
+function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag) {
 // let busRoute = "route" + routeId;
     $.ajax({
         type: "GET"
@@ -314,12 +324,12 @@ function callAjax(url, routeId, trend, directionsService, directionsDisplay, map
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
-            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine);
+            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag);
         }
     });
 }
 
-function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine) {
+function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag) {
     // load waypoint from server
     let totalDataLength = jsonResponse.length;
     let waypts = [];
@@ -357,7 +367,10 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             infowindow.open(map, markers[index]);
         });
     }
-//    drawDirection(jsonResponse,map,directionsService,busLine);
+    if(flag){
+        drawDirection(jsonResponse,map,directionsService,busLine);
+    }
+
 }
 
 function createMarker(lat, lng, icon, map) {

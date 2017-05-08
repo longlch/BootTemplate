@@ -34,6 +34,8 @@ public class Direction {
 	private List<WalkingPath> wPaths = dataUtil.getWalkingPaths();
 	private List<RouteElement> grapRouteElement = dataUtil.graphRouteElement();
 	public List<BusStation> oriDestiBusStation=new ArrayList<>();
+	
+	
 
 	public Direction() {
 	}
