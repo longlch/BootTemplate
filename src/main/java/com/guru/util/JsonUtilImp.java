@@ -1,16 +1,15 @@
 package com.guru.util;
 
-import static org.mockito.Matchers.intThat;
-
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -220,4 +219,35 @@ public class JsonUtilImp implements IJsonUtil {
 		}
 		return null;
 	}
+
+	@Override
+	public String drawPolyline(int id, String trend) {
+		JSONParser parser = new JSONParser();
+		Resource resource= new ClassPathResource("static/bus_route/bus_route_polyline.json");
+		String jsonString="";
+		String jsArrStr="";
+		String route="route_"+id;
+		Boolean turn = Boolean.valueOf(trend);
+		String turnStr="";
+		if(turn){
+			turnStr="way_to_go";
+		}else{
+			turnStr="way_to_return";
+		}
+		try {
+			File file = resource.getFile();
+			Object obj = parser.parse(new FileReader(file.toString()));
+			jsonString = obj.toString();
+			
+			JSONObject jsObj= new JSONObject(jsonString);
+			JSONObject jsObjRoute=jsObj.getJSONArray(route).getJSONObject(0);
+			JSONArray jsWayToGo=jsObjRoute.getJSONArray(turnStr);
+			jsArrStr=jsWayToGo.toString();
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+		return jsArrStr;
+		
+	}
+	
 }

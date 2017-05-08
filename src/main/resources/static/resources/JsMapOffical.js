@@ -111,7 +111,11 @@ function initMap() {
         currentTrend = "true"
         ajaxGetContent(url, routeId, trend);
         currentRoute = routeId;
+        //  create maker 
         callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+        // draw poly
+        drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+        
     });
     $("body").on("click", "#btnBack", function (event) {
         currentTrend = "false";
@@ -150,6 +154,22 @@ function initMap() {
     	alert("hihi");
     });
     
+}
+function drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine){
+     $.ajax({
+        type: "GET"
+        , contentType: "application/json"
+        , url: url + "/draw"
+        , data: {
+            busRoute: routeId
+            , trend: trend
+        }
+        , dataType: 'json'
+        , timeout: 100000
+        , success: function (jsonResponse) {
+            drawDirection(jsonResponse,map,directionsService,busLine);
+        }
+    });
 }
 function clearPolyline(renderList){
     for(let i=0;i<renderList.length;i++){
@@ -337,7 +357,7 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             infowindow.open(map, markers[index]);
         });
     }
-    drawDirection(jsonResponse,map,directionsService,busLine);
+//    drawDirection(jsonResponse,map,directionsService,busLine);
 }
 
 function createMarker(lat, lng, icon, map) {
@@ -414,7 +434,8 @@ function drawDirection(stations,map,service,busLine){
     , });
     // Divide route to several parts because max stations limit is 25 (23
 	// waypoints + 1 origin + 1 destination)
-    for (var i = 0, parts = [], max = 25-1; i < stations.length; i = i + max) parts.push(stations.slice(i, i + max + 1));
+    for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max)
+        parts.push(stations.slice(i, i + max + 1));
     // Callback function to process service results
     var service_callback = function (response, status) {
                 if (status != 'OK') {
@@ -440,7 +461,7 @@ function drawDirection(stations,map,service,busLine){
         for (var j = 1; j < parts[i].length - 1; j++) waypoints.push({
             location: parts[i][j]
             , stopover: false
-        });
+        }); 
         // Service options
         var service_options = {
             origin: parts[i][0]

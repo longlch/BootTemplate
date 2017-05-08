@@ -7,5 +7,8 @@ public class MapURL {
 	public static final String BUS_ROUTE_DIRECTION_SIDE_BAR="/direction";
 	
 	public static final String BUS_ROUTE_DETAIL="/directionDetail/{id}";
+
+	public static final String BUS_ROUTE_DRAW="/draw";
+	
 	
 }

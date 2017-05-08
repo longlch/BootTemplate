@@ -110,5 +110,13 @@ public class MapController {
 		return "direction_map";
 	}
 	
+	@RequestMapping(value=MapURL.BUS_ROUTE_DRAW,method=RequestMethod.GET)
+	public @ResponseBody String directionAjax(@RequestParam(value="busRoute")int id,
+												@RequestParam(value="trend") String trend){
+		String reponseJson="";
+		reponseJson=serviceJson.drawPolyline(id, trend);
+		return reponseJson;
+	}
+	
 
 }
