@@ -250,13 +250,40 @@ public class JsonUtilImp implements IJsonUtil {
 		
 	}
 
-	/*public static void main(String[] args) {
-		JsonUtilImp js= new JsonUtilImp();
-		List<BusStation> bss=js.getBusStations();
-		for (BusStation busStation : bss) {
-			System.out.println(busStation.getBusList().get(0).getId());
+	@Override
+	public String realTime(int id, String trend) {
+		JSONParser parser = new JSONParser();
+		Resource resource= new ClassPathResource("static/bus_route/bus_route_polyline_special.json");
+		String jsonString="";
+		String jsArrStr="";
+		String route="route_"+id;
+		Boolean turn = Boolean.valueOf(trend);
+		String turnStr="";
+		if(turn){
+			turnStr="way_to_go";
+		}else{
+			turnStr="way_to_return";
 		}
+		try {
+			File file = resource.getFile();
+			Object obj = parser.parse(new FileReader(file.toString()));
+			jsonString = obj.toString();
+			
+			JSONObject jsObj= new JSONObject(jsonString);
+			JSONObject jsObjRoute=jsObj.getJSONArray(route).getJSONObject(0);
+			JSONArray jsWayToGo=jsObjRoute.getJSONArray(turnStr);
+			jsArrStr=jsWayToGo.toString();
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+		return jsArrStr;
+	}
+
+	public static void main(String[] args) {
+		JsonUtilImp js= new JsonUtilImp();
+		String a=js.realTime(5, "true");
+		System.out.println(a);
 		
-	}*/
+	}
 	
 }

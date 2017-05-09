@@ -142,6 +142,14 @@ public class MapController {
 		return "realtime";
 	}
 	
+	@RequestMapping(value=MapURL.BUS_ROUTE_SPECIAL,method=RequestMethod.GET)
+	public @ResponseBody String polylineSpecial(@RequestParam(value="busRoute")int id,
+												@RequestParam(value="trend") String trend){
+		String reponseJson="";
+		reponseJson=serviceJson.realTime(id, trend);
+		return reponseJson;
+	}
+	
 	
 	
 

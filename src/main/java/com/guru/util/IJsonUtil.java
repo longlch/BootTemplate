@@ -19,4 +19,5 @@ public interface IJsonUtil {
 	BusRoute getBusRouteDetail(int route,String trend);
 	
 	public String drawPolyline(int id,String trend);
+	public String realTime(int id,String trend);
 }
