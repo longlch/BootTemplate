@@ -1,4 +1,4 @@
-    var socket = io.connect('https://dnbus-rt.herokuapp.com/');
+  /*  var socket = io.connect('https://dnbus-rt.herokuapp.com/');
     var arrayMarker = [];
 
    
@@ -7,7 +7,7 @@
  });
 $("body").on("click", "#btnStop", function (event) {
 	 socket.emit('unsubscribe', routeId);
- });
+ });*/
     
 var markers = [];
 var url = window.location.href;
@@ -16,6 +16,12 @@ var currentTrend;
 var renderList=[];
 var routeId=null;
 var walkLine;
+
+//this variable for real time
+var realLat;
+var realLng;
+var realRoute;
+
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "30%";
@@ -81,7 +87,7 @@ function initMap() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-    socket.on('message', function(data) {
+    /*socket.on('message', function(data) {
         var now = new Date(Date.now());
         var formatted = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
         for (let i = 0, n = data.length; i < n; i++) {
@@ -96,7 +102,7 @@ function initMap() {
             arrayMarker[i].setVisible(true);
         }
         console.log(data, formatted);
-    });
+    });*/
     // back button from content in side bar
     $("body").on("click", ".btn-back", function (event) {
         clearMarkers();
@@ -159,10 +165,31 @@ function initMap() {
     	detailContent(url, routeId);
     });
     $("body").on("click", ".realTime", function (event) {
-    	// It will head to detail page and get conttent from there
-    	alert("hihi");
+//        alert(realLng+" "+realLat+" "+realRoute);
+        realTime(realLat,realLng,realRoute);
     });
     
+}
+function realTime(lat,lng,route){
+    $.ajax({
+    data: JSON.stringify({
+         lat: lat
+        , lng: lng
+        ,turn:true
+        ,route:route
+        ,data:route
+    }),
+    dataType: 'application/json',
+    url: 'https://dnbus-rt.herokuapp.com/api/get-bus-time/',
+    type: 'POST',
+    contentType: 'application/json; charset=utf-8',
+    success: function (result) {
+        alert(result);
+    },
+    failure: function (errMsg) {
+        alert(errMsg);
+    }
+});
 }
 function drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine){
      $.ajax({
@@ -203,6 +230,8 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             maxRoute:maxRoute
         }
         , success: function (data) {
+//            alert(data[0].busList[0].turn);
+
         	console.log(data.length);
         	for(let j=0;j<data.length;j++){
         		console.log("data is "+data[j].id);
@@ -324,6 +353,8 @@ function callAjax(url, routeId, trend, directionsService, directionsDisplay, map
         , dataType: 'json'
         , timeout: 100000
         , success: function (jsonResponse) {
+//            alert(jsonResponse[0].busList[0].turn);
+            
             calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag);
         }
     });
@@ -363,6 +394,13 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
         }
         markers[index].addListener('click', function () {
         	map.setCenter(markers[index].getPosition());
+            realLng=jsonResponse[index].lng;
+            realLat=jsonResponse[index].lat;
+            
+            if(jsonResponse[index].id != -1 && jsonResponse[index] != 9999){
+                realRoute=jsonResponse[index].busList[0].id;
+            }
+            
            geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
             infowindow.open(map, markers[index]);
         });
@@ -401,7 +439,7 @@ function showMarkerDetail1(markers){
         });
     }
     }else{
-        alert("ahhihi");
+        alert("content with marker get error ");
     }
 }
 function geocodeLatLng(geocoder, map, infowindow, lat1,lng1, nameStation) {

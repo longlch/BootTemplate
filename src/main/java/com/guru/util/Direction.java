@@ -324,7 +324,8 @@ public class Direction {
 
 	public List<BusStation> getBusStation(List<RouteElement> routeElements) throws DirectionException{
 		List<BusStation> busStations= new ArrayList<>();
-		HashSet<Integer> stationIds= new HashSet<>();
+//		HashSet<Integer> stationIds= new HashSet<>();
+		List<Integer> stationIds= new ArrayList<>();
 //		when walk from A to B it will throw exception
 		if(routeElements.size()<2){
 			throw new DirectionException("No direction was found");
@@ -332,7 +333,6 @@ public class Direction {
 		
 		for (RouteElement routeElement : routeElements) {
 			if (routeElement.getStationFromId() == -1) {
-				stationIds.add(routeElement.getStationToId());
 			}else if(routeElement.getStationToId() == 9999){
 				stationIds.add(routeElement.getStationFromId());
 			}else{
@@ -344,14 +344,12 @@ public class Direction {
 		for (Integer id : stationIds) {
 			for (BusStation busStation1 : bStations) {
 				if (id.intValue() == busStation1.getId().intValue()) {
-					System.out.println("debug: busTation id "+busStation1.getId());
+//					System.out.println("debug: busTation id "+busStation1.getBusList().get(0).getId());
 					busStations.add(busStation1);
 					break;
 				}
 			}
 		}
-		
-		
 		busStations.add(0,oriDestiBusStation.get(0));
 		busStations.add(oriDestiBusStation.get(1));
 		return busStations;
@@ -420,7 +418,7 @@ public class Direction {
 		Direction direction = new Direction();
 		List<RouteElement> routeElementDirection=null;
 		try {
-//			routeElementDirection= direction.directInSideBar(" 453 hoàng diệu, đà nẵng","163 dũng sĩ thanh khê, đà nẵng", 2);
+			routeElementDirection= direction.directInMap2(" 435 hoàng diệu, đà nẵng","163 dũng sĩ thanh khê, đà nẵng", 5);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);
@@ -429,7 +427,7 @@ public class Direction {
 //			routeElementDirection = direction.directInMap2("18 Ngô Quyền, Đà Nẵng, Việt Nam","20 Bà Huyện Thanh Quan, Mỹ An, Đà Nẵng, Việt Nam", 2);
 //			routeElementDirection = direction.directInSideBar("18 Ngô Quyền, Đà Nẵng, Việt Nam","20 Bà Huyện Thanh Quan, Mỹ An, Đà Nẵng, Việt Nam", 18);
 			
-			routeElementDirection = direction.directInMap2("5 Nguyễn Thông, Sơn Trà, Đà Nẵng, Việt Nam","Lê Tấn Trung, Sơn Trà, Đà Nẵng, Việt Nam",2);
+//			routeElementDirection = direction.directInMap2("5 Nguyễn Thông, Sơn Trà, Đà Nẵng, Việt Nam","Lê Tấn Trung, Sơn Trà, Đà Nẵng, Việt Nam",2);
 //			routeElementDirection = direction.directInSideBar("18 Ngô Quyền, Đà Nẵng, Việt Nam","20 Bà Huyện Thanh Quan, Mỹ An, Đà Nẵng, Việt Nam", 18);
 		} catch (OriginNearlyException e) {
 			e.printStackTrace();
@@ -444,6 +442,8 @@ public class Direction {
 		for (RouteElement routeElement : routeElementDirection) {
 			System.out.println(routeElement.toString());
 		}
+		
+//		direct in map
 		System.out.println("debug: getBusStation ");
 		List<BusStation> getBusStation=direction.getBusStation(routeElementDirection);
 		for (BusStation busStation : getBusStation) {

@@ -78,8 +78,8 @@ public class MapController {
 	public @ResponseBody List<BusStation> directionInDetail(@RequestParam(value = "startPoint") String startPoint,
 			@RequestParam(value = "endPoint") String endPoint,
 			@RequestParam(value = "maxRoute")int maxRoute) throws DestiNearbyException,DirectionException,OriginNearlyException {
-		startPoint = startPoint + ", Đà Nẵng";
-		endPoint = endPoint + ", Đà Nẵng";
+		/*startPoint = startPoint + ", Đà Nẵng";
+		endPoint = endPoint + ", Đà Nẵng";*/
 		List<RouteElement> routeElements = new ArrayList<>();
 		List<BusStation> busStations= new ArrayList<>();
 		routeElements.addAll(direction.directInMap2(startPoint,endPoint, maxRoute));

@@ -249,5 +249,14 @@ public class JsonUtilImp implements IJsonUtil {
 		return jsArrStr;
 		
 	}
+
+	/*public static void main(String[] args) {
+		JsonUtilImp js= new JsonUtilImp();
+		List<BusStation> bss=js.getBusStations();
+		for (BusStation busStation : bss) {
+			System.out.println(busStation.getBusList().get(0).getId());
+		}
+		
+	}*/
 	
 }
