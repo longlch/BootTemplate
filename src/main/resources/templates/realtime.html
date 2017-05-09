@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="content">
+		<div class="detailPage" style="">
+			<div class="containter">
+				<div class="row row-eq-height rowClear2">
+					<div class="col-md-1 col-xs-2 col-sm-2">
+						<span class="glyphicon glyphicon-menu-left btn-back"
+							aria-hidden="true"></span>
+					</div>
+					<div class="col-md-10 col-xs-9 col-sm-9">
+						<!-- <b th:text="${busRoute}">${busRoute}</b> -->
+						<b>Tracking Bus</b>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="containter">
+			<div class="row row-eq-height rowClear5 row-bordered"
+				th:each="bus :${buses}">
+				<div class="col-md-3 col-sm-3 ">
+					<b th:text="'Bus '+${bus.busName}+''"> </b>
+				</div>
+				<div class="col-md-7 col-sm-7 stationsName ">
+					<b th:text="'Estimate time '+${bus.time}+' minutes'"> </b>
+				</div>
+				<div class="col-md-2 col-sm-2 stationsName ">
+					<b th:text="''+${bus.time}+' meter'"> </b>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

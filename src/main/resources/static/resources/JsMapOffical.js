@@ -1,4 +1,4 @@
-  /*  var socket = io.connect('https://dnbus-rt.herokuapp.com/');
+    var socket = io.connect('https://dnbus-rt.herokuapp.com/');
     var arrayMarker = [];
 
    
@@ -7,7 +7,7 @@
  });
 $("body").on("click", "#btnStop", function (event) {
 	 socket.emit('unsubscribe', routeId);
- });*/
+ });
     
 var markers = [];
 var url = window.location.href;
@@ -87,7 +87,7 @@ function initMap() {
     });
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-    /*socket.on('message', function(data) {
+    socket.on('message', function(data) {
         var now = new Date(Date.now());
         var formatted = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
         for (let i = 0, n = data.length; i < n; i++) {
@@ -102,7 +102,7 @@ function initMap() {
             arrayMarker[i].setVisible(true);
         }
         console.log(data, formatted);
-    });*/
+    });
     // back button from content in side bar
     $("body").on("click", ".btn-back", function (event) {
         clearMarkers();
@@ -119,7 +119,6 @@ function initMap() {
         trend = "true";
         currentTrend = "true"
         ajaxGetContent(url, routeId, trend);
-
 //        get content and push it in side bar
         currentRoute = routeId;
         //  create maker 
@@ -166,30 +165,40 @@ function initMap() {
     });
     $("body").on("click", ".realTime", function (event) {
 //        alert(realLng+" "+realLat+" "+realRoute);
-        realTime(realLat,realLng,realRoute);
+//        realTime(realLat,realLng,realRoute);
+        $.post("https://dnbus-rt.herokuapp.com/api/get-bus-time/",
+        {
+         lat: realLat
+        , lng: realLng
+        ,turn:true
+        ,route:realRoute
+        ,data:realRoute
+        },
+        function(data,status){
+            if(typeof data.data[0] === "undefined"){
+                alert("logan bug");    
+            }else{
+                realTime(url,data);
+            }
+            alert("Data: " + data + "\nStatus: " + status);
+            console.log(data);
+        });
     });
     
 }
-function realTime(lat,lng,route){
-    $.ajax({
-    data: JSON.stringify({
-         lat: lat
-        , lng: lng
-        ,turn:true
-        ,route:route
-        ,data:route
-    }),
-    dataType: 'application/json',
-    url: 'https://dnbus-rt.herokuapp.com/api/get-bus-time/',
-    type: 'POST',
-    contentType: 'application/json; charset=utf-8',
-    success: function (result) {
-        alert(result);
-    },
-    failure: function (errMsg) {
-        alert(errMsg);
-    }
-});
+function realTime(url,text){
+     $.ajax({
+            type: 'post',
+            url: url + "/real",
+            data: JSON.stringify(text),
+            contentType: "application/json; charset=utf-8",
+            traditional: true,
+            success: function (data) {
+                 var html = jQuery('<body>').html(data);
+                var content = html.find("#content").html();
+                $("#routes-tab").html(content);
+            }
+        });
 }
 function drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine){
      $.ajax({
@@ -231,7 +240,6 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
         }
         , success: function (data) {
 //            alert(data[0].busList[0].turn);
-
         	console.log(data.length);
         	for(let j=0;j<data.length;j++){
         		console.log("data is "+data[j].id);

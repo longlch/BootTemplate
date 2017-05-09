@@ -3,6 +3,8 @@ package com.guru.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.guru.exception.DestiNearbyException;
 import com.guru.exception.DirectionException;
 import com.guru.exception.OriginNearlyException;
+import com.guru.model.Bus;
 import com.guru.model.BusRoute;
 import com.guru.model.BusStation;
 import com.guru.model.RouteElement;
@@ -117,6 +121,28 @@ public class MapController {
 		reponseJson=serviceJson.drawPolyline(id, trend);
 		return reponseJson;
 	}
+	
+	@RequestMapping(value = MapURL.BUS_REALTIME, method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	public String busRealTime(@RequestBody String data1,Model model) {
+		logger.info("real time "+data1);
+		JSONObject jsObj= new JSONObject(data1);
+		String arr=jsObj.get("data").toString();
+		JSONArray jsArr= new JSONArray(arr);
+		List<Bus> buses= new ArrayList<>();
+		for(int i=0;i<jsArr.length();i++){
+			buses.add(new Bus(jsArr.getJSONObject(i).getString("busname"), 
+					jsArr.getJSONObject(i).getString("busroute"),
+					jsArr.getJSONObject(i).getBoolean("turn"),
+					jsArr.getJSONObject(i).getInt("distance"),
+					jsArr.getJSONObject(i).getInt("speed"),
+					jsArr.getJSONObject(i).getString("time")));
+		}
+		logger.info(" size la "+buses.size());
+		model.addAttribute("buses",buses);
+		return "realtime";
+	}
+	
+	
 	
 
 }
