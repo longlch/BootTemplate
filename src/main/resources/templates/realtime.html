@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div id="content">
-		<div class="detailPage" style="">
+		<div class="detailPage1" style="">
 			<div class="containter">
 				<div class="row row-eq-height rowClear2">
 					<div class="col-md-1 col-xs-2 col-sm-2">
@@ -21,17 +21,33 @@
 			</div>
 		</div>
 		
+		<!-- <div class="containter">
+			<div class="row row-eq-height rowClear5 row-bordered"
+				th:each="bus :${buses}">
+				<div class="col-md-3 col-sm-3 ">
+					<b th:text="'Bus '+${bus.busName}+''"> </b>
+				</div>
+				<div class="col-md-6 col-sm-6 stationsName ">
+					<b th:text="'Estimate time '+${bus.time}+' minutes'"> </b>
+				</div>
+				<div class="col-md-3 col-sm-3 stationsName ">
+					<b th:text="''+${bus.distance}+' meter'"> </b>
+				</div>
+			</div>
+		</div> -->
 		<div class="containter">
 			<div class="row row-eq-height rowClear5 row-bordered"
 				th:each="bus :${buses}">
 				<div class="col-md-3 col-sm-3 ">
 					<b th:text="'Bus '+${bus.busName}+''"> </b>
 				</div>
-				<div class="col-md-7 col-sm-7 stationsName ">
-					<b th:text="'Estimate time '+${bus.time}+' minutes'"> </b>
+				<div class="col-md-5 col-sm-5 stationsName ">
+					<img src="../resources/clock.png" height="20" width="20"></img>
+					<b th:text="'   '+${bus.time}+' min'"> </b>
 				</div>
-				<div class="col-md-2 col-sm-2 stationsName ">
-					<b th:text="''+${bus.time}+' meter'"> </b>
+				<div class="col-md-4 col-sm-4 stationsName ">
+					<img src="../resources/distance.jpg" height="20" width="20"></img>
+					<b th:text="'   '+${bus.distance}+' m'"> </b>
 				</div>
 			</div>
 		</div>

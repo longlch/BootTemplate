@@ -124,9 +124,9 @@ function initMap() {
         
         // Poly Special
         polySpecial(url, routeId, trend);
+
         //   get content and push it in side bar
         ajaxGetContent(url, routeId, trend);
-        
         //  create maker 
         callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,polySpecial1);
         // draw poly
@@ -194,8 +194,12 @@ function initMap() {
     });
     
 }
+function calBack(data){
+    polySpecial1=data;
+}
 function polySpecial(url, routeId, trend){
     $.ajax({
+            async: false,
         type: "GET"
         , contentType: "application/json"
         , url: url + "/special"
@@ -208,7 +212,12 @@ function polySpecial(url, routeId, trend){
         , success: function (jsonResponse) {
 //            drawDirection(jsonResponse,map,directionsService,busLine);
             polySpecial1=jsonResponse;
-            
+//            calBack(jsonResponse);
+//            var cloVar=jsonResponse;
+//            for(let j=0;j<jsonResponse.length;j++){
+//                console.log("lat is "+jsonResponse[j].lat);
+//                console.log("lng is "+jsonResponse[j].lng);
+//            }
         }
     });
 }
@@ -436,7 +445,8 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
             if(jsonResponse[index].id != -1 && jsonResponse[index] != 9999){
                 realRoute=jsonResponse[index].busList[0].id;
             }
-            
+            console.log(realLat);
+            console.log(realLng);
            geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
             infowindow.open(map, markers[index]);
         });

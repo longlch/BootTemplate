@@ -191,3 +191,9 @@
      padding: 5px ;
      /*border-bottom: 1px solid #ccc;*/
  }
+ .detailPage1 {
+     background-color:  #109d59;
+     overflow: hidden;
+     height: 40px;
+     margin-bottom: 5px;
+ }

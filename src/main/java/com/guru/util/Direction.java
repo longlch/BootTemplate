@@ -405,20 +405,22 @@ public class Direction {
 				}
 			}
 		}
-		if(routeDirection.size() == 0){
+		
+//		handle exception
+		/*if(routeDirection.size() == 0){
 			throw new DirectionException("can't find the direction at map");
-		}
+		}*/
 		
 		///// filter direction
-		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
-		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
+		/*routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
+		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);*/
 		return routeDirection;
 	}
 	public static void main(String[] args) {
 		Direction direction = new Direction();
 		List<RouteElement> routeElementDirection=null;
 		try {
-			routeElementDirection= direction.directInMap2(" 435 hoàng diệu, đà nẵng","163 dũng sĩ thanh khê, đà nẵng", 5);
+			routeElementDirection= direction.directInSideBar(" 455 hoàng diệu, đà nẵng","chợ cồn, đà nẵng", 5);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","cầu rồng,da nang", 2);
 //			routeElementDirection = direction.directInSideBar("435 hoàng diệu, da nang","88 nguyễn văn thoại,đà nẵng", 2);

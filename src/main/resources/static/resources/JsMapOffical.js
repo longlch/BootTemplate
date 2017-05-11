@@ -7,6 +7,7 @@
  });
 $("body").on("click", "#btnStop", function (event) {
 	 socket.emit('unsubscribe', routeId);
+    clearMarkers();
  });
     
 var markers = [];
@@ -16,6 +17,7 @@ var currentTrend;
 var renderList=[];
 var routeId=null;
 var walkLine;
+var polySpecial1;
 
 //this variable for real time
 var realLat;
@@ -105,6 +107,7 @@ function initMap() {
     });
     // back button from content in side bar
     $("body").on("click", ".btn-back", function (event) {
+        socket.emit('unsubscribe', routeId);
         clearMarkers();
         clearPolyline(renderList);
         renderList=[];
@@ -117,26 +120,32 @@ function initMap() {
         clearPolyline(renderList);
         routeId = $(this).find(".routeId").text();
         trend = "true";
-        currentTrend = "true"
-        ajaxGetContent(url, routeId, trend);
-//        get content and push it in side bar
+        currentTrend = "true";
         currentRoute = routeId;
-        //  create maker 
         flag=false;
-        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag);
+        
+        // Poly Special
+        polySpecial(url, routeId, trend);
+
+        //   get content and push it in side bar
+        ajaxGetContent(url, routeId, trend);
+        //  create maker 
+        callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,polySpecial1);
         // draw poly
         drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
+
+        
         
     });
     $("body").on("click", "#btnBack", function (event) {
         flag=false;
         currentTrend = "false";
-        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag);
+        checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,polySpecial1);
     });
     $("body").on("click", "#btnGo", function (event) {
         flag=false;
         currentTrend = "true";
-        checkTrend(currentTrend, currentRoute,url,directionsService,directionsDisplay,map,geocoder,infowindow,busLine,flag);
+        checkTrend(currentTrend, currentRoute,url,directionsService,directionsDisplay,map,geocoder,infowindow,busLine,flag,polySpecial1);
     });
     $("#btnSearch").click(function(){
         flag=true;
@@ -178,6 +187,7 @@ function initMap() {
             if(typeof data.data[0] === "undefined"){
                 alert("logan bug");    
             }else{
+//                request a json object from logan response
                 realTime(url,data);
             }
             alert("Data: " + data + "\nStatus: " + status);
@@ -185,6 +195,33 @@ function initMap() {
         });
     });
     
+}
+function calBack(data){
+    polySpecial1=data;
+}
+function polySpecial(url, routeId, trend){
+    $.ajax({
+            async: false,
+        type: "GET"
+        , contentType: "application/json"
+        , url: url + "/special"
+        , data: {
+            busRoute: routeId
+            , trend: trend
+        }
+        , dataType: 'json'
+        , timeout: 100000
+        , success: function (jsonResponse) {
+//            drawDirection(jsonResponse,map,directionsService,busLine);
+            polySpecial1=jsonResponse;
+//            calBack(jsonResponse);
+//            var cloVar=jsonResponse;
+//            for(let j=0;j<jsonResponse.length;j++){
+//                console.log("lat is "+jsonResponse[j].lat);
+//                console.log("lng is "+jsonResponse[j].lng);
+//            }
+        }
+    });
 }
 function realTime(url,text){
      $.ajax({
@@ -281,7 +318,7 @@ function sideBarDirection(url,startPoint,endPoint,maxRoute) {
 	});
 }
 
-function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag) {
+function checkTrend(currentTrend, currentRoute, url, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,special) {
     if (currentTrend == trend) {}
     else {
         clearMarkers();
@@ -290,7 +327,7 @@ function checkTrend(currentTrend, currentRoute, url, directionsService, directio
         renderList=[];
         trend = currentTrend;
         ajaxGetContent(url, currentRoute, currentTrend);
-        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag);
+        callAjax(url, currentRoute, currentTrend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,special);
         drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
     }
 }
@@ -328,6 +365,9 @@ function setMapOnAll(map) {
     for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
+    for (let i = 0; i < arrayMarker.length; i++) {
+        arrayMarker[i].setMap(map);
+    }
 }
 
 function clearMarkers() {
@@ -348,7 +388,7 @@ function parseLng(str) {
     return number;
 }
 
-function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag) {
+function callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,special) {
 // let busRoute = "route" + routeId;
     $.ajax({
         type: "GET"
@@ -363,12 +403,12 @@ function callAjax(url, routeId, trend, directionsService, directionsDisplay, map
         , success: function (jsonResponse) {
 //            alert(jsonResponse[0].busList[0].turn);
             
-            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag);
+            calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag,special);
         }
     });
 }
 
-function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag) {
+function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonResponse, map, geocoder, infowindow,busLine,flag,special) {
     // load waypoint from server
     let totalDataLength = jsonResponse.length;
     let waypts = [];
@@ -378,6 +418,8 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
     let wayPointsIcon;
     let lat;
     let lng;
+    
+    alert("special ahihi"+special);
     for (let index = 0; index < jsonResponse.length; index++) {
         lat =jsonResponse[index].lat;
         lng = jsonResponse[index].lng;
@@ -402,13 +444,14 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
         }
         markers[index].addListener('click', function () {
         	map.setCenter(markers[index].getPosition());
-            realLng=jsonResponse[index].lng;
-            realLat=jsonResponse[index].lat;
+            realLng=special[index].lng;
+            realLat=special[index].lat;
             
             if(jsonResponse[index].id != -1 && jsonResponse[index] != 9999){
                 realRoute=jsonResponse[index].busList[0].id;
             }
-            
+            console.log(realLat);
+            console.log(realLng);
            geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
             infowindow.open(map, markers[index]);
         });
