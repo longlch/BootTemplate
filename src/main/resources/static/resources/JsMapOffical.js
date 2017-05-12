@@ -96,6 +96,7 @@ function initMap() {
             let newLatLng = new google.maps.LatLng(data[i].lat, data[i].lng);
             let curMarker = new google.maps.Marker({
                 map: map,
+                    icon: "https://chart.googleapis.com/chart?chst=d_map_pin_icon&chld=bus|ffffff|99ff33",
                 position: newLatLng,
                 visible: false
             });
@@ -126,12 +127,12 @@ function initMap() {
         
         // Poly Special
         polySpecial(url, routeId, trend);
-
+ 
         //   get content and push it in side bar
         ajaxGetContent(url, routeId, trend);
         //  create maker 
         callAjax(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine,flag,polySpecial1);
-        // draw poly
+        // draw bus line base on polyspecial
         drawPoly(url, routeId, trend, directionsService, directionsDisplay, map, geocoder, infowindow,busLine);
 
         
@@ -191,17 +192,14 @@ function initMap() {
                 realTime(url,data);
             }
             alert("Data: " + data + "\nStatus: " + status);
-            console.log(data);
+            console.log("data in screen "+data);
         });
     });
     
 }
-function calBack(data){
-    polySpecial1=data;
-}
 function polySpecial(url, routeId, trend){
     $.ajax({
-            async: false,
+        async: false,
         type: "GET"
         , contentType: "application/json"
         , url: url + "/special"
@@ -276,11 +274,13 @@ function ajaxDirection(url,startPoint,endPoint,maxRoute,map,service, geocoder,in
             maxRoute:maxRoute
         }
         , success: function (data) {
+            // bug here
 //            alert(data[0].busList[0].turn);
-        	console.log(data.length);
-        	for(let j=0;j<data.length;j++){
-        		console.log("data is "+data[j].id);
-        	}
+//        	console.log("console in ajaxDirection "+data.length);
+//        	for(let j=0;j<data.length;j++){
+//        		console.log("data is "+data[j].id);
+//        		console.log("data is "+data[j]);
+//        	}
         	let html = jQuery('<body>').html(data);
             let checkData= html.find("#contentDirection").val();
             if( typeof checkData === "undefined"){
@@ -335,6 +335,7 @@ function checkTrend(currentTrend, currentRoute, url, directionsService, directio
 function ajaxGetContent(url, routeId, trend) {
     var getUrl = url + "/route/" + routeId;
     $.ajax({
+         async: false,
         type: "GET"
         , url: getUrl
         , data: {
@@ -419,7 +420,9 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
     let lat;
     let lng;
     
-    alert("special ahihi"+special);
+    
+    alert("list polyspecial "+special);
+    
     for (let index = 0; index < jsonResponse.length; index++) {
         lat =jsonResponse[index].lat;
         lng = jsonResponse[index].lng;
@@ -444,14 +447,20 @@ function calculateAndDisplayRoute1(directionsService, directionsDisplay, jsonRes
         }
         markers[index].addListener('click', function () {
         	map.setCenter(markers[index].getPosition());
-            realLng=special[index].lng;
-            realLat=special[index].lat;
             
+            if(typeof(special) != "underfined"){
+                realLat=jsonResponse[index].lat;
+                realLng=jsonResponse[index].lng;
+            }else{
+                realLng=special[index].lng;
+                realLat=special[index].lat;    
+            }
             if(jsonResponse[index].id != -1 && jsonResponse[index] != 9999){
                 realRoute=jsonResponse[index].busList[0].id;
             }
-            console.log(realLat);
-            console.log(realLng);
+            
+            console.log("real lat "+realLat);
+            console.log("real lng"+realLng);
            geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
             infowindow.open(map, markers[index]);
         });

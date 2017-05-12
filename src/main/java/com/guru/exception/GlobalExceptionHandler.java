@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(DirectionException.class)
 	public String handleDirectionException(HttpServletRequest request, Exception ex){
 		logger.info("Direction exception:: URL="+request.getRequestURL());
+		logger.info("exception is "+ex.getMessage());
 		return "direction_exception";
 	}
 }

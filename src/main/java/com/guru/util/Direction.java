@@ -314,7 +314,7 @@ public class Direction {
 				}
 			}
 		}
-		if(routeDirection.size() == 0){
+		if(routeDirection.size() == 0  || routeDirection.size() == 2){
 			throw new DirectionException("can't find the direction at map");
 		}
 		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
@@ -407,13 +407,13 @@ public class Direction {
 		}
 		
 //		handle exception
-		/*if(routeDirection.size() == 0){
+		if(routeDirection.size() == 0  || routeDirection.size() == 2){
 			throw new DirectionException("can't find the direction at map");
-		}*/
+		}
 		
 		///// filter direction
-		/*routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
-		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);*/
+		routeDirection = this.minimizeDirection(maxBusRoute, routeDirection);
+		routeDirection = (ArrayList<RouteElement>) this.modifiedDirection(routeDirection);
 		return routeDirection;
 	}
 	public static void main(String[] args) {
