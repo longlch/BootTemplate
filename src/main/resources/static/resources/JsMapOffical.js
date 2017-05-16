@@ -1,11 +1,11 @@
-        var socket = io.connect('https://dnbus-rt.herokuapp.com/');
+    var socket = io.connect('https://dnbus-rt.herokuapp.com/');
 
-     $("body").on("click", "#btnGet", function (event) {
+     $("body").on("click", ".btnGet", function (event) {
          socket.emit('subscribe',routeId);
      });
-    $("body").on("click", "#btnStop", function (event) {
+    $("body").on("click", ".btnStop", function (event) {
          socket.emit('unsubscribe', routeId);
-        clearMarkers();
+        clearBusMarker();
      });
     var arrayMarker = [];
 
@@ -372,11 +372,19 @@
             arrayMarker[i].setMap(map);
         }
     }
-
+    
+    function setMapOnAllBusMarker(map) {
+        for (let i = 0; i < arrayMarker.length; i++) {
+            arrayMarker[i].setMap(map);
+        }
+    }
     function clearMarkers() {
         setMapOnAll(null);
     }
-
+    
+    function clearBusMarker(){
+        setMapOnAllBusMarker(null);
+    }
     function parseLat(str) {
         let temp = [];
         temp = str.split(',');
@@ -467,10 +475,10 @@
                 if(jsonResponse[index].id != -1 && jsonResponse[index] != 9999){
                     realRoute=jsonResponse[index].busList[0].id;
                 }
-
+                
                 console.log("real lat "+realLat);
                 console.log("real lng"+realLng);
-
+                alert("current route is "+realRoute);
                geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
                 infowindow.open(map, markers[index]);
             });
