@@ -178,6 +178,8 @@
         $("body").on("click", ".realTime", function (event) {
     //        alert(realLng+" "+realLat+" "+realRoute);
     //        realTime(realLat,realLng,realRoute);
+//            $("#mydivcl").tabs({ selected: 0 });
+//        	  $('#dispatch a[href="#routes-tab"]').tab('show');
             $.post("https://dnbus-rt.herokuapp.com/api/get-bus-time/",
             {
              lat: realLat
@@ -193,10 +195,13 @@
     //                request a json object from logan response
                     realTime(url,data);
                 }
-                alert("Data: " + data + "\nStatus: " + status);
+                //alert("Data: " + data + "\nStatus: " + status);
+          	  $('#dispatch a[href="#routes-tab"]').tab('show');
                 console.log("data in screen "+data);
             });
         });
+      
+        //$("#mydivcl").tabs({ selected: 0 });
 
     }
     function polySpecial(url, routeId, trend){
@@ -532,12 +537,12 @@
         }, function (results, status) {
             if (status === 'OK') {
                 if (results[0]) {
-                    let contentString = '<div id="infoContent" style="height:85px;width:355px">' 
+                    let contentString = '<div id="infoContent" style="height:110px;width:350px">' 
                         + '<div id="siteNotice">' + '</div>' + '<div id="bodyContent" >' 
-                        + '<p><b>Tên trạm dừng:    </b>'
-                        + nameStation + '</p>' + '<p><b>Địa chỉ:  </b>' 
+                        + '<p><b>Station:    </b>'
+                        + nameStation + '</p>' + '<p><b>Address:  </b>' 
                         + results[0].formatted_address + '</p>' 
-                        + '<input class="realTime" style="height:20px;width:341px" type = "button" value = "Thời gian chờ"/>' 
+                        + '<input class="realTime flat-butt flat-primary-butt" style="height:30px;width:340px;margin-bottom:10px;font-weight: 500;" type = "button" value = "View waiting time"/>' 
                         + '</div>' + '</div>';
                     infowindow.setContent(contentString);
                 }

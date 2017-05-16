@@ -576,7 +576,6 @@ public class Direction {
 		for (BusStation busStation : getBusStation) {
 			System.out.println(busStation.getId());
 		}
-		
 		direction.oriDestiBusStation.clear();
 		
 	}

@@ -197,3 +197,24 @@
      height: 40px;
      margin-bottom: 5px;
  }
+.flat-butt {
+  display: inline-block;
+  margin: 0 5px;
+  border-radius: 0px;
+  font-family: "Lato", sans-serif;
+  font-size: 16.5px;
+  border: 0;
+  background: #109d59;
+  color: #FFF;
+  cursor: pointer;
+  outline: 0;
+}
+.flat-butt:hover {
+  background: #005580;
+}
+.flat-primary-butt {
+  background: #109d59;
+}
+.flat-primary-butt:hover {
+  background: #1abc9c;
+}

@@ -34,7 +34,7 @@
 	<div id="mySidenav" class="sidenav">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
 			style="color: #f8f8f8">&#9776;</a>
-
+	<div id="mydivcl">
 		<ul id="dispatch" class="nav nav-tabs nav-justified">
 			<li id="dispatchRoutes" class="active"
 				style="cursor: pointer; border: none"><a href="#routes-tab"><span
@@ -45,7 +45,7 @@
 			</a>
 			</li>
 		</ul>
-
+</div>
 		<!-- content -->
 		<div id="content">
 			<div class="tab-content">
@@ -128,7 +128,7 @@
 							</div>
 							<div class="col-md-12 col-xs-12">
 								<div class="input-group input-group-sm">
-									<span class="input-group-addon" id="sizing-addon3">D</span> <input
+									<span class="input-group-addon" id="sizing-addon3">S</span> <input
 										id="endPoint" type="text" class="form-control"
 										placeholder="your destination location"
 										aria-describedby="sizing-addon3"
@@ -177,7 +177,7 @@
 	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="../resources/JsMapOffical.js"></script>
 	<script src="../resources/js/bootstrap.min.js"></script>
 
@@ -190,6 +190,7 @@
 			e.preventDefault();
 			$(this).tab('show');
 		});
+		$('#mydivcl').tabs({ selected: 1 });
 	</script>
 </body>
 
