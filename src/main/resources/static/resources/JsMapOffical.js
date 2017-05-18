@@ -603,7 +603,7 @@
                 origin: parts[i][0]
                 , destination: parts[i][parts[i].length - 1]
                 , waypoints: waypoints
-                , travelMode: 'DRIVING'
+                , travelMode: 'WALKING'
             };
             // Send request
             service.route(service_options, service_callback);

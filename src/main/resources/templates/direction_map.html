@@ -9,33 +9,6 @@
 <body>
 	<!-- content -->
 	<div id="content">
-		<div class="containter directionDispatcher">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon" id="sizing-addon3">@</span> <input
-							id="startPoint" type="text" class="form-control"
-							placeholder="Username" aria-describedby="sizing-addon3"
-							value="135 cu chinh lan,da nang" />
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon" id="sizing-addon3">@</span> <input
-							id="endPoint" type="text" class="form-control"
-							placeholder="Username" aria-describedby="sizing-addon3"
-							value="135 le loi,da nang" />
-					</div>
-				</div>
-				<div class="col-md-4 col-md-offset-4">
-					<div class="btn-group btn-group-sm" role="group" aria-label="...">
-						<div class="btn-group" role="group" aria-label="...">
-							<button type="button" id="btnSearch" class="btn btn-default">Search</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div id="contentDirection">
 			<div class="containter">
 				<div th:if="${size != 0}" >
@@ -56,7 +29,12 @@
 						    <div th:if="${routeElement.stationToId != 9999 and routeElement.stationFromId != -1}" th:text="'change bus, walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '" ></div>
 						</b>
 						<b th:if="${routeElement.distanceOnBus != 0}">
-						    <div th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus}+'m) '" ></div>
+							<div th:if="${routeElement.distanceOnBus &gt;1000}">
+								<div th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus/1000}+'km) '" ></div>
+							</div>
+							<div th:if="${routeElement.distanceOnBus &lt;1000}">
+							    <div th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus}+'m) '" ></div>
+							</div>
 						</b>
 					</div>
 				</div>
@@ -64,8 +42,7 @@
 				<div th:if="${size == 0}" >
 					<div class="row row-eq-height rowClear4 row-bordered">
 						<div class="col-md-10 col-xs-3 col-md-offset-0">
-							<i>Max bus change's option up to one for optimize result</i>
-							<b th:text="'Click option '+ ${maxRoute+1}+' '" ></b>
+							<i>There is no bus route within your location</i>
 						</div>
 					</div>
 				</div>
