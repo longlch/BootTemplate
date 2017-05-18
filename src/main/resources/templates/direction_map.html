@@ -15,27 +15,27 @@
 					<div class="row row-eq-height rowClear5 row-bordered" th:each="routeElement :${routeElements}">
 				
 					<div class="col-md-2 col-sm-1 col-xs-1 col-sm-offset-5 col-md-offset-0 col-xs-offset-5"> 
-						<b th:if="${routeElement.distanceWalking != 0}">
+						<div th:if="${routeElement.distanceWalking != 0}">
 						    <p><img src="../resources/walk.png" height="20" width="20"></img></p>
-						</b>
-						<b th:if="${routeElement.distanceOnBus != 0}">
+						</div>
+						<div th:if="${routeElement.distanceOnBus != 0}">
 							<p><img src="../resources/bus.jpg" height="20" width="20"></img></p>
-						</b>
+						</div>
 					</div>
 					<div class="col-md-10 col-sm-12 col-xs-12 col-md-offset-0">
-						<b th:if="${routeElement.distanceWalking != 0}">
-							<div th:if="${routeElement.stationFromId eq -1}" th:text="'walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '"></div>
-						    <div th:if="${routeElement.stationToId eq 9999}" th:text="'walk to destination ('+${routeElement.distanceWalking}+'m)'" ></div>
-						    <div th:if="${routeElement.stationToId != 9999 and routeElement.stationFromId != -1}" th:text="'change bus, walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '" ></div>
-						</b>
-						<b th:if="${routeElement.distanceOnBus != 0}">
+						<div th:if="${routeElement.distanceWalking != 0}">
+							<b th:if="${routeElement.stationFromId eq -1}" th:text="'walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '"></b>
+						    <b th:if="${routeElement.stationToId eq 9999}" th:text="'walk to destination ('+${routeElement.distanceWalking}+'m)'" ></b>
+						    <b th:if="${routeElement.stationToId != 9999 and routeElement.stationFromId != -1}" th:text="'change bus, walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '" ></b>
+						</div>
+						<div th:if="${routeElement.distanceOnBus != 0}">
 							<div th:if="${routeElement.distanceOnBus &gt;1000}">
-								<div th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus/1000}+'km) '" ></div>
+								<b th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus/1000}+'km) '" ></b>
 							</div>
 							<div th:if="${routeElement.distanceOnBus &lt;1000}">
-							    <div th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus}+'m) '" ></div>
+							    <b th:text="'get on route '+ ${routeElement.busRoute.id}+' from station '+${routeElement.stationFromId}+' to station '+${routeElement.stationToId}+'  ('+${routeElement.distanceOnBus}+'m) '" ></b>
 							</div>
-						</b>
+						</div>
 					</div>
 				</div>
 				</div>
