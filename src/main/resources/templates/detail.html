@@ -45,7 +45,7 @@
 		<div class="containter">
 			<div class="row row-eq-height">
 				<div class="col-md-12">
-					<p th:text="${busRouteInfo.information}"></p>
+					<div th:remove="tag" th:utext="${busRouteInfo.information}"></div>
 				</div>
 			</div>
 		</div>

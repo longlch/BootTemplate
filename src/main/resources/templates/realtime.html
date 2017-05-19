@@ -20,7 +20,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- <div class="containter">
 			<div class="row row-eq-height rowClear5 row-bordered"
 				th:each="bus :${buses}">
@@ -42,12 +42,20 @@
 					<b th:text="'Bus '+${bus.busName}+''"> </b>
 				</div>
 				<div class="col-md-5 col-sm-5 stationsName ">
-					<img src="../resources/clock.png" height="20" width="20"></img>
-					<b th:text="'   '+${bus.time}+' min'"> </b>
+					<img src="../resources/clock.png" height="20" width="20"></img> <b
+						th:text="'   '+${bus.time}+' min'"> </b>
 				</div>
 				<div class="col-md-4 col-sm-4 stationsName ">
 					<img src="../resources/distance.jpg" height="20" width="20"></img>
-					<b th:text="'   '+${bus.distance}+' m'"> </b>
+
+					<div th:remove="tag" th:if="${bus.distance &gt;1000}">
+						<b th:text="''+${bus.distance/1000}+'km'"></b>
+					</div>
+					<div th:remove="tag" th:if="${bus.distance &lt;1000}">
+						<b th:text="'   '+${bus.distance}+' m'"></b>
+					</div>
+
+<!-- 					<b th:text="'   '+${bus.distance}+' m'"> </b> -->
 				</div>
 			</div>
 		</div>

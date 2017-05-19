@@ -158,7 +158,7 @@
                 clearPolyline(renderList);
                 sendAddress(2,map,directionsService,geocoder,infowindow,busLine,flag);
             }else if(maxRoute >3){
-                alert("There are no direction was be found");
+//                alert("There are no direction was be found");
                 maxRoute=2;
             }else{
                 clearMarkers();
@@ -436,7 +436,7 @@
         let lng;
 
 
-        alert("list polyspecial "+special);
+//        alert("list polyspecial "+special);
         if(typeof(special) === "underfined"){
             console.log("special is underfinded");
         }else{
@@ -483,7 +483,7 @@
                 
                 console.log("real lat "+realLat);
                 console.log("real lng"+realLng);
-                alert("current route is "+realRoute);
+//                alert("current route is "+realRoute);
                geocodeLatLng(geocoder, map, infowindow,jsonResponse[index].lat,jsonResponse[index].lng, jsonResponse[index].name);
                 infowindow.open(map, markers[index]);
             });
