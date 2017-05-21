@@ -24,8 +24,24 @@
 					</div>
 					<div class="col-md-10 col-sm-12 col-xs-12 col-md-offset-0">
 						<div th:if="${routeElement.distanceWalking != 0}">
-							<b th:if="${routeElement.stationFromId eq -1}" th:text="'walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '"></b>
-						    <b th:if="${routeElement.stationToId eq 9999}" th:text="'walk to destination ('+${routeElement.distanceWalking}+'m)'" ></b>
+							
+							<div th:remove="tag" th:if="${routeElement.stationFromId eq -1}">
+								<div th:remove="tag" th:if="${routeElement.distanceWalking &gt;1000}">
+									<b th:text="'walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking/1000}+'km) '"></b>	
+								</div>
+								<div th:remove="tag" th:if="${routeElement.distanceWalking  &lt;1000}">
+									<b th:text="'walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '"></b>	
+								</div>
+							</div>
+							<div th:remove="tag" th:if="${routeElement.stationToId eq 9999}">
+								<div th:remove="tag" th:if="${routeElement.distanceWalking &gt;1000}">
+									<b th:text="'walk to destination ('+${routeElement.distanceWalking/1000}+'km)'" ></b>	
+								</div>
+								<div th:remove="tag" th:if="${routeElement.distanceWalking  &lt;1000}">
+									<b th:text="'walk to destination ('+${routeElement.distanceWalking}+'m)'" ></b>	
+								</div>
+							</div>
+						    
 						    <b th:if="${routeElement.stationToId != 9999 and routeElement.stationFromId != -1}" th:text="'change bus, walk to station '+ ${routeElement.stationToId}+' ('+${routeElement.distanceWalking}+'m) '" ></b>
 						</div>
 						<div th:if="${routeElement.distanceOnBus != 0}">
