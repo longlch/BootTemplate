@@ -7,10 +7,41 @@
     <title>Hello Thymeleaf!</title>
 </head>
 <body>
-    <p th:text="'Hello, ' + ${haha} + '!'" />
-    <p th:text="'Hello, ' + ${greeting} + '!'" />
+  <!--   <p th:text="'Hello, ' + ${haha} + '!'" />
+    <p th:text="'Hello, ' + ${greeting} + '!'" /> -->
     
-    <h1>hello world haha</h1>
+    <h1>register form</h1>
+    <div style="border:1px solid black">
+    <form action="/" th:object="${student}" method="Post">
     
+	    Name: <input type="text" th:field="*{name}"/><br/>
+    	
+    	
+    	<!-- can't get list bank when click addForm button -->
+    	<button name="addForm" type="submit" value="ahihi">addForm </button>
+    	<div th:each="bank,bankStat :*{banks}">
+    	
+    		<table style="border: 1px soild red" border="1">
+    			<thead>
+    				<tr>
+						<th><p>id</p></th>
+						<th><p>bank name</p></th>
+						<th><button name="removeForm" th:value="${bankStat.index}" type="submit">remove form</button></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<tr>
+    					
+    					<td><input type="text" th:value="${bank.id}" th:field="*{banks[__${bankStat.index}__].id}" /></td>
+    					<td><input type="text" th:value="${bank.name}" th:field="*{banks[__${bankStat.index}__].name}" /></td>
+    				</tr>
+    			</tbody>	
+    		</table>
+    	</div>
+    </form>
+    </div>
+    <script type="text/javascript">
+    	
+    </script>
 </body>
 </html>
